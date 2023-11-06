@@ -1,14 +1,16 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type {Meta, StoryObj} from '@storybook/react'
 
-import { Button } from './'
+import {IconSvg} from '@/commn/components/ui/iconSvg/IconSvg.tsx'
+
+import {Button} from './'
 
 const meta = {
   argTypes: {
     title: {
-      control: { type: 'text' }, //Добавляет описание к кнопке например
+      control: {type: 'text'}, //Добавляет описание к кнопке например
     },
     variant: {
-      control: { type: 'radio' },
+      control: {type: 'radio'},
       options: ['primary', 'secondary', 'tertiary', 'link'],
     },
   },
@@ -28,6 +30,16 @@ export const Primary: Story = {
   },
 }
 
+export const PrimaryIcon: Story = () => (
+  <Button>
+    <div style={{display: 'flex', alignItems: 'center', width: '20px', margin: '0 10px 0 0'}}>
+      <IconSvg name={"logOut"}/>
+    </div>
+    Primary Button
+  </Button>
+)
+PrimaryIcon.argTypes = {}
+
 export const Secondary: Story = {
   args: {
     children: 'Secondary Button',
@@ -35,6 +47,18 @@ export const Secondary: Story = {
     variant: 'secondary',
   },
 }
+
+export const SecondaryIcon: Story = () => (
+  <Button variant={"secondary"}>
+    <div style={{display: 'flex', alignItems: 'center', width: '20px', margin: '0 10px 0 0'}}>
+      <IconSvg name={"logOut"}/>
+    </div>
+    Secondary Button
+  </Button>
+)
+SecondaryIcon.argTypes = {}
+
+
 export const Tertiary: Story = {
   args: {
     children: 'Tertiary Button',
