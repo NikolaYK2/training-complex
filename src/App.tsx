@@ -1,5 +1,5 @@
-import { Button } from '@/commn/components/ui/button'
+import { Header } from '@/features/header/Header'
 
 export function App() {
-  return <Button as={'a'}>Hello</Button>
+  return <Header />
 }

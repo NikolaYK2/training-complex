@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  align-items: center;
+
+  min-height: 60px;
+  max-height: 100px;
+
+  background: var(--color-dark-700);
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 36px;
+  padding: 5px min(8.149%, 136px);
+
+  .logo {
+    display: flex;
+    justify-content: center;
+    max-width: 156px;
+    margin: 5px 0;
+  }
+
+  button {
+    line-height: var(--line-height-24);
+  }
+}

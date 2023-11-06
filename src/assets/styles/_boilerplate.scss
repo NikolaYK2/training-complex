@@ -34,6 +34,9 @@ body {
   text-size-adjust: 100%;
 
   background-color: var(--color-dark-900);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 input,
