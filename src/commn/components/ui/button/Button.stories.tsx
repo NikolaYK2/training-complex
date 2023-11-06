@@ -29,16 +29,14 @@ export const Primary: Story = {
     variant: 'primary',
   },
 }
-
-export const PrimaryIcon: Story = () => (
-  <Button>
+export const PrimaryIcon: Story = {
+  render: () => <Button>
     <div style={{display: 'flex', alignItems: 'center', width: '20px', margin: '0 10px 0 0'}}>
       <IconSvg name={"logOut"}/>
     </div>
     Primary Button
   </Button>
-)
-PrimaryIcon.argTypes = {}
+}
 
 export const Secondary: Story = {
   args: {
@@ -48,15 +46,14 @@ export const Secondary: Story = {
   },
 }
 
-export const SecondaryIcon: Story = () => (
-  <Button variant={"secondary"}>
+export const SecondaryIcon: Story = {
+  render: () => <Button variant={"secondary"}>
     <div style={{display: 'flex', alignItems: 'center', width: '20px', margin: '0 10px 0 0'}}>
       <IconSvg name={"logOut"}/>
     </div>
     Secondary Button
   </Button>
-)
-SecondaryIcon.argTypes = {}
+}
 
 
 export const Tertiary: Story = {
