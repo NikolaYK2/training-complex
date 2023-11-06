@@ -1,5 +1,5 @@
-import { Header } from '@/features/header/Header'
+import {Input} from "@/commn/components/ui/input/Input.tsx";
 
 export function App() {
-  return <Header />
+  return <Input />
 }

@@ -1,0 +1,47 @@
+.container {
+  position: relative;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  width: 100%;
+  max-width: 284px;
+  height: 60px;
+
+  font-family: clamp(var(--font-size-14), 5vw, var(--font-size-16));
+
+  border: 1px solid grey;
+
+  .placeholder {
+    position: absolute;
+    bottom: 7px;
+    left: 13px;
+
+    color: red;
+
+    transition: bottom .3s ease 0s, left .3s ease 0s;
+  }
+
+  .on {
+    bottom: 35px;
+    left: 0;
+
+  }
+
+  input {
+    all: unset;
+    z-index: 2;
+    padding: 6px 12px;
+    border: 1px solid var(--color-dark-300);
+
+    &:focus + .placeholder{
+      bottom: 35px;
+      left: 0;
+    }
+  }
+
+}
+
