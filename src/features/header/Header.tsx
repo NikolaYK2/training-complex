@@ -11,7 +11,7 @@ export const Header = () => {
           <IconSvg name={'logo'} />
         </div>
 
-        <Button as={'button'} variant={'link'}>
+        <Button as={'button'} variant={'primary'}>
           Login
         </Button>
       </div>
