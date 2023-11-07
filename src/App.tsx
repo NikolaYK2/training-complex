@@ -1,5 +1,5 @@
-import {Input} from "@/commn/components/ui/input/Input.tsx";
+import {TabSwitcher} from "@/commn/components/ui/tabSwitcher/TabSwitcher.tsx";
 
 export function App() {
-  return <Input typeInput={"text"} disabled={false}/>
+  return <TabSwitcher/>
 }
