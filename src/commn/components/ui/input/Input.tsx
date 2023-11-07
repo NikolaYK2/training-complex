@@ -16,18 +16,21 @@ type  Props = {
 export const Input = (props: Props) => {
   const {typeInput, disabled} = props
   const [text, setText] = useState('')
-  const [isFocused, setIsFocused] = useState(false)
+  const [focusedPlaceholder, setFocusedPlaceholder] = useState(false)
+  const [inputFocused, setInputFocused] = useState(false)
   const {type, toggle} = useShowPasswordInput()
 
   const textChangeHandle = (e: ChangeEvent<HTMLInputElement>) => {
     setText(e.currentTarget.value)
+    setInputFocused(true)
   }
 
   const toggleFocus = () => {
-    setIsFocused(!isFocused)
+    setFocusedPlaceholder(!focusedPlaceholder)
   }
-  const inputStyle = text ? s.active : disabled ? s.disabled :  s.error
-  const error = text ? '' : 'error!'
+  const inputStyle = text ? s.active : disabled ? s.disabled : inputFocused ? s.error : '';
+  const error = inputFocused && !text ? 'error!' : '';
+  const placeholderTextStyle = focusedPlaceholder || text ? s.mod : inputFocused && !text ? s.errorPlaceholder : '';
 
   return (
     <div className={s.container}>
@@ -39,7 +42,8 @@ export const Input = (props: Props) => {
                onFocus={toggleFocus}
                disabled={disabled}
         />
-        {typeInput !== 'search' && <div className={`${s.placeholder} ${isFocused || text ? s.mod : ''}`}>Input</div>}
+        {typeInput !== 'search' &&
+            <div className={`${s.placeholder} ${placeholderTextStyle}`}>{error || 'Input'}</div>}
 
         {typeInput === 'password' &&
             <div className={s.icon}
