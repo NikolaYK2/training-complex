@@ -26,9 +26,10 @@
     transition: bottom .3s ease 0s, left .3s ease 0s, transform .3s ease 0s;
   }
 
-  .on {
+  .mod {
     bottom: 35px;
     left: 0;
+    transform: scale(0.7);
   }
 
   input {
@@ -37,13 +38,15 @@
     padding: 6px 12px;
     border: 1px solid var(--color-dark-300);
 
-
-    &:focus + .placeholder {
-      bottom: 35px;
-      left: 0;
-      transform: scale(0.7);
-    }
   }
 
+  .mod, input:focus + .placeholder {
+    bottom: 35px;
+    left: 0;
+    transform: scale(0.7);
+  }
 }
+
+
+
 
