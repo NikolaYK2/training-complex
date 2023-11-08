@@ -1,7 +1,7 @@
-import {Card} from "@/commn/components/ui/card/Card.tsx";
+import {SliderValue} from "@/commn/components/ui/slider/SliderValue.tsx";
 
 export function App() {
   return <div>
-    <Card/>
+    <SliderValue/>
   </div>
 }
