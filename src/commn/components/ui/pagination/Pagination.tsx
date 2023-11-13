@@ -1,11 +1,10 @@
-import {FC} from "react";
+import {FC, useCallback} from "react";
 import s from './Pagination.module.scss'
 import {IconSvg} from "@/commn/components/ui/iconSvg/IconSvg.tsx";
 import {DOTS, usePagination} from "@/commn/hooks/usePagination.ts";
 import {Select} from "@/commn/components/ui/select/Select.tsx";
 
 type Props = {
-  pageSizeOptions: { id: number, value: number }[]
   totalCount: number;// Общее количество элементов
   pageSize: number;// Количество элементов на странице
   currentPage: number;// Текущая страница
@@ -14,7 +13,6 @@ type Props = {
   setPageSize: (pageNumber: number) => void;// Функция обратного вызова при изменении страницы
 }
 export const Pagination: FC<Props> = ({
-                                        pageSizeOptions,
                                         totalCount,
                                         currentPage,
                                         pageSize,
@@ -23,7 +21,7 @@ export const Pagination: FC<Props> = ({
                                         siblingCount
                                       }) => {
 
-  const paginationRange: (string | number)[] | undefined = usePagination({
+  const paginationRange = usePagination({
     totalCount, currentPage, pageSize, siblingCount
   })
   // Вычисляем количество страниц
@@ -33,21 +31,20 @@ export const Pagination: FC<Props> = ({
     return null;
   }
 
-
-  const nextPage = () => {
+  const previousPage = useCallback(() => {
     if (currentPage > 1) onPageChange(currentPage - 1)
-  }
+  }, [currentPage, onPageChange])
 
-  const previousPage = () => {
+  const nextPage = useCallback(() => {
     if (currentPage < pagesCount) onPageChange(currentPage + 1)
-  }
+  }, [currentPage, pagesCount, onPageChange])
 
 
   return (
     <nav className={s.nav}>
-      <div className={`${s.nextPage} ${currentPage > 1 && s.activeArrow}`} onClick={nextPage}>
+      <button className={`${s.nextPage} ${currentPage > 1 && s.activeArrow}`} onClick={previousPage}>
         <IconSvg name={'pageTurn'}/>
-      </div>
+      </button>
 
       <ul className={s.ul}>
         {paginationRange?.map((pageNumber, i) => {
@@ -55,10 +52,9 @@ export const Pagination: FC<Props> = ({
             return <li key={pageNumber === DOTS ? `dots-${i}` : pageNumber}>{DOTS}</li>;
           }
           return (
-            <li key={pageNumber === DOTS ? `dots-${i}` : pageNumber}>
-              <a className={pageNumber === currentPage ? s.active : ''} onClick={() => {
-                if (typeof pageNumber === 'number') onPageChange(pageNumber)
-              }}>
+            <li key={pageNumber === DOTS ? `dots-${i}` : pageNumber}
+                onClick={() => {if (typeof pageNumber === 'number') onPageChange(pageNumber)}}>
+              <a className={pageNumber === currentPage ? s.active : ''}>
                 {pageNumber}
               </a>
             </li>
@@ -67,17 +63,18 @@ export const Pagination: FC<Props> = ({
 
       </ul>
 
-      <div className={`${s.previousPag} ${currentPage < pagesCount && s.activeArrow}`} onClick={previousPage}>
+      <button className={`${s.previousPag} ${currentPage < pagesCount && s.activeArrow}`} onClick={nextPage}>
         <IconSvg name={'pageTurn'}/>
-      </div>
+      </button>
 
       <div className={s.blockSelector}>
-        {/*<select onChange={(e) => setPageSize(+e.currentTarget.value)}>*/}
-        {/*  {pageSizeOptions.map(el =>*/}
-        {/*    <option key={el.id} value={el.value}>{el.value}</option>*/}
-        {/*  )}*/}
-        {/*</select>*/}
-        <Select options={pageSizeOptions} setOptions={setPageSize}/>
+        <Select options={[
+          {id: 10, value: 10,},
+          {id: 20, value: 20,},
+          {id: 30, value: 30,},
+          {id: 50, value: 50,},
+          {id: 100, value: 100,},
+        ]} setOptions={setPageSize}/>
       </div>
     </nav>
   );

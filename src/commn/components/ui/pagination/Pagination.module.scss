@@ -2,7 +2,11 @@
   display: flex;
   align-items: center;
   max-width: 580px;
-  height:100%;
+  height: 100%;
+
+  button {
+    all: unset;
+  }
 
   .activeArrow {
     svg {
@@ -22,7 +26,7 @@
     min-width: 18px;
     height: 18px;
 
-    >svg {
+    > svg {
       cursor: pointer;
       width: 100%;
       height: 100%;
@@ -44,7 +48,7 @@
     max-width: 270px;
     margin: 0 6px;
 
-    >li {
+    > li {
       overflow: hidden;
 
       width: 24px;
@@ -55,7 +59,7 @@
 
       border-radius: 2px;
 
-      >a {
+      > a {
         cursor: pointer;
 
         display: block;
@@ -83,7 +87,6 @@
     }
   }
 }
-
 
 
 .blockSelector {
