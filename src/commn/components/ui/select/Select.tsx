@@ -1,4 +1,4 @@
-import {FC, useRef, useState, KeyboardEvent, useCallback} from "react";
+import {FC, KeyboardEvent, useCallback, useState} from "react";
 import {IconSvg} from "@/commn/components/ui/iconSvg/IconSvg.tsx";
 import s from './Select.module.css'
 
@@ -10,21 +10,21 @@ export const Select: FC<Props> = ({options, setOptions}) => {
 
   const [value, setValue] = useState(options[0].value)
   const [activeIndex, setActiveIndex] = useState(0);
-
-  const ref = useRef<HTMLUListElement>(null)
+  const [isActive, setIsActive] = useState(true)
 
   const clickValueOptionHandle = useCallback((value: number) => {
     setValue(value)
     setOptions(value)
   }, [setOptions])
 
+
   const toggleStyleActiveHandle = useCallback(() => {
-    ref.current?.classList.toggle(s.active)
-  },[])
+    setIsActive(prevState => !prevState)
+  }, [])
 
   const removeStyleHandle = useCallback(() => {
-    ref.current?.classList.remove(s.active)
-  },[])
+    setIsActive(true)
+  }, [])
 
 
   const onKeyDownHandle = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
@@ -49,19 +49,20 @@ export const Select: FC<Props> = ({options, setOptions}) => {
     }
     setActiveIndex(nextActiveIndex);
 
-    if (!ref.current?.classList.contains(s.active)) {
+    if (isActive) {
       clickValueOptionHandle(options[nextActiveIndex].value);
     }
-  },[activeIndex, options, clickValueOptionHandle,removeStyleHandle])
+  }, [activeIndex, options, clickValueOptionHandle, isActive])
 
   return (
     <div className={s.container}>
       <span>Показать</span>
       <div className={s.select}>
-        <div className={s.value} onClick={toggleStyleActiveHandle} onKeyDown={onKeyDownHandle} tabIndex={0}>
+        <div className={`${s.value} ${!isActive ? s.svgActive : ''}`} onClick={toggleStyleActiveHandle}
+             onKeyDown={onKeyDownHandle} tabIndex={0}>
           <span>{value}</span><IconSvg name={"pageTurn"}/>
         </div>
-        <ul className={s.options} ref={ref} onMouseLeave={removeStyleHandle}
+        <ul className={`${s.options} ${!isActive ? s.active : ''}`} onMouseLeave={removeStyleHandle}
 
         >
           {options.map((op, index) =>
