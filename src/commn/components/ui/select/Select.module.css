@@ -21,6 +21,8 @@
 
     transition: max-height .3s ease 0s;
 
+
+
     .value {
         cursor: pointer;
 
@@ -51,6 +53,10 @@
                     fill: var(--color-light-100);
                 }
             }
+        }
+
+        &:focus-visible{
+            border: 2px solid var(--color-info-900);
         }
     }
 

@@ -1,17 +1,17 @@
-import {Pagination} from "@/commn/components/ui/pagination/Pagination.tsx";
-import {useState} from "react";
+import {DropDownMenu} from "@/commn/components/ui/dropDownMenu/DropDownMenu.tsx";
 
 export function App() {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
+const prof= {id:1, name:'icon',nameProfile:'Nikolaj', email:'Kev@', profile:'My Profile', logOut:'Sing Out'}
+const card= {
+  id:1,
+  name:'icon',
+  learn: 'learn',
+  edit: 'Edit',
+  delete: 'delete'
+}
 
-  return <div>
-    <Pagination
-      currentPage={currentPage}
-      pageSize={pageSize}
-      onPageChange={setCurrentPage}
-      setPageSize={setPageSize}
-      totalCount={70}
-      siblingCount={1}/>
+
+  return <div style={{display:"flex", justifyContent: "center", alignItems:"center", height:'400px'}}>
+    <DropDownMenu obj={prof}/>
   </div>
 }

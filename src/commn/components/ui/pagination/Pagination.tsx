@@ -50,7 +50,7 @@ export const Pagination: FC<Props> = ({
             return <li key={pageNumber === DOTS ? `dots-${i}` : pageNumber}>{DOTS}</li>;
           }
           return (
-            <li key={pageNumber === DOTS ? `dots-${i}` : pageNumber}
+            <li key={pageNumber === DOTS ? `dots-${i}` : pageNumber} tabIndex={i}
                 onClick={() => {if (typeof pageNumber === 'number') onPageChange(pageNumber)}}>
               <a className={pageNumber === currentPage ? s.active : ''}>
                 {pageNumber}
