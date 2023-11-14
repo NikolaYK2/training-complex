@@ -20,16 +20,10 @@ export const Pagination: FC<Props> = ({
                                         setPageSize,
                                         siblingCount
                                       }) => {
+  const paginationRange = usePagination({totalCount, currentPage, pageSize, siblingCount})
 
-  const paginationRange = usePagination({
-    totalCount, currentPage, pageSize, siblingCount
-  })
   // Вычисляем количество страниц
   const pagesCount = Math.ceil(totalCount / pageSize);
-
-  if (currentPage === 0 || paginationRange && paginationRange.length < 2) {
-    return null;
-  }
 
   const previousPage = useCallback(() => {
     if (currentPage > 1) onPageChange(currentPage - 1)
@@ -39,6 +33,10 @@ export const Pagination: FC<Props> = ({
     if (currentPage < pagesCount) onPageChange(currentPage + 1)
   }, [currentPage, pagesCount, onPageChange])
 
+
+  if (currentPage === 0 || paginationRange && paginationRange.length < 2) {
+    return null;
+  }
 
   return (
     <nav className={s.nav}>

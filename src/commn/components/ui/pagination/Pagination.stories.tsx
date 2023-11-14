@@ -1,28 +1,39 @@
 import {Meta, StoryObj} from "@storybook/react";
 import {Pagination} from "@/commn/components/ui/pagination/Pagination.tsx";
+import {useState} from "react";
 
 const meta = {
-  argTypes: {
-    currentPage:{num:1},
-    siblingCount:{numa:1},
-    pageSize:{num:10},
-    totalCount:{num:70},
-  },
   component: Pagination,
   tags: ['autodocs'],
   title: 'Components/Pagination',
+  decorators:[(Story)=> <div style={{height:'200px'}}><Story/></div>]
 } satisfies Meta<typeof Pagination>
 
 export default meta
+
 type Story = StoryObj<typeof meta>
 
-export const pag: Story = {
-  args: {
-    currentPage: 1,
-    pageSize: 10,
+export const PaginationStatic:Story={
+  args:{
+    totalCount: 20,
     siblingCount: 1,
-    totalCount: 70,
-    onPageChange:()=>{},
-    setPageSize:()=>{}
-  },
+    pageSize: 10,
+    currentPage: 2,
+  }
 }
+
+export const PaginationControlled = () => {
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+
+  return <Pagination
+    totalCount={70}
+    pageSize={pageSize}
+    currentPage={currentPage}
+    siblingCount={1}
+    onPageChange={setCurrentPage}
+    setPageSize={setPageSize}/>
+}
+
+
+
