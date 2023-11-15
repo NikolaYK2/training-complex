@@ -1,8 +1,11 @@
+button{
+  all: unset;
+}
+
 .content {
   position: relative;
   top: 0;
   left: 0;
-  transform: translateX(-20%);
 
   padding: 12px;
 
@@ -10,9 +13,13 @@
   border: 1px solid var(--color-dark-500);
   border-radius: 4px;
 
+  animation-duration: 700ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+
+
   .item {
     display: flex;
-align-items: center;
+    align-items: center;
 
     padding: 12px 0;
 
@@ -68,4 +75,69 @@ align-items: center;
     fill: var(--color-dark-700);
   }
 
+}
+
+
+@keyframes slide-up-and-fade {
+  from {
+    transform: translateY(2px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-right-and-fade {
+  from {
+    transform: translateX(-2px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-down-and-fade {
+  from {
+    transform: translateY(-2px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-left-and-fade {
+  from {
+    transform: translateX(2px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.content[data-side='top'] {
+  animation-name: slide-down-and-fade;
+}
+
+.content[data-side='right'] {
+  animation-name: slide-left-and-fade;
+}
+
+.content[data-side='bottom'] {
+  animation-name: slide-up-and-fade;
+}
+
+.content[data-side='left'] {
+  animation-name: slide-right-and-fade;
 }
