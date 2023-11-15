@@ -17,6 +17,15 @@ export type ArrType = {
 type Props = {
   obj: MenuType,
 }
+// const card = {
+//   id: 1,
+//   name: 'icon',
+//   arr: [
+//     {icon: 'learn', name: 'Learn'},
+//     {icon: 'edit', name: 'Edit'},
+//     {icon: 'delete', name: 'Delete'},
+//   ] as ArrType[]
+// }
 
 export const DropDownMenu: FC<Props> = ({obj}) => {
 
