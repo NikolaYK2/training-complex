@@ -12,19 +12,27 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-export const RadioGroupDefault: Story = () => {
-  return <RadioGroupComponent defaultValue={'Default'}>
-    <Radio id={'r1'} value={'Default'}/>
-    <Radio id={'r2'} value={'RadioGroup'}/>
-  </RadioGroupComponent>
+export const RadioGroupDefault: Story = {
+  args: {
+    children:
+      <><Radio id={'r1'} value={'Default'}/>
+        <Radio id={'r2'} value={'RadioGroup'}/>
+      </>,
+    defaultValue:'Default'
+  }
 }
 
-export const RadioGroupDissabled: Story = () => {
-  return <RadioGroupComponent defaultValue={'RadioGroup'} disabled={true}>
-    <Radio id={'r1'} value={'Default'} disabled={true}/>
-    <Radio id={'r2'} value={'RadioGroup'} disabled={true}/>
-  </RadioGroupComponent>
+export const RadioGroupDisabled: Story = {
+  args: {
+    children:
+      <><Radio id={'r1'} value={'Default'} disabled={true}/>
+        <Radio id={'r2'} value={'RadioGroup'} disabled={true}/>
+      </>,
+    defaultValue:'Default',
+    disabled:true
+  }
 }
+
 
 
 
