@@ -4,7 +4,8 @@
   justify-content: flex-end;
 
   width: 100%;
-  max-width: 284px;
+
+  //max-width: 284px;
   height: 88px;
 }
 
@@ -17,11 +18,11 @@
   align-items: center;
 
   max-width: 100%;
-  padding: 6px 12px;
 
-  font-size: clamp(var(--font-size-14), 5vw, var(--font-size-16));
+  //padding: 6px 12px;
 
-  border: 1px solid var(--color-dark-100);
+
+  border: 1px solid var(--color-dark-300);
 
   &:hover {
     background: var(--color-dark-700);
@@ -50,9 +51,18 @@
 
   input {
     all: unset;
+
     z-index: 2;
+
     width: 100%;
+    padding: 6px 12px;
+
+    font-size: clamp(var(--font-size-14), 5vw, var(--font-size-16));
+    line-height: var(--line-height-24);
+
     background: transparent;
+
+
   }
 
   [type="search"]::-webkit-search-cancel-button {

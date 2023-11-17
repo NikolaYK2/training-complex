@@ -1,8 +1,12 @@
 import * as Checkbox from '@radix-ui/react-checkbox';
 import {IconSvg} from "@/commn/components/ui/iconSvg/IconSvg.tsx";
 import s from './TickBox.module.scss'
+import {FC} from "react";
 
-export const TickBox = () => {
+type Props={
+  p?:string
+}
+export const TickBox:FC<Props> = ({p}) => {
 
   return (
     <div className={s.container}>
@@ -14,7 +18,7 @@ export const TickBox = () => {
         </Checkbox.Root>
       </label>
       <label className={s.label} htmlFor="c1">
-        Accept terms and conditions.
+        {p}
       </label>
     </div>
   );

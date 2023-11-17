@@ -3,18 +3,19 @@ import {IconSvg} from "@/commn/components/ui/iconSvg/IconSvg.tsx";
 import s from './Select.module.css'
 
 type Props = {
-  options: { id: number, value: number }[]
-  setOptions: (pageNumber: number) => void
+  options: { id: number, value: string }[]
+  setOptions?: (pageNumber: number) => void
+  p?:string[],
 }
-export const Select: FC<Props> = ({options, setOptions}) => {
+export const Select: FC<Props> = ({options, setOptions,p}) => {
 
   const [value, setValue] = useState(options[0].value)
   const [activeIndex, setActiveIndex] = useState(0);
   const [isActive, setIsActive] = useState(true)
 
-  const clickValueOptionHandle = useCallback((value: number) => {
+  const clickValueOptionHandle = useCallback((value: string) => {
     setValue(value)
-    setOptions(value)
+    setOptions && setOptions(+value)
   }, [setOptions])
 
 
@@ -56,17 +57,15 @@ export const Select: FC<Props> = ({options, setOptions}) => {
 
   return (
     <div className={s.container}>
-      <span>Показать</span>
+      <span>{p && p[0]}</span>
       <div className={s.select}>
         <div className={`${s.value} ${!isActive ? s.svgActive : ''}`} onClick={toggleStyleActiveHandle}
              onKeyDown={onKeyDownHandle} tabIndex={0}>
           <span>{value}</span><IconSvg name={"pageTurn"}/>
         </div>
-        <ul className={`${s.options} ${!isActive ? s.active : ''}`} onMouseLeave={removeStyleHandle}
-
-        >
+        <ul className={`${s.options} ${!isActive ? s.active : ''}`} onMouseLeave={removeStyleHandle}>
           {options.map((op, index) =>
-            <li key={op.id} className={`${s.option} ${activeIndex === index ? s.hover : ''}`}
+            <li key={op.id}  className={`${s.option} ${activeIndex === index ? s.hover : ''}`}
                 onClick={() => clickValueOptionHandle(op.value)}
             >
               {op.value}
@@ -74,7 +73,7 @@ export const Select: FC<Props> = ({options, setOptions}) => {
           )}
         </ul>
       </div>
-      <span>на странице</span>
+      <span>{p && p[1]}</span>
     </div>
   );
 };

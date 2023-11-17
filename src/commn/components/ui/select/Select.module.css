@@ -12,8 +12,9 @@
     top: 0;
     left: 0;
 
-    width: 50px;
-    margin: 0 9px;
+    width: 100%;
+
+    /* margin: 0 9px; */
 
     font-size: var(--font-size-14);
     line-height: var(--line-height-24);
@@ -22,12 +23,11 @@
     transition: max-height .3s ease 0s;
 
 
-
     .value {
         cursor: pointer;
 
         position: relative;
-        z-index: 2;
+        z-index: 4;
         top: 0;
         left: 0;
 
@@ -36,16 +36,23 @@
         justify-content: space-between;
 
         width: 100%;
-        height: 18px;
-        padding: 0 0 0 6px;
 
         background: var(--color-dark-700);
-        border: 1px solid var(--color-dark-500);
+        border: 1px solid var(--color-dark-300);
+
+        > span {
+            padding: 6px 12px;
+            font-size: clamp(var(--font-size-14), 5vw, var(--font-size-16));
+            line-height: var(--line-height-24);
+        }
 
         > svg {
             transform: rotate(270deg) rotateY(0deg);
+
             width: 16px;
             height: 100%;
+            margin: 0 12px 0 0;
+
             transition: all .4s ease 0s;
 
             > g {
@@ -55,21 +62,21 @@
             }
         }
 
-        &:focus-visible{
+        &:focus-visible {
             border: 2px solid var(--color-info-900);
         }
     }
 
     .svgActive {
-        >svg {
+        > svg {
             transform: rotate(270deg) rotateY(180deg);
         }
     }
 
     .options {
         position: absolute;
-        z-index: 1;
-        top: 17px;
+        z-index: 3;
+        top: 36px;
         left: 0;
 
         overflow: hidden;
@@ -94,7 +101,7 @@
     }
 
     .active {
-        top: 18px;
+        top: 38px;
         max-height: 300px;
     }
 }
