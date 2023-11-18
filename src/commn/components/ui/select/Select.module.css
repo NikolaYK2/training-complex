@@ -94,7 +94,7 @@
         transition: max-height .4s ease 0s, top .1s ease 0s;
 
         .option {
-            padding: 0 0 0 6px;
+            padding: 0 12px;
 
             &:hover {
                 color: var(--color-primary-300);
