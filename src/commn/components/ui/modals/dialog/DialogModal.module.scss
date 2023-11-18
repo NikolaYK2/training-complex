@@ -36,7 +36,7 @@ input {
   background-color: var(--color-dark-700);
   border: 1px solid var(--color-dark-500);
 
-  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: overlay-show .4s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:focus {
     outline: none;
@@ -89,7 +89,7 @@ input {
   }
 
   .borderTop {
-    border-top: 1px solid var(--color-dark-500);
+    border-top: 1px solid var(--color-dark-100);
   }
 
   .fieldset {
