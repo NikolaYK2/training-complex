@@ -5,9 +5,10 @@ import s from './Select.module.css'
 type Props = {
   options: { id: number, value: string }[]
   setOptions?: (pageNumber: number) => void
-  p?:string[],
+  p?: string[],
+  disabled?: boolean,
 }
-export const Select: FC<Props> = ({options, setOptions,p}) => {
+export const Select: FC<Props> = ({options, setOptions, p, disabled}) => {
 
   const [value, setValue] = useState(options[0].value)
   const [activeIndex, setActiveIndex] = useState(0);
@@ -56,7 +57,7 @@ export const Select: FC<Props> = ({options, setOptions,p}) => {
   }, [activeIndex, options, clickValueOptionHandle, isActive])
 
   return (
-    <div className={s.container}>
+    <div className={`${s.container} ${disabled ? s.disabled : ''}`}>
       <span>{p && p[0]}</span>
       <div className={s.select}>
         <div className={`${s.value} ${!isActive ? s.svgActive : ''}`} onClick={toggleStyleActiveHandle}
@@ -65,9 +66,8 @@ export const Select: FC<Props> = ({options, setOptions,p}) => {
         </div>
         <ul className={`${s.options} ${!isActive ? s.active : ''}`} onMouseLeave={removeStyleHandle}>
           {options.map((op, index) =>
-            <li key={op.id}  className={`${s.option} ${activeIndex === index ? s.hover : ''}`}
-                onClick={() => clickValueOptionHandle(op.value)}
-            >
+            <li key={op.id} className={`${s.option} ${activeIndex === index ? s.hover : ''}`}
+                onClick={disabled ? undefined : () => clickValueOptionHandle(op.value)}>
               {op.value}
             </li>
           )}
