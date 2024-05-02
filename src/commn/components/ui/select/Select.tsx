@@ -2,8 +2,12 @@ import {FC, KeyboardEvent, useCallback, useState} from "react";
 import {IconSvg} from "@/commn/components/ui/iconSvg/IconSvg.tsx";
 import s from './Select.module.css'
 
+type OptionsType = {
+  id: number,
+  value: string,
+}
 type Props = {
-  options: { id: number, value: string }[]
+  options: OptionsType[]
   setOptions?: (pageNumber: number) => void
   p?: string[],
   disabled?: boolean,
