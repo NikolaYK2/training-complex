@@ -6,19 +6,23 @@ const meta = {
   component: Pagination,
   tags: ['autodocs'],
   title: 'Components/Pagination',
-  decorators:[(Story)=> <div style={{height:'200px'}}><Story/></div>]
+  decorators: [(Story) => <div style={{height: '200px'}}><Story/></div>]
 } satisfies Meta<typeof Pagination>
 
 export default meta
 
 type Story = StoryObj<typeof meta>
 
-export const PaginationStatic:Story={
-  args:{
+export const PaginationStatic: Story = {
+  args: {
     totalCount: 20,
     siblingCount: 1,
     pageSize: 10,
     currentPage: 2,
+    setPageSize: () => {
+    },
+    onPageChange: () => {
+    }
   }
 }
 
