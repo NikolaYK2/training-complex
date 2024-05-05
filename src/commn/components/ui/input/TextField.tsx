@@ -10,7 +10,7 @@ type TypesInput =
   | 'search'
   | 'password';
 
-type  TextFieldProps = {
+export type  TextFieldProps = {
   typeInput: TypesInput,
   errorMessage?: string,
   label?: string,
