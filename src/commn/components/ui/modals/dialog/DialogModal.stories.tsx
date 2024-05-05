@@ -1,7 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react'
 import {DialogModal} from "@/commn/components/ui/modals/dialog/DialogModal.tsx";
 import {Select} from "@/commn/components/ui/select/Select.tsx";
-import {Input} from "@/commn/components/ui/input/Input.tsx";
+import {TextField} from "@/commn/components/ui/input/TextField.tsx";
 import {TickBox} from "@/commn/components/ui/checkBox/TickBox.tsx";
 
 const meta = {
@@ -41,8 +41,8 @@ export const modal: Story = {
       {id: 1, value: 'Select-box'},
       {id: 2, value: 'hi maloy'},
       {id: 3, value: 'Sam maloy'}]}/>,
-      <Input key={'Input1'} typeInput={"text"}/>,
-      <Input key={'Input2'} typeInput={"password"}/>,
+      <TextField key={'Input1'} typeInput={"text"}/>,
+      <TextField key={'Input2'} typeInput={"password"}/>,
       <TickBox key={'TickBox'} p={'opana!'}/>
     ]}
   </DialogModal>

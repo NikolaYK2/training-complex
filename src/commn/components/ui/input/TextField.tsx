@@ -1,20 +1,31 @@
-import s from './Input.module.scss'
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent, ComponentPropsWithoutRef, forwardRef, useState} from "react";
 import {useShowPasswordInput} from "@/commn/utils/showPasswordInput.ts";
 import {IconSvg} from "@/commn/components/ui/iconSvg/IconSvg.tsx";
+import s from './TextField.module.scss'
 
 
-const typesInput = {
-  text: 'text',
-  email: 'email',
-  search: 'search',
-  password: 'password',
-} as const;
-type  Props = {
-  typeInput: keyof typeof typesInput,
+type TypesInput =
+  | 'text'
+  | 'email'
+  | 'search'
+  | 'password';
+
+type  TextFieldProps = {
+  typeInput: TypesInput,
+  errorMessage?: string,
+  label?: string,
   disabled?: boolean
-}
-export const Input = ({typeInput, disabled}: Props) => {
+} & ComponentPropsWithoutRef<'input'>
+
+export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, ref) => {
+  const {
+    typeInput,
+    disabled,
+    label,
+    errorMessage,
+    ...restProps
+  } = props
+
   const [text, setText] = useState('')
   const [focusedPlaceholder, setFocusedPlaceholder] = useState(false)
   const [inputFocused, setInputFocused] = useState(false)
@@ -29,7 +40,7 @@ export const Input = ({typeInput, disabled}: Props) => {
     setFocusedPlaceholder(!focusedPlaceholder)
   }
   const inputStyle = text ? s.active : disabled ? s.disabled : inputFocused ? s.error : '';
-  const error = inputFocused && !text ? 'error!' : '';
+  const error = inputFocused && !text ? errorMessage : '';
   const placeholderTextStyle = focusedPlaceholder || text ? s.mod : inputFocused && !text ? s.errorPlaceholder : '';
 
 
@@ -42,9 +53,11 @@ export const Input = ({typeInput, disabled}: Props) => {
                onBlur={toggleFocus}
                onFocus={toggleFocus}
                disabled={disabled}
+               ref={ref}
+               {...restProps}
         />
         {typeInput !== 'search' &&
-            <div className={`${s.placeholder} ${placeholderTextStyle}`}>{error || 'Input'}</div>}
+            <div className={`${s.placeholder} ${placeholderTextStyle}`}>{error || label}</div>}
 
         {typeInput === 'password' &&
             <div className={s.icon}
@@ -67,4 +80,4 @@ export const Input = ({typeInput, disabled}: Props) => {
       <div className={s.errorText}>{typeInput !== 'search' && error && error}</div>
     </div>
   );
-};
+});
