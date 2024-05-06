@@ -3,6 +3,7 @@ import {Card} from "@/commn/components/ui/card/Card.tsx";
 
 const meta = {
   argTypes: {
+    children: Card
   },
   component: Card,
   tags: ['autodocs'], //автоматически добавляет все в истории в один документ
@@ -13,5 +14,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const CardNull: Story = {
-  args: {},
+  args: {
+    children: 'Card'
+  },
 }
