@@ -7,6 +7,14 @@ button {
   align-items: center;
 }
 
+.left {
+  margin: 0 auto 0 -6px;
+}
+
+.right {
+  margin: 0 -6px 0 auto;
+}
+
 .clickEffect {
   cursor: pointer;
 
@@ -69,4 +77,5 @@ button {
   font-size: var(--font-size-14);
   line-height: var(--line-height-24);
   color: var(--color-light-100);
+  text-transform: capitalize;
 }

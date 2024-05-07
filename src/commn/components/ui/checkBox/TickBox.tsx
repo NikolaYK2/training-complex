@@ -1,26 +1,40 @@
-import * as Checkbox from '@radix-ui/react-checkbox';
-import {IconSvg} from "@/commn/components/ui/iconSvg/IconSvg.tsx";
+import { ElementRef, forwardRef } from 'react'
+
+import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
+import * as CheckboxRadix from '@radix-ui/react-checkbox'
+
 import s from './TickBox.module.scss'
-import {FC} from "react";
 
-type Props={
-  p?:string
+export type TickBoxProps = {
+  disabled?: boolean
+  label?: string
+  onValueChange?: (checked: boolean) => void
+  position?: 'left' | 'right'
 }
-export const TickBox:FC<Props> = ({p}) => {
+export const TickBox = forwardRef<ElementRef<typeof CheckboxRadix.Root>, TickBoxProps>(
+  (props, ref) => {
+    const { disabled, label = '', onValueChange, position = '' } = props
 
-  return (
-    <div className={s.container}>
-      <label className={s.clickEffect}>
-        <Checkbox.Root className={s.rootBlock} defaultChecked id="c1">
-          <Checkbox.Indicator className={s.indicator}>
-            <IconSvg name={"tick"}/>
-          </Checkbox.Indicator>
-        </Checkbox.Root>
-      </label>
-      <label className={s.label} htmlFor="c1">
-        {p}
-      </label>
-    </div>
-  );
-};
-
+    return (
+      <div className={`${s.container} ${s[position]}`}>
+        <label className={s.clickEffect}>
+          <CheckboxRadix.Root
+            className={s.rootBlock}
+            defaultChecked
+            disabled={disabled}
+            id={'c1'}
+            onCheckedChange={onValueChange}
+            ref={ref}
+          >
+            <CheckboxRadix.Indicator className={s.indicator}>
+              <IconSvg name={'tick'} />
+            </CheckboxRadix.Indicator>
+          </CheckboxRadix.Root>
+        </label>
+        <label className={s.label} htmlFor={'c1'}>
+          {label}
+        </label>
+      </div>
+    )
+  }
+)
