@@ -1,32 +1,36 @@
-import {ComponentPropsWithoutRef, ElementType} from "react";
-import s from './Typography.module.scss'
+import { ComponentPropsWithoutRef, ElementType } from 'react'
+
+import s from './TextFormat.module.scss'
 
 type VariantType =
-  | "h1"
+  | 'body1'
+  | 'body2'
+  | 'caption1'
+  | 'h1'
   | 'h2'
   | 'h3'
   | 'h4'
-  | 'body1'
-  | 'body2'
-  | 'subtitle1'
-  | 'subtitle2'
-  | 'caption1'
-  | 'overline'
   | 'link1'
   | 'link2'
+  | 'overline'
+  | 'subtitle1'
+  | 'subtitle2'
 
 type Typography<T extends ElementType = 'p'> = {
-  className?: string,
+  className?: string
   colorText?: 'dark' | 'light'
+  position?: 'left' | 'right'
   variant?: VariantType
 } & ComponentPropsWithoutRef<T>
 
-export const Typography = <T extends ElementType = 'p'>(props: Typography<T>) => {
-  const {colorText = 'light', className, variant = 'p', ...rest} = props
+export const TextFormat = <T extends ElementType = 'p'>(props: Typography<T>) => {
+  const { className, colorText = 'light', position = '', variant = 'p', ...rest } = props
 
   const Component: ElementType = variant && getComponent(variant as VariantType)
 
-  return <Component className={`${s[variant]} ${className} ${s[colorText]}`} {...rest}/>
+  return (
+    <Component className={`${s[variant]} ${className} ${s[position]} ${s[colorText]}`} {...rest} />
+  )
 }
 
 function getComponent(variant: VariantType) {
@@ -62,6 +66,3 @@ function getComponent(variant: VariantType) {
     }
   }
 }
-
-
-
