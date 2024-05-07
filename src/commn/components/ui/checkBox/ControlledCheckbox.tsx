@@ -1,19 +1,29 @@
-import {FieldValues, useController, UseControllerProps} from "react-hook-form";
-import {CheckboxProps} from "@radix-ui/react-checkbox";
-import {TickBox} from "@/commn/components/ui/checkBox/TickBox.tsx";
+import { FieldValues, useController } from 'react-hook-form'
+
+import { TickBox, TickBoxProps } from '@/commn/components/ui/checkBox/TickBox'
+import { UseControllerProps } from '@/commn/typs/UseControllerProps'
 
 export type ControlledCheckboxProps<TFieldValues extends FieldValues> =
-  UseControllerProps<TFieldValues> & Omit<CheckboxProps, 'onChange' | 'value' | 'id'>
-
+  UseControllerProps<TFieldValues> & Omit<TickBoxProps, 'id' | 'onChange' | 'value'>
 
 export const ControlledCheckbox = <TFieldValues extends FieldValues>({
-                                                                       name,
-                                                                       control,
-                                                                       ...checkboxProps
-                                                                     }: ControlledCheckboxProps<TFieldValues>) => {
-  const {field: {onChange, value}} = useController({name, control})
+  control,
+  name,
+  ...checkboxProps
+}: ControlledCheckboxProps<TFieldValues>) => {
+  const {
+    field: { onChange, ref, value },
+  } = useController({ control, name })
 
   return (
-    <TickBox {...{onChange, checked: value, id: name, ...checkboxProps}}/>
-  );
-};
+    <TickBox
+      {...{
+        checked: value,
+        id: name,
+        onValueChange: onChange,
+        ref,
+        ...checkboxProps,
+      }}
+    />
+  )
+}
