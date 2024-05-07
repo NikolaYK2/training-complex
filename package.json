@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "format": "prettier --write src",
-    "lint": "eslint --fix src/**/*.{tsx,ts,jsx,js} --no-error-on-unmatched-pattern && stylelint --fix src/{,*/}*.{scss,css} --allow-empty-input",
+    "lint": "eslint src --ext .jsx,.js,.tsx,.ts  --no-error-on-unmatched-pattern --fix && stylelint --fix src/{,*/}*.{scss,css} --allow-empty-input",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
