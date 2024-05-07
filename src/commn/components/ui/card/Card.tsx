@@ -1,15 +1,15 @@
+import { ReactNode } from 'react'
+
 import s from './Card.module.scss'
-import {ReactNode} from "react";
 
 type Props = {
-  children: ReactNode,
+  children: ReactNode
+  className?: string
 }
-export const Card = ({children}: Props) => {
+export const Card = ({ children, className }: Props) => {
   return (
     <div className={s.container}>
-      <div className={s.blockCard}>
-        {children}
-      </div>
+      <div className={`${s.blockCard} ${className}`}>{children}</div>
     </div>
-  );
-};
+  )
+}

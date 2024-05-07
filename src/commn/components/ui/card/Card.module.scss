@@ -1,4 +1,9 @@
 .blockCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   width: 100%;
   max-width: 420px;
   padding: min(3.68%, 33px) min(4.02%, 36px) min(2.79%, 25px);
