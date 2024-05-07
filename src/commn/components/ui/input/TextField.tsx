@@ -1,35 +1,26 @@
-import {ChangeEvent, ComponentPropsWithoutRef, forwardRef, useState} from "react";
-import {useShowPasswordInput} from "@/commn/utils/showPasswordInput.ts";
-import {IconSvg} from "@/commn/components/ui/iconSvg/IconSvg.tsx";
+import { ChangeEvent, ComponentPropsWithoutRef, forwardRef, useState } from 'react'
+
+import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
+import { useShowPasswordInput } from '@/commn/utils/showPasswordInput'
+
 import s from './TextField.module.scss'
 
+type TypesInput = 'email' | 'password' | 'search' | 'text'
 
-type TypesInput =
-  | 'text'
-  | 'email'
-  | 'search'
-  | 'password';
-
-export type  TextFieldProps = {
-  typeInput: TypesInput,
-  errorMessage?: string,
-  label?: string,
+export type TextFieldProps = {
   disabled?: boolean
+  errorMessage?: string
+  label?: string
+  typeInput: TypesInput
 } & ComponentPropsWithoutRef<'input'>
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, ref) => {
-  const {
-    typeInput,
-    disabled,
-    label,
-    errorMessage,
-    ...restProps
-  } = props
+  const { disabled, errorMessage, label, typeInput, ...restProps } = props
 
   const [text, setText] = useState('')
   const [focusedPlaceholder, setFocusedPlaceholder] = useState(false)
   const [inputFocused, setInputFocused] = useState(false)
-  const {type, toggle} = useShowPasswordInput()
+  const { toggle, type } = useShowPasswordInput()
 
   const textChangeHandle = (e: ChangeEvent<HTMLInputElement>) => {
     setText(e.currentTarget.value)
@@ -39,45 +30,49 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
   const toggleFocus = () => {
     setFocusedPlaceholder(!focusedPlaceholder)
   }
-  const inputStyle = text ? s.active : disabled ? s.disabled : inputFocused ? s.error : '';
-  const error = inputFocused && !text ? errorMessage : '';
-  const placeholderTextStyle = focusedPlaceholder || text ? s.mod : inputFocused && !text ? s.errorPlaceholder : '';
 
+  const inputStyle = text ? s.active : disabled ? s.disabled : inputFocused ? s.error : ''
+  const error = inputFocused && !text ? errorMessage : ''
+  const placeholderTextStyle =
+    focusedPlaceholder || text ? s.labelIsActive : inputFocused && !text ? s.errorPlaceholder : ''
 
   return (
     <div className={s.container}>
       <div className={`${s.input} ${typeInput === 'search' ? s.search : ''} ${inputStyle}`}>
-        <input type={typeInput === "password" ? type : typeInput}
-               value={text}
-               onChange={textChangeHandle}
-               onBlur={toggleFocus}
-               onFocus={toggleFocus}
-               disabled={disabled}
-               ref={ref}
-               {...restProps}
+        <input
+          disabled={disabled}
+          onBlur={toggleFocus}
+          onChange={textChangeHandle}
+          onFocus={toggleFocus}
+          ref={ref}
+          type={typeInput === 'password' ? type : typeInput}
+          value={text}
+          {...restProps}
         />
-        {typeInput !== 'search' &&
-            <div className={`${s.placeholder} ${placeholderTextStyle}`}>{error || label}</div>}
+        {typeInput !== 'search' && (
+          <label className={`${s.placeholder} ${placeholderTextStyle}`}>{error || label}</label>
+        )}
 
-        {typeInput === 'password' &&
-            <div className={s.icon}
-                 onClick={toggle}>
-                <IconSvg name={'showPass'}/>
-            </div>}
+        {typeInput === 'password' && (
+          <div className={s.icon} onClick={toggle}>
+            <IconSvg name={'showPass'} />
+          </div>
+        )}
 
-        {typeInput === 'search' &&
-            <>
-                <div className={s.icon} style={{left: '11px'}}>
-                    <IconSvg name={'search'}/>
-                </div>
-              {text &&
-                  <div className={s.icon} onClick={() => setText('')}>
-                      <IconSvg name={'clear'}/>
-                  </div>}
-            </>
-        }
+        {typeInput === 'search' && (
+          <>
+            <div className={s.icon} style={{ left: '11px' }}>
+              <IconSvg name={'search'} />
+            </div>
+            {text && (
+              <div className={s.icon} onClick={() => setText('')}>
+                <IconSvg name={'clear'} />
+              </div>
+            )}
+          </>
+        )}
       </div>
       <div className={s.errorText}>{typeInput !== 'search' && error && error}</div>
     </div>
-  );
-});
+  )
+})
