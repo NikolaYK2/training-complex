@@ -1,10 +1,10 @@
-import {useState} from "react";
+import { useState } from 'react'
 
 export function useShowPasswordInput() {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
 
   return {
-    type: showPassword ? 'text' : 'password',
     toggle: () => setShowPassword(!showPassword),
-  };
+    type: showPassword ? 'text' : 'password',
+  }
 }

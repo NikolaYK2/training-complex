@@ -44,14 +44,15 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
   } else if (errorMessage && !value) {
     placeholderTextStyle = s.errorPlaceholder
   }
-  const foc = () => {
+
+  const focusHandler = () => {
     setFocus(true)
   }
-  const onFocus = () => {
+  const onFocusHandler = () => {
     setFocus(false)
   }
 
-  const resetHadler = () => {
+  const resetHandler = () => {
     if (reset) {
       reset()
     }
@@ -61,15 +62,15 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
     <div className={s.container}>
       <div
         className={`${s.input} ${typeInput === 'search' ? s.search : ''} ${inputStyle} ${
-          focus && s.s
+          focus && s.focusInput
         }`}
       >
         <input
           autoComplete={'current-password'}
           disabled={disabled}
-          onBlur={onFocus}
+          onBlur={onFocusHandler}
           onChange={onChange}
-          onFocus={foc}
+          onFocus={focusHandler}
           ref={ref}
           type={typeInput === 'password' ? type : typeInput}
           value={value}
@@ -91,7 +92,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
               <IconSvg name={'search'} />
             </div>
             {value && (
-              <div className={s.icon} onClick={resetHadler}>
+              <div className={s.icon} onClick={resetHandler}>
                 <IconSvg name={'clear'} />
               </div>
             )}
