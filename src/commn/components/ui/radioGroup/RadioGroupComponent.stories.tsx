@@ -1,6 +1,6 @@
-import {Meta, StoryObj} from "@storybook/react";
-import {RadioGroupComponent} from "@/commn/components/ui/radioGroup/RadioGroupComponent.tsx";
-import {Radio} from "@/commn/components/ui/radioGroup/Radio.tsx";
+import { Radio } from '@/commn/components/ui/radioGroup/Radio'
+import { RadioGroupComponent } from '@/commn/components/ui/radioGroup/RadioGroupComponent'
+import { Meta, StoryObj } from '@storybook/react'
 
 const meta = {
   component: RadioGroupComponent,
@@ -14,29 +14,25 @@ type Story = StoryObj<typeof meta>
 
 export const RadioGroupDefault: Story = {
   args: {
-    children:
-      <><Radio id={'r1'} value={'Default'}/>
-        <Radio id={'r2'} value={'RadioGroup'}/>
-      </>,
-    defaultValue:'Default'
-  }
+    children: (
+      <>
+        <Radio id={'r1'} value={'Default'} />
+        <Radio id={'r2'} value={'RadioGroup'} />
+      </>
+    ),
+    defaultValue: 'Default',
+  },
 }
 
 export const RadioGroupDisabled: Story = {
   args: {
-    children:
-      <><Radio id={'r1'} value={'Default'} disabled={true}/>
-        <Radio id={'r2'} value={'RadioGroup'} disabled={true}/>
-      </>,
-    defaultValue:'Default',
-    disabled:true
-  }
+    children: (
+      <>
+        <Radio disabled id={'r1'} value={'Default'} />
+        <Radio disabled id={'r2'} value={'RadioGroup'} />
+      </>
+    ),
+    defaultValue: 'Default',
+    disabled: true,
+  },
 }
-
-
-
-
-
-
-
-

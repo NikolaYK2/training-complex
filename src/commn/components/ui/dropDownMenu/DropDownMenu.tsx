@@ -1,21 +1,22 @@
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import {FC} from "react";
-import {IconSvg} from "@/commn/components/ui/iconSvg/IconSvg.tsx";
+import { FC } from 'react'
+
+import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
+
 import s from './DropDownMenu.module.scss'
 
-
 type MenuType = {
-  id: number,
-  name: string,
-  arr: ArrType[],
+  arr: ArrType[]
+  id: number
+  name: string
 }
 export type ArrType = {
-  icon: 'learn' | 'edit' | 'delete' | 'profile' | 'logOut' | 'avatar',
-  name: string,
   email?: string
+  icon: 'avatar' | 'delete' | 'edit' | 'learn' | 'logOut' | 'profile'
+  name: string
 }
 type Props = {
-  obj: MenuType,
+  obj: MenuType
 }
 // const card = {
 //   id: 1,
@@ -27,35 +28,34 @@ type Props = {
 //   ] as ArrType[]
 // }
 
-export const DropDownMenu: FC<Props> = ({obj}) => {
-
+export const DropDownMenu: FC<Props> = ({ obj }) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button className="IconButton" aria-label="Customise options">
+        <button aria-label={'Customise options'} className={'IconButton'}>
           {obj.name}
         </button>
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content className={s.content} sideOffset={5}>
-          {obj.arr.map(el =>
+          {obj.arr.map(el => (
             <DropdownMenu.Item className={s.item} key={el.icon}>
-                <div className={el.email ? s.avatar : s.iconSlot}>
-                  <IconSvg name={el.icon}/>
-                </div>
+              <div className={el.email ? s.avatar : s.iconSlot}>
+                <IconSvg name={el.icon} />
+              </div>
               <div className={s.text}>
                 <span>{el.name}</span>
                 <span>{el.email}</span>
               </div>
             </DropdownMenu.Item>
-          )}
-          <DropdownMenu.Arrow className={s.menuArrow}/>
+          ))}
+          <DropdownMenu.Arrow className={s.menuArrow} />
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
-  );
-};
+  )
+}
 // export const DropDownMenu: FC<Props> = ({obj}) => {
 //
 //   return (

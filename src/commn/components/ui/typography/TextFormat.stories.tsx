@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { TextFormat } from '@/commn/components/ui/typography/TextFormat.tsx'
+import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 
 const meta: Meta<typeof TextFormat> = {
   component: TextFormat,

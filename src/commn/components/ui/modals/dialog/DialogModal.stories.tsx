@@ -49,8 +49,8 @@ export const modal: Story = {
             { id: 3, value: 'Sam maloy' },
           ]}
         />,
-        <TextField key={'Input1'} typeInput={'text'} />,
-        <TextField key={'Input2'} typeInput={'password'} />,
+        <TextField key={'Input1'} type={'text'} />,
+        <TextField key={'Input2'} type={'password'} />,
         <TickBox key={'TickBox'} label={'opana!'} />,
       ]}
     </DialogModal>

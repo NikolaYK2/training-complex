@@ -1,9 +1,10 @@
-import type {Meta, StoryObj} from '@storybook/react'
-import {Card} from "@/commn/components/ui/card/Card.tsx";
+import type { Meta, StoryObj } from '@storybook/react'
+
+import { Card } from '@/commn/components/ui/card/Card'
 
 const meta = {
   argTypes: {
-    children: Card
+    children: Card,
   },
   component: Card,
   tags: ['autodocs'], //автоматически добавляет все в истории в один документ
@@ -15,6 +16,6 @@ type Story = StoryObj<typeof meta>
 
 export const CardNull: Story = {
   args: {
-    children: 'Card'
+    children: 'Card',
   },
 }

@@ -1,16 +1,16 @@
-import type {Meta, StoryObj} from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 
-import {IconSvg} from '@/commn/components/ui/iconSvg/IconSvg.tsx'
+import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 
-import {Button} from './'
+import { Button } from './'
 
 const meta = {
   argTypes: {
     title: {
-      control: {type: 'text'}, //Добавляет описание к кнопке например
+      control: { type: 'text' }, //Добавляет описание к кнопке например
     },
     variant: {
-      control: {type: 'radio'},
+      control: { type: 'radio' },
       options: ['primary', 'secondary', 'tertiary', 'link'],
     },
   },
@@ -30,12 +30,14 @@ export const Primary: Story = {
   },
 }
 export const PrimaryIcon: Story = {
-  render: () => <Button>
-    <div style={{display: 'flex', alignItems: 'center', width: '20px', margin: '0 10px 0 0'}}>
-      <IconSvg name={"logOut"}/>
-    </div>
-    Primary Button
-  </Button>
+  render: () => (
+    <Button>
+      <div style={{ alignItems: 'center', display: 'flex', margin: '0 10px 0 0', width: '20px' }}>
+        <IconSvg name={'logOut'} />
+      </div>
+      Primary Button
+    </Button>
+  ),
 }
 
 export const Secondary: Story = {
@@ -47,14 +49,15 @@ export const Secondary: Story = {
 }
 
 export const SecondaryIcon: Story = {
-  render: () => <Button variant={"secondary"}>
-    <div style={{display: 'flex', alignItems: 'center', width: '20px', margin: '0 10px 0 0'}}>
-      <IconSvg name={"logOut"}/>
-    </div>
-    Secondary Button
-  </Button>
+  render: () => (
+    <Button variant={'secondary'}>
+      <div style={{ alignItems: 'center', display: 'flex', margin: '0 10px 0 0', width: '20px' }}>
+        <IconSvg name={'logOut'} />
+      </div>
+      Secondary Button
+    </Button>
+  ),
 }
-
 
 export const Tertiary: Story = {
   args: {

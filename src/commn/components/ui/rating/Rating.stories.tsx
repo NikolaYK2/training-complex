@@ -1,33 +1,34 @@
-import type {Meta, StoryObj} from "@storybook/react";
-import {Rating} from "@/commn/components/ui/rating/Rating.tsx";
+import type { Meta, StoryObj } from '@storybook/react'
+
+import { Rating } from '@/commn/components/ui/rating/Rating'
 
 const meta: Meta<typeof Rating> = {
+  component: Rating,
   tags: ['autodocs'],
   title: 'Components/Rating',
-  component: Rating,
 }
 
 export default meta
 
-type Story = StoryObj;
+type Story = StoryObj
 
 export const RatingNull: Story = {
   args: {
-    stars: 2
-  }
+    stars: 2,
+  },
 }
 
 export const RatingActive: Story = {
   args: {
-    stars: 3,
-    ratingValue: 5,
     hoveredStarValue: 0,
-  }
+    ratingValue: 5,
+    stars: 3,
+  },
 }
 export const RatingActiveHover: Story = {
   args: {
-    stars: 5,
-    ratingValue: 5,
     hoveredStarValue: 3,
-  }
+    ratingValue: 5,
+    stars: 5,
+  },
 }

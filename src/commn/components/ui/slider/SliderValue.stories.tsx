@@ -1,5 +1,6 @@
-import type {Meta, StoryObj} from '@storybook/react'
-import {SliderValue} from "@/commn/components/ui/slider/SliderValue.tsx";
+import type { Meta, StoryObj } from '@storybook/react'
+
+import { SliderValue } from '@/commn/components/ui/slider/SliderValue'
 
 const meta = {
   argTypes: {},
@@ -12,7 +13,5 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Slider: Story = {
-  args:{}
+  args: {},
 }
-
-
