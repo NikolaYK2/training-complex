@@ -1,49 +1,58 @@
-import type {Meta, StoryObj} from '@storybook/react'
+import type { StoryObj } from '@storybook/react'
 
-import {TextField} from "@/commn/components/ui/input/TextField.tsx";
+import { TextField } from '@/commn/components/ui/input/TextField'
 
 const meta = {
   argTypes: {
-    typeInput: {
-      text: 'text',
-      email: 'email',
-      search: 'search',
-      password: 'password',
-    },
+    label: { type: 'string' },
+    type: { type: 'string' },
   },
   component: TextField,
-  tags: ['autodocs'], //автоматически добавляет все в истории в один документ
-  title: 'Components/Input', //Где лежат наши истории
-} satisfies Meta<typeof TextField>
+  tags: ['autodocs'],
+  title: 'Components/Input',
+}
 
 export default meta
-type Story = StoryObj<typeof meta>
+type Story = StoryObj
 
 export const InputText: Story = {
   args: {
-    typeInput: 'text',
-    label: 'Email'
+    label: 'Email',
+    onChange: () => {},
+    type: 'email',
+    value: 'email@example.com',
+  },
+}
+export const InputNull: Story = {
+  args: {
+    label: 'Null',
+    type: 'email',
+    value: '',
   },
 }
 export const InputPassword: Story = {
   args: {
-    typeInput: 'password',
-    label: 'Password'
-
+    label: 'Password',
+    onChange: () => {},
+    type: 'password',
+    value: 'email@example.com',
   },
 }
 export const InputDisabled: Story = {
   args: {
-    typeInput: 'password',
-    label: 'Password',
-
     disabled: true,
+    label: 'Password',
+    onChange: () => {},
+
+    type: 'password',
+    value: 'email@example.com',
   },
 }
 export const InputSearch: Story = {
   args: {
-    typeInput: 'search',
-    label: 'Search'
-
+    label: 'Search',
+    onChange: () => {},
+    type: 'search',
+    value: 'sdsd',
   },
 }

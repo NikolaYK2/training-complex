@@ -9,11 +9,12 @@ export type ControlledTextFieldProps<TFieldValues extends FieldValues> =
 export const ControlledTextField = <TFieldValues extends FieldValues>({
   control,
   name,
+  reset,
   ...textFieldProps
 }: ControlledTextFieldProps<TFieldValues>) => {
   const {
-    field: { onChange, value },
+    field: { onChange, ref, value },
   } = useController({ control, name })
 
-  return <TextField {...{ id: name, onChange, value, ...textFieldProps }} />
+  return <TextField {...{ onChange, ref, reset, type: name, value, ...textFieldProps }} />
 }
