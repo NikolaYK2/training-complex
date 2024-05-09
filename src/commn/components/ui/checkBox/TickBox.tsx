@@ -20,7 +20,7 @@ export const TickBox = forwardRef<ElementRef<typeof CheckboxRadix.Root>, TickBox
         <label className={s.clickEffect}>
           <CheckboxRadix.Root
             className={s.rootBlock}
-            defaultChecked
+            defaultChecked={false}
             disabled={disabled}
             id={'c1'}
             onCheckedChange={onValueChange}
@@ -31,9 +31,11 @@ export const TickBox = forwardRef<ElementRef<typeof CheckboxRadix.Root>, TickBox
             </CheckboxRadix.Indicator>
           </CheckboxRadix.Root>
         </label>
-        <label className={s.label} htmlFor={'c1'}>
-          {label}
-        </label>
+        {label && (
+          <label className={s.label} htmlFor={'c1'}>
+            {label}
+          </label>
+        )}
       </div>
     )
   }
