@@ -19,18 +19,15 @@ type VariantType =
 type Typography<T extends ElementType = 'p'> = {
   className?: string
   colorText?: 'dark' | 'light'
-  position?: 'left' | 'right'
   variant?: VariantType
 } & ComponentPropsWithoutRef<T>
 
 export const TextFormat = <T extends ElementType = 'p'>(props: Typography<T>) => {
-  const { className, colorText = 'light', position = '', variant = 'p', ...rest } = props
+  const { className, colorText = 'light', variant = 'p', ...rest } = props
 
   const Component: ElementType = variant && getComponent(variant as VariantType)
 
-  return (
-    <Component className={`${s[variant]} ${className} ${s[position]} ${s[colorText]}`} {...rest} />
-  )
+  return <Component className={`${s[variant]} ${className} ${s[colorText]}`} {...rest} />
 }
 
 function getComponent(variant: VariantType) {
