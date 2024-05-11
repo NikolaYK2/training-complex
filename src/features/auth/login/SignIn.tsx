@@ -1,34 +1,25 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { Button } from '@/commn/components/ui/button'
 import { Card } from '@/commn/components/ui/card/Card'
-import { ControlledCheckbox } from '@/commn/components/ui/checkBox/ControlledCheckbox'
-import { Form } from '@/commn/components/ui/form/Form'
-import { ControlledTextField } from '@/commn/components/ui/input/ControlledTextField'
-import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
+import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
-import s from './SignIn.module.scss'
-
-const loginSchema = z.object({
+export const loginSchema = z.object({
   email: z.string().trim().email(),
   password: z.string().min(5),
   remember: z.boolean().optional(),
 })
 
-type FormType = z.infer<typeof loginSchema>
-type Props = {
-  description: string
-  title: string
-}
-export const SignIn = ({ description, title }: Props) => {
+export type LoginFormType = z.infer<typeof loginSchema>
+
+export const SignIn = () => {
   const {
     control,
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm<FormType>({
+  } = useForm<LoginFormType>({
     defaultValues: {
       email: '',
       password: '',
@@ -37,53 +28,20 @@ export const SignIn = ({ description, title }: Props) => {
     resolver: zodResolver(loginSchema),
   })
 
-  const onSubmit: SubmitHandler<FormType> = data => {
+  const onSubmit: SubmitHandler<LoginFormType> = data => {
     console.log(data)
     reset()
   }
 
   return (
     <Card>
-      <TextFormat style={{ textTransform: 'capitalize' }} variant={'h1'}>
-        {title}
-      </TextFormat>
-
-      <Form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-        <ControlledTextField
-          control={control}
-          errorMessage={errors.email?.message}
-          label={'email'}
-          name={'email'}
-        />
-
-        <ControlledTextField
-          control={control}
-          errorMessage={errors.password?.message}
-          label={'password'}
-          name={'password'}
-        />
-
-        <ControlledCheckbox
-          control={control}
-          label={'remember me'}
-          name={'remember'}
-          position={'left'}
-        />
-
-        <TextFormat className={s.link} variant={'link1'}>
-          Forgot password?
-        </TextFormat>
-
-        <Button type={'submit'} variant={'primary'}>
-          sign in
-        </Button>
-
-        <TextFormat className={s.description}>{description}</TextFormat>
-
-        <Button as={'a'} style={{ textTransform: 'capitalize' }} variant={'link'}>
-          sign Up
-        </Button>
-      </Form>
+      <FormAuth
+        control={control}
+        errorMessage={errors}
+        formItem={['email', 'password']}
+        onSubmit={handleSubmit(onSubmit)}
+        title={'sign in'}
+      />
     </Card>
   )
 }
