@@ -1,0 +1,37 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: capitalize;
+  }
+}
+
+.link {
+  display: flex;
+  justify-content: end;
+  margin: 1.75% 0 0;
+
+  > a {
+    padding: 0;
+    color: var(--color-light-100);
+  }
+}
+
+.submitBtn {
+  margin: 17.4% 0 0;
+}
+
+.description {
+  display: flex;
+  justify-content: center;
+
+  margin: 5.61% 0 1.97%;
+
+  color: var(--color-primary-500);
+  text-decoration: underline;
+}
