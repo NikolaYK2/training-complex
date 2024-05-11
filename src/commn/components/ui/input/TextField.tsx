@@ -5,13 +5,13 @@ import { useShowPasswordInput } from '@/commn/utils/showPasswordInput'
 
 import s from './TextField.module.scss'
 
-export type TypesInput = 'email' | 'password' | 'search' | 'text'
+// export type TypesInput = 'email' | 'password' | 'search' | 'text'
 
 export type TextFieldProps = {
   disabled?: boolean
   errorMessage?: string
   label?: string
-  name?: TypesInput
+  // name?: TypesInput
   reset?: () => any
 } & ComponentPropsWithoutRef<'input'>
 
