@@ -11,9 +11,9 @@ type MenuType = {
   name: string
 }
 export type ArrType = {
+  buttonName: string
   email?: string
   icon: 'avatar' | 'delete' | 'edit' | 'learn' | 'logOut' | 'profile'
-  name: string
 }
 type Props = {
   obj: MenuType
@@ -45,7 +45,7 @@ export const DropDownMenu: FC<Props> = ({ obj }) => {
                 <IconSvg name={el.icon} />
               </div>
               <div className={s.text}>
-                <span>{el.name}</span>
+                <span>{el.buttonName}</span>
                 <span>{el.email}</span>
               </div>
             </DropdownMenu.Item>

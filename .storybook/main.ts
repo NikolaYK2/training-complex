@@ -11,9 +11,8 @@ const config: StorybookConfig = {
     '@chromatic-com/storybook',
   ],
   framework: {
-    buttonName: '@storybook/react-vite',
     options: {},
-    name: '@storybook/react-vite'
+    name: '@storybook/react-vite',
   },
   docs: {
     autodocs: 'tag',

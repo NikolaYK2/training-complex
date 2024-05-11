@@ -14,9 +14,9 @@ export const DropDownMenuCard: Story = {
   args: {
     obj: {
       arr: [
-        { icon: 'learn', name: 'Learn' },
-        { icon: 'edit', name: 'Edit' },
-        { icon: 'delete', name: 'Delete' },
+        { buttonName: 'Learn', icon: 'learn' },
+        { buttonName: 'Edit', icon: 'edit' },
+        { buttonName: 'Delete', icon: 'delete' },
       ] as ArrType[],
       id: 1,
       name: 'icon',
@@ -28,9 +28,9 @@ export const DropDownMenuProfile: Story = {
   args: {
     obj: {
       arr: [
-        { email: 'Kev', icon: 'avatar', name: 'Nikolaj' },
-        { icon: 'profile', name: 'My Profile' },
-        { icon: 'logOut', name: 'Sing Out' },
+        { buttonName: 'Nikolaj', email: 'Kev', icon: 'avatar' },
+        { buttonName: 'My Profile', icon: 'profile' },
+        { buttonName: 'Sing Out', icon: 'logOut' },
       ] as ArrType[],
       id: 1,
       name: 'icon',

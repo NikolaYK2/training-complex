@@ -19,7 +19,7 @@ export const ControlledCheckbox = <TFieldValues extends FieldValues>({
     <TickBox
       {...{
         checked: value,
-        id: name,
+        label: name,
         onValueChange: onChange,
         ref,
         ...checkboxProps,
