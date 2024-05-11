@@ -1,13 +1,13 @@
 import type { StoryObj } from '@storybook/react'
 
-import { AuthForm } from '@/features/auth/AuthForm'
+import { SignIn } from '@/features/auth/login/SignIn'
 
 const meta = {
   argTypes: {
     description: { type: 'string' },
     title: { type: 'string' },
   },
-  component: AuthForm,
+  component: SignIn,
   tags: ['autodocs'],
   title: 'Components/Auth/SingIn',
 }

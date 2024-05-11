@@ -3,12 +3,13 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { Button } from '@/commn/components/ui/button'
 import { Card } from '@/commn/components/ui/card/Card'
 import { ControlledCheckbox } from '@/commn/components/ui/checkBox/ControlledCheckbox'
+import { Form } from '@/commn/components/ui/form/Form'
 import { ControlledTextField } from '@/commn/components/ui/input/ControlledTextField'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
-import s from './AuthForm.module.scss'
+import s from './SignIn.module.scss'
 
 const loginSchema = z.object({
   email: z.string().trim().email(),
@@ -21,7 +22,7 @@ type Props = {
   description: string
   title: string
 }
-export const AuthForm = ({ description, title }: Props) => {
+export const SignIn = ({ description, title }: Props) => {
   const {
     control,
     formState: { errors },
@@ -47,7 +48,7 @@ export const AuthForm = ({ description, title }: Props) => {
         {title}
       </TextFormat>
 
-      <form className={s.form} noValidate onSubmit={handleSubmit(onSubmit)}>
+      <Form className={s.form} onSubmit={handleSubmit(onSubmit)}>
         <ControlledTextField
           control={control}
           errorMessage={errors.email?.message}
@@ -69,7 +70,7 @@ export const AuthForm = ({ description, title }: Props) => {
           position={'left'}
         />
 
-        <TextFormat position={'right'} variant={'link1'}>
+        <TextFormat className={s.link} variant={'link1'}>
           Forgot password?
         </TextFormat>
 
@@ -77,12 +78,12 @@ export const AuthForm = ({ description, title }: Props) => {
           sign in
         </Button>
 
-        <TextFormat>{description}</TextFormat>
+        <TextFormat className={s.description}>{description}</TextFormat>
 
         <Button as={'a'} style={{ textTransform: 'capitalize' }} variant={'link'}>
           sign Up
         </Button>
-      </form>
+      </Form>
     </Card>
   )
 }
