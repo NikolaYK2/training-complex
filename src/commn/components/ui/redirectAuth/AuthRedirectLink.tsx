@@ -31,6 +31,10 @@ const getTitle = (title: TitleType): RoutesType => {
     case 'sign up': {
       return { buttonName: 'sign in', message: 'Already have an account?', route: 'sign-in' }
     }
+    case 'forgot your password?': {
+      return { buttonName: 'Try logging in', message: 'Already have an account?', route: 'sign-in' }
+    }
+
     default: {
       return {} as RoutesType
     }
