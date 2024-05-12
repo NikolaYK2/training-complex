@@ -11,6 +11,10 @@ import {
   forgotPasswordSchema,
 } from '@/features/auth/forgotPassword/ForgotPassword'
 import { LoginFormType, loginSchema } from '@/features/auth/login/SignIn'
+import {
+  PersonalInformationType,
+  personalInformationSchema,
+} from '@/features/auth/personalInformation/PersonalInformation'
 import { RegisterFormType, RegisterSchema } from '@/features/auth/registration/SignUp'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { StoryObj } from '@storybook/react'
@@ -175,4 +179,38 @@ const FormCheckEmail = () => {
 
 export const CheckEmail: Story = {
   render: () => <FormCheckEmail />,
+}
+//-----------------------------------------------------------------
+const FormPersonalInformation = () => {
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<PersonalInformationType>({
+    defaultValues: {
+      text: '',
+    },
+    resolver: zodResolver(personalInformationSchema),
+  })
+  const onSubmit: SubmitHandler<PersonalInformationType> = data => {
+    console.log(data)
+    reset()
+  }
+
+  return (
+    <Card>
+      <FormAuth
+        control={control}
+        errorMessage={errors}
+        formItem={['text']}
+        onSubmit={handleSubmit(onSubmit)}
+        title={'personal information'}
+      />
+    </Card>
+  )
+}
+
+export const PersonalInformation: Story = {
+  render: () => <FormPersonalInformation />,
 }
