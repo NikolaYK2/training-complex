@@ -4,10 +4,17 @@
   width: 100%;
 
   .title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
+    margin: 0 auto 14.77%;
     text-transform: capitalize;
+  }
+
+  .titleMod {
+    text-transform: lowercase;
+
+    &::first-letter {
+      text-transform: uppercase;
+    }
   }
 }
 
@@ -22,11 +29,25 @@
   }
 }
 
+.checkEmail {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 19px;
+}
+
 .submitBtn {
   margin: 17.4% 0 0;
 }
 
 .description {
+  color: var(--color-light-900);
+}
+
+.positionMod {
+  text-align: center;
+}
+
+.redirect {
   display: flex;
   justify-content: center;
 
