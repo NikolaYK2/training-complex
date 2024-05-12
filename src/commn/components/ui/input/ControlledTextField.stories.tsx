@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form'
 
 import { ControlledTextField } from '@/commn/components/ui/input/ControlledTextField'
-import { TypesInput } from '@/commn/components/ui/input/TextField'
 import { StoryObj } from '@storybook/react'
 
 const meta = {
@@ -13,6 +12,8 @@ const meta = {
 export default meta
 
 type Story = StoryObj
+type TypesInput = 'email' | 'password' | 'search' | 'text'
+
 type ControlledProps = {
   type: TypesInput
 }
