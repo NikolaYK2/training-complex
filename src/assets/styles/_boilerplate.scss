@@ -29,7 +29,7 @@ body {
   font-family: var(--font-family-primary), sans-serif;
   font-size: 100%;
   font-size: 14px;
-  line-height: var(--line-height-m);
+  line-height: 1;
   color: var(--color-light-100);
   text-size-adjust: 100%;
 
@@ -85,4 +85,8 @@ h6 {
   margin: 0;
   font-size: inherit;
   font-weight: 400;
+}
+
+.sb-show-main.sb-main-padded {
+  padding: 0;
 }
