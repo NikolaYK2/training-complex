@@ -11,7 +11,6 @@ export type TextFieldProps = {
   disabled?: boolean
   errorMessage?: string
   label?: string
-  // name?: TypesInput
   reset?: () => any
 } & ComponentPropsWithoutRef<'input'>
 
@@ -60,7 +59,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
 
   return (
     <div className={s.container}>
-      <div
+      <label
         className={`${s.input} ${typeInput === 'search' ? s.search : ''} ${inputStyle} ${
           focus && s.focusInput
         }`}
@@ -98,7 +97,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
             )}
           </>
         )}
-      </div>
+      </label>
       <div className={s.errorText}>{typeInput !== 'search' && errorMessage}</div>
     </div>
   )
