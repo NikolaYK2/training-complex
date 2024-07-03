@@ -6,7 +6,7 @@ import s from './Header.module.scss'
 export const Header = () => {
   return (
     <header className={s.header}>
-      <div className={`${s.container} containerApp`}>
+      <div className={s.container}>
         <div className={s.logo}>
           <IconSvg name={'logo'} />
         </div>

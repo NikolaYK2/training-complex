@@ -1,9 +1,14 @@
 .header {
+  position: fixed;
+  z-index: 10;
+  inset: 0;
+
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
-  min-height: 60px;
-  max-height: 100px;
+  width: 100%;
+  height: var(--header-height);
 
   background: var(--color-dark-700);
 }
@@ -14,8 +19,9 @@
   align-items: center;
   justify-content: space-between;
 
-  height: 36px;
-  padding: 5px min(8.149%, 136px);
+  width: 100%;
+  max-width: 1008px;
+  margin: 0 auto;
 
   .logo {
     display: flex;
