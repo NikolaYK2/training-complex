@@ -1,0 +1,29 @@
+.deck {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .search {
+    max-width: 299px;
+  }
+
+  .tab {
+    max-width: 229px;
+  }
+
+  .slider {
+    max-width: 251px;
+  }
+}
+
+.table {
+  display: flex;
+  width: 100%;
+}
