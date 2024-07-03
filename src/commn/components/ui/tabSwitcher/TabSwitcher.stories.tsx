@@ -15,7 +15,9 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Tab: Story = {
-  args: {},
+  args: {
+    tabInfo: [],
+  },
 }
 
 export const TabDisabled = () => {
@@ -36,13 +38,13 @@ export const TabDisabled = () => {
     <Tabs.Root className={s.container} defaultValue={'tab1'}>
       <Tabs.List>
         {arr.map(el => (
-          <Tabs.Trigger className={s.blockTab} disabled={el.dis} value={el.value}>
+          <Tabs.Trigger className={s.blockTab} disabled={el.dis} key={el.name} value={el.value}>
             {el.name}
           </Tabs.Trigger>
         ))}
       </Tabs.List>
       {arr.map(el => (
-        <Tabs.Content value={el.value}>
+        <Tabs.Content key={el.name} value={el.value}>
           <p className={'Text'}>{el.p}</p>
         </Tabs.Content>
       ))}
