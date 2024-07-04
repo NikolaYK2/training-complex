@@ -1,10 +1,10 @@
 import { Layout } from '@/commn/components/ui/layout/Layout'
-import { Decks } from '@/features/decks/Decks'
+import { Router } from '@/routes/Router'
 
 export function App() {
   return (
     <Layout>
-      <Decks />
+      <Router />
     </Layout>
   )
 }

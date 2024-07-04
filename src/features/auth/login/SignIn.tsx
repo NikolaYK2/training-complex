@@ -40,7 +40,7 @@ export const SignIn = () => {
         <FormAuth
           control={control}
           errorMessage={errors}
-          formItem={['email', 'password']}
+          formItem={['email', 'password', 'remember']}
           onSubmit={handleSubmit(onSubmit)}
           title={'sign in'}
         />
