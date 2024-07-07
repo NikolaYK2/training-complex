@@ -16,14 +16,6 @@ export const ControlledCheckbox = <TFieldValues extends FieldValues>({
   } = useController({ control, name })
 
   return (
-    <TickBox
-      {...{
-        checked: value,
-        label: name,
-        onValueChange: onChange,
-        ref,
-        ...checkboxProps,
-      }}
-    />
+    <TickBox {...{ checked: value, label: name, onValueChange: onChange, ref, ...checkboxProps }} />
   )
 }

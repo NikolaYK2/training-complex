@@ -31,9 +31,9 @@ export const ControlledPassword: Story = {
 }
 
 const Search = () => {
-  const { control, reset } = useForm({ defaultValues: { search: '' } })
+  const { control } = useForm({ defaultValues: { search: '' } })
 
-  return <ControlledTextField control={control} name={'search'} reset={reset} />
+  return <ControlledTextField control={control} name={'search'} />
 }
 
 export const ControlledSearch: Story = {
