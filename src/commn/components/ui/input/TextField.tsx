@@ -20,6 +20,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
     disabled,
     errorMessage,
     label,
+    onChange,
     onValueChange,
     type: typeInput,
     value,
