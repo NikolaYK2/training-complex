@@ -1,6 +1,6 @@
 import { CSSProperties, ComponentPropsWithoutRef } from 'react'
 
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 import s from './Page.module.scss'
 
