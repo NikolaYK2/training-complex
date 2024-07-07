@@ -96,7 +96,7 @@ export const FormAuth = <TFieldValues extends FieldValues>({
       {personalInformation && (
         <div className={s.blockPersonalInfo}>
           <div className={s.avatar}>
-            <img alt={'ava'} src={ava} />
+            <img alt={'ava'} src={String(ava)} />
             {!switchPersonalInfo && (
               <div className={s.iconName}>
                 <IconSvg name={'edit'} />
