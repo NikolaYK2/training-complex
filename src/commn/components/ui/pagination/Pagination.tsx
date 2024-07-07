@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react'
+import { useCallback } from 'react'
 
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { Select } from '@/commn/components/ui/select/Select'
@@ -11,17 +11,17 @@ type Props = {
   onPageChange: (pageNumber: number) => void // Функция обратного вызова при изменении страницы
   pageSize: number // Количество элементов на странице
   setPageSize: (pageNumber: number) => void // Функция обратного вызова при изменении страницы
-  siblingCount: number
+  siblingCount: number // Количество "соседних" страниц, отображаемых слева и справа от текущей страницы
   totalCount: number // Общее количество элементов
 }
-export const Pagination: FC<Props> = ({
+export const Pagination = ({
   currentPage,
   onPageChange,
-  pageSize,
+  pageSize = 1,
   setPageSize,
-  siblingCount,
+  siblingCount = 1,
   totalCount,
-}) => {
+}: Props) => {
   const paginationRange = usePagination({ currentPage, pageSize, siblingCount, totalCount })
 
   // Вычисляем количество страниц
@@ -48,6 +48,7 @@ export const Pagination: FC<Props> = ({
       <button
         className={`${s.nextPage} ${currentPage > 1 && s.activeArrow}`}
         onClick={previousPage}
+        type={'button'}
       >
         <IconSvg name={'pageTurn'} />
       </button>
@@ -77,6 +78,7 @@ export const Pagination: FC<Props> = ({
       <button
         className={`${s.previousPag} ${currentPage < pagesCount && s.activeArrow}`}
         onClick={nextPage}
+        type={'button'}
       >
         <IconSvg name={'pageTurn'} />
       </button>
