@@ -19,24 +19,26 @@ export const TableError: Story = {
     <Table
       headers={[
         { id: 1, title: 'name' },
-        { id: 2, sort: true, title: 'name' },
+        { id: 2, title: 'name' },
         { id: 3, title: 'name' },
-        { id: 3, title: 'name' },
+        { id: 4, title: 'name' },
       ]}
       paragraphs={[
-        [
-          { id: 1, img: img, title: 'row' },
-          { id: 2, title: 'row' },
-          {
-            element: [
-              <IconSvg name={'play'} />,
-              <IconSvg name={'edit'} />,
-              <IconSvg name={'delete'} />,
-            ],
-            id: 3,
-            title: '',
-          },
-        ],
+        {
+          cells: [
+            { img: img, value: 'row' },
+            { value: 'row' },
+            {
+              element: [
+                <IconSvg key={'1'} name={'play'} />,
+                <IconSvg key={'2'} name={'edit'} />,
+                <IconSvg key={'3'} name={'delete'} />,
+              ],
+              value: '',
+            },
+          ],
+          idCells: '1',
+        },
       ]}
     />
   ),
@@ -44,7 +46,7 @@ export const TableError: Story = {
 export const TableOne: Story = {
   args: {
     headers: [{ id: 1, title: 'name' }],
-    paragraphs: [[{ id: 1, img: img, title: 'row' }]],
+    paragraphs: [{ cells: [{ id: 1, img: img, title: 'row' }] }],
   },
 }
 
@@ -58,21 +60,23 @@ export const TableFull: Story = {
       { id: 5, title: 'name' },
     ],
     paragraphs: [
-      [
-        { id: 1, img: img, title: 'row' },
-        { id: 2, title: 'row' },
-        { id: 3, title: 'row' },
-        { element: [<Rating hoveredStarValue={5} ratingValue={3} stars={5} />], id: 4 },
-        {
-          element: [
-            <IconSvg name={'play'} />,
-            <IconSvg name={'edit'} />,
-            <IconSvg name={'delete'} />,
-          ],
-          id: 5,
-          title: '',
-        },
-      ],
+      {
+        cells: [
+          { img: img, value: 'row' },
+          { value: 'row' },
+          { value: 'row' },
+          { element: [<Rating hoveredStarValue={5} key={'1'} ratingValue={3} stars={5} />], id: 4 },
+          {
+            element: [
+              <IconSvg key={'1'} name={'play'} />,
+              <IconSvg key={'2'} name={'edit'} />,
+              <IconSvg key={'3'} name={'delete'} />,
+            ],
+            value: '',
+          },
+        ],
+        idCells: '1',
+      },
     ],
   },
 }
