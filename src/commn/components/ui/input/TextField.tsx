@@ -1,6 +1,7 @@
 import { ComponentPropsWithoutRef, forwardRef, useState } from 'react'
 
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
+import { useDebounce } from '@/commn/hooks/useDebounce'
 import { useShowPasswordInput } from '@/commn/utils/showPasswordInput'
 
 import s from './TextField.module.scss'
@@ -11,7 +12,7 @@ export type TextFieldProps = {
   disabled?: boolean
   errorMessage?: string
   label?: string
-  reset?: () => any
+  onValueChange?: (value: string) => void
 } & ComponentPropsWithoutRef<'input'>
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, ref) => {
@@ -19,14 +20,15 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
     disabled,
     errorMessage,
     label,
-    onChange,
-    reset,
+    onValueChange,
     type: typeInput,
     value,
     ...restProps
   } = props
   const { toggle, type } = useShowPasswordInput()
   const [focus, setFocus] = useState(false)
+
+  const { handleChange, reset, valueDebounce } = useDebounce(String(value), 500, onValueChange)
 
   let inputStyle = ''
 
@@ -51,12 +53,6 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
     setFocus(false)
   }
 
-  const resetHandler = () => {
-    if (reset) {
-      reset()
-    }
-  }
-
   return (
     <div className={s.container}>
       <label
@@ -68,11 +64,11 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
           autoComplete={'current-password'}
           disabled={disabled}
           onBlur={onFocusHandler}
-          onChange={onChange}
+          onChange={handleChange}
           onFocus={focusHandler}
           ref={ref}
           type={typeInput === 'password' ? type : typeInput}
-          value={value}
+          value={valueDebounce}
           {...restProps}
         />
         {typeInput !== 'search' && (
@@ -91,7 +87,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
               <IconSvg name={'search'} />
             </div>
             {value && (
-              <div className={s.icon} onClick={resetHandler}>
+              <div className={s.icon} onClick={reset}>
                 <IconSvg name={'clear'} />
               </div>
             )}
