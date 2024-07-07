@@ -1,16 +1,16 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 import { SignIn } from '@/features/auth/login/SignIn'
 import { Decks } from '@/features/decks/Decks'
 import { PrivateRoutes } from '@/routes/PrivateRoutes'
 
-const publicRoutes = [
+const publicRoutes: RouteObject[] = [
   {
     element: <SignIn />,
     path: '/login',
   },
 ]
-const privateRoutes = [
+const privateRoutes: RouteObject[] = [
   {
     element: <Decks />,
     path: '/',
