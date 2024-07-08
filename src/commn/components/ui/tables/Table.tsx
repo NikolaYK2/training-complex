@@ -1,4 +1,4 @@
-import { ReactElement, useRef, useState } from 'react'
+import { ReactElement, useRef } from 'react'
 
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
@@ -29,7 +29,7 @@ type TableProps = {
 export const Table = ({ headers, paragraphs }: TableProps) => {
   const textErrors = 'Количество заголовков и колонок в строках должно совпадать'
   const ref = useRef<HTMLDivElement | null>(null)
-  const [isActiveSort, setIsActiveSort] = useState(false)
+  const isActiveSort = false
 
   // Проверяем, что количество заголовков совпадает с количеством колонок в каждом параграфе
   const isLengthMismatch = paragraphs.some(paragraph => paragraph.cells.length !== headers.length)
