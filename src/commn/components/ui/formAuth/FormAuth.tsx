@@ -1,5 +1,6 @@
 import { FormEventHandler, useState } from 'react'
 import { Control, FieldErrors, FieldValues, Path } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 
 import ava from '@/assets/image/profile/avatar.png'
 import { Button } from '@/commn/components/ui/button'
@@ -150,8 +151,10 @@ export const FormAuth = <TFieldValues extends FieldValues>({
       )}
 
       <Button
+        as={formInfo[title].buttonName === 'Back to Sign In' ? Link : 'button'}
         className={`${s.submitBtn} ${personalInformation && s.submitBtnMarginMod}`}
         onClick={setChangeNameHandler}
+        to={formInfo[title].buttonName === 'Back to Sign In' ? '/login' : ''}
         type={'submit'}
         variant={personalInformation && !switchPersonalInfo ? 'secondary' : 'primary'}
       >
