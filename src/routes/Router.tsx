@@ -3,6 +3,7 @@ import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-d
 import { SignIn } from '@/features/auth/login/SignIn'
 import { Decks } from '@/features/decks/Decks'
 import { PrivateRoutes } from '@/routes/PrivateRoutes'
+import { ErrorRoute } from '@/routes/errorRoute/ErrorRoute'
 
 const publicRoutes: RouteObject[] = [
   {
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
   {
     children: privateRoutes,
     element: <PrivateRoutes />,
+    errorElement: <ErrorRoute />,
   },
 ])
 
