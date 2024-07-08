@@ -29,7 +29,12 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
   const { toggle, type } = useShowPasswordInput()
   const [focus, setFocus] = useState(false)
 
-  const { handleChange, reset, valueDebounce } = useDebounce(String(value), 500, onValueChange)
+  const { handleChange, reset, valueDebounce } = useDebounce(
+    String(value),
+    500,
+    onValueChange,
+    onChange
+  )
 
   let inputStyle = ''
 
