@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { Button } from '@/commn/components/ui/button'
+import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { TextField } from '@/commn/components/ui/input/TextField'
 import { Pagination } from '@/commn/components/ui/pagination/Pagination'
 import { SliderValue } from '@/commn/components/ui/slider/SliderValue'
@@ -78,7 +79,7 @@ export const Decks = () => {
   return (
     <Page>
       <div className={s.deck}>
-        <TextFormat variant={'h1'}>Decks</TextFormat>
+        <TextFormat variant={'h1'}>Decks list</TextFormat>
         <Button disabled={isLoadingCreatedDeck} onClick={() => createDeck({ name: '123' })}>
           {isLoadingCreatedDeck ? 'loading' : 'Add new deck'}
         </Button>
@@ -103,7 +104,10 @@ export const Decks = () => {
         <div className={s.slider}>
           <SliderValue />
         </div>
-        <Button variant={'secondary'}>Clear</Button>
+        <Button variant={'secondary'}>
+          <IconSvg name={'delete'} />
+          <TextFormat variant={'subtitle2'}>Clear Filter</TextFormat>
+        </Button>
       </div>
       <div className={s.table}>
         <Table headers={headers} paragraphs={paragraphs} />
