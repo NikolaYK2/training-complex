@@ -32,9 +32,4 @@ export const DecksService = flashcardsApi.injectEndpoints({
   }),
 })
 
-export const {
-  useCreateDeckMutation,
-  useGetDeckByIdQuery,
-  useGetDecksQuery,
-  useLazyGetDecksQuery,
-} = DecksService
+export const { useCreateDeckMutation, useGetDecksQuery } = DecksService
