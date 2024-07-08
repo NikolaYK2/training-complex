@@ -4,9 +4,13 @@
 
 .container {
   border-collapse: collapse;
+
   width: 100%;
+
   font-style: var(--font-size-14);
   text-transform: capitalize;
+
+  border: 1px solid var(--color-dark-500);
 }
 
 .header {

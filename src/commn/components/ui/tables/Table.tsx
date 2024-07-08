@@ -1,6 +1,7 @@
 import { ReactElement, useRef, useState } from 'react'
 
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
+import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 
 import s from './Table.module.scss'
 
@@ -46,7 +47,8 @@ export const Table = ({ headers, paragraphs }: TableProps) => {
           {headers.map(header => (
             <th className={s.header} key={header.id}>
               <div className={`${s.caption} ${s.isCaption}`}>
-                {header.title}
+                <TextFormat variant={'subtitle2'}>{header.title}</TextFormat>
+
                 {isActiveSort && (
                   <div className={s.sort} ref={ref}>
                     <IconSvg name={'arrow'} />
@@ -68,7 +70,9 @@ export const Table = ({ headers, paragraphs }: TableProps) => {
                       <img alt={''} src={cell.img} />
                     </div>
                   )}
-                  <div>{cell.value}</div>
+
+                  <TextFormat variant={'body2'}>{cell.value}</TextFormat>
+
                   <div className={s.elements}>
                     {cell.element?.map((el, k) => (
                       <div className={s.element} key={k}>
