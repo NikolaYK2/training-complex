@@ -29,6 +29,7 @@
 
   > a {
     padding: 0;
+    font-weight: 400;
     color: var(--color-light-100);
   }
 }
@@ -108,6 +109,7 @@
 
 .description {
   color: var(--color-light-900);
+  opacity: 0.5;
 }
 
 .positionMod {
@@ -116,10 +118,20 @@
 
 .redirect {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 
-  margin: 5.61% 0 1.97%;
+  margin: 5.61% auto 1.97%;
 
-  color: var(--color-primary-500);
-  text-decoration: underline;
+  line-height: var(--line-height-24);
+
+  > p {
+    color: var(--color-light-900);
+  }
+
+  > a {
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary-500);
+  }
 }

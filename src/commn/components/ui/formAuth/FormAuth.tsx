@@ -47,6 +47,7 @@ const formInfo: FormInfoType = {
 export type TitleType =
   | 'check email'
   | 'create new password'
+  | 'forgot password'
   | 'forgot your password?'
   | 'personal information'
   | 'sign in'
@@ -134,9 +135,7 @@ export const FormAuth = <TFieldValues extends FieldValues>({
           )
         )}
 
-      {title === 'sign in' && (
-        <AuthRedirectLink className={s.link} title={'forgot your password?'} />
-      )}
+      {title === 'sign in' && <AuthRedirectLink className={s.link} title={'forgot password'} />}
 
       {checkEmail && (
         <div className={s.checkEmail}>
@@ -164,7 +163,9 @@ export const FormAuth = <TFieldValues extends FieldValues>({
         {switchPersonalInfo ? 'Save Changes' : formInfo[title].buttonName}
       </Button>
 
-      {formInfo[title].redirect && <AuthRedirectLink className={s.redirect} title={title} />}
+      {formInfo[title].redirect && (
+        <AuthRedirectLink className={s.redirect} describe title={title} />
+      )}
     </form>
   )
 }
