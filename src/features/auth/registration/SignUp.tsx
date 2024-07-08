@@ -2,6 +2,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
+import { Page } from '@/features/pages/Page'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
@@ -38,14 +39,16 @@ export const SignUp = () => {
   }
 
   return (
-    <Card>
-      <FormAuth
-        control={control}
-        errorMessage={errors}
-        formItem={['email', 'password', 'passwordConfirm']}
-        onSubmit={handleSubmit(onSubmit)}
-        title={'sign up'}
-      />
-    </Card>
+    <Page marginTop={'var(--margin-top-page)'}>
+      <Card>
+        <FormAuth
+          control={control}
+          errorMessage={errors}
+          formItem={['email', 'password', 'passwordConfirm']}
+          onSubmit={handleSubmit(onSubmit)}
+          title={'sign up'}
+        />
+      </Card>
+    </Page>
   )
 }

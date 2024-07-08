@@ -35,7 +35,7 @@ export const SignIn = () => {
   }
 
   return (
-    <Page marginTop={'36px'}>
+    <Page marginTop={'var(--margin-top-page)'}>
       <Card>
         <FormAuth
           control={control}
