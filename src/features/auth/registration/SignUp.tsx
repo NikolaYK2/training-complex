@@ -1,7 +1,9 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
+import { Loading } from '@/commn/components/ui/loading/Loading'
 import { errorsResponse } from '@/commn/utils/errorsResponse'
 import { Page } from '@/features/pages/Page'
 import { useRegistrationAuthMutation } from '@/services/auth/authService'
@@ -45,19 +47,21 @@ export const SignUp = () => {
   })
   const [registration, { error, isError, isLoading: isLoadingRegistration }] =
     useRegistrationAuthMutation()
+  const navigate = useNavigate()
 
-  const onSubmit: SubmitHandler<RegisterFormType> = data => {
-    registration({
-      email: data.email,
-      html: emailConfirmationTemplate,
-      password: data.password,
-      sendConfirmationEmail: true,
-    })
-    reset()
-  }
-
-  if (isLoadingRegistration) {
-    return <div>Loading...</div>
+  const onSubmit: SubmitHandler<RegisterFormType> = async data => {
+    try {
+      await registration({
+        email: data.email,
+        html: emailConfirmationTemplate,
+        password: data.password,
+        sendConfirmationEmail: true,
+      }).unwrap()
+      navigate('/check-email')
+      reset()
+    } catch (e) {
+      console.error('failed to register: ', e)
+    }
   }
 
   if (isError) {
@@ -67,6 +71,7 @@ export const SignUp = () => {
   return (
     <Page marginTop={'var(--margin-top-page)'}>
       <Card>
+        {isLoadingRegistration && <Loading />}
         <FormAuth
           control={control}
           errorMessage={errors}
