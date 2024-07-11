@@ -57,7 +57,7 @@ export const SignUp = () => {
         password: data.password,
         sendConfirmationEmail: true,
       }).unwrap()
-      navigate('/check-email')
+      navigate('/check-email', { state: { email: data.email } })
       reset()
     } catch (e) {
       console.error('failed to register: ', e)
