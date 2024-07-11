@@ -5,7 +5,7 @@ const AUTH = 'v1/auth/'
 
 export const authService = flashcardsApi.injectEndpoints({
   endpoints: builder => ({
-    getVerifyEmail: builder.mutation<void, { token: string }>({
+    getVerifyEmail: builder.mutation<void, { code: string }>({
       query: token => ({
         body: token,
         method: 'POST',
