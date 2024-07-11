@@ -1,10 +1,11 @@
 import { CheckEmailIcon } from '@/assets/image/checkEmail/CheckEmailIcon'
 import { ClearIcon } from '@/assets/image/clear/ClearIcon'
+import { ErrorRouteIcon } from '@/assets/image/errorRote/ErrorRouteIcon'
 import { LogoIcon } from '@/assets/image/logo/LogoIcon'
 import ava from '@/assets/image/logo/ava.png'
 import { ShowPassIcon } from '@/assets/image/showPass/ShowPassIcon'
+import { SuccessfullyEmail } from '@/assets/image/successfullyEmail/successfullyEmail'
 import { TickIcon } from '@/assets/image/tick/TickIcon'
-import { ErrorRouteIcon } from '@/commn/components/ui/iconSvg/errorRote/ErrorRouteIcon'
 
 const icons = {
   arrow: (
@@ -126,6 +127,7 @@ const icons = {
     </svg>
   ),
   logo: <LogoIcon />,
+  okEmail: <SuccessfullyEmail />,
   pageTurn: (
     <svg
       fill={'none'}
