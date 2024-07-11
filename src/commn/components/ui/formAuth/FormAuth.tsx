@@ -81,9 +81,9 @@ export const FormAuth = <TFieldValues extends FieldValues>({
   response,
   title,
 }: Props<TFieldValues>) => {
-  const [switchPersonalInfo, setSwitchPersonalInfo] = useState(false)
-  const checkEmail = title === 'check email'
-  const personalInformation = title === 'personal information'
+  const [isEditingPersonalInfo, setIsEditingPersonalInfo] = useState(false)
+  const isCheckEmail = title === 'check email'
+  const isPersonalInformation = title === 'personal information'
 
   const setChangeNameHandler = () => {
     // Получаем текущее значение поля 'text'
@@ -91,15 +91,17 @@ export const FormAuth = <TFieldValues extends FieldValues>({
 
     // Проверяем, что значение поля 'text' не пустое
     if (!fieldValue?.error && fieldValue?.isDirty) {
-      setSwitchPersonalInfo(false)
+      setIsEditingPersonalInfo(false)
     }
   }
 
-  response ? (formInfo[title].description = response) : null
+  if (response) {
+    formInfo[title].description = response
+  }
 
   return (
     <form
-      className={`${s.form} ${className} ${personalInformation && s.positionFormMod}`}
+      className={`${s.form} ${className} ${isPersonalInformation && s.positionFormMod}`}
       noValidate
       onSubmit={onSubmit}
     >
@@ -107,18 +109,18 @@ export const FormAuth = <TFieldValues extends FieldValues>({
         {title}
       </TextFormat>
 
-      {personalInformation && (
+      {isPersonalInformation && (
         <div className={s.blockPersonalInfo}>
           <div className={s.avatar}>
             <img alt={'ava'} src={String(ava)} />
-            {!switchPersonalInfo && (
+            {!isEditingPersonalInfo && (
               <div className={s.iconName}>
                 <IconSvg name={'edit'} />
               </div>
             )}
           </div>
-          {!switchPersonalInfo && (
-            <div className={s.name} onDoubleClick={() => setSwitchPersonalInfo(true)}>
+          {!isEditingPersonalInfo && (
+            <div className={s.name} onDoubleClick={() => setIsEditingPersonalInfo(true)}>
               <TextFormat variant={'h2'}>Nik</TextFormat>
               <div className={s.iconName}>
                 <IconSvg name={'edit'} />
@@ -135,12 +137,12 @@ export const FormAuth = <TFieldValues extends FieldValues>({
           input === 'remember' ? (
             <ControlledCheckbox control={control} key={input} label={'remember me'} name={input} />
           ) : (
-            (input !== 'text' || (input === 'text' && switchPersonalInfo)) && (
+            (input !== 'text' || (input === 'text' && isEditingPersonalInfo)) && (
               <ControlledTextField
                 control={control}
                 errorMessage={errorMessage[input]?.message as string}
                 key={input}
-                label={personalInformation ? 'nik name' : input}
+                label={isPersonalInformation ? 'nik name' : input}
                 name={input}
                 type={input === 'passwordConfirm' ? 'password' : input}
               />
@@ -151,32 +153,35 @@ export const FormAuth = <TFieldValues extends FieldValues>({
       {title === 'sign in' && <AuthRedirectLink className={s.link} title={'forgot password'} />}
       {title === 'confirm email' && <IconSvg name={'okEmail'} />}
 
-      {checkEmail && (
+      {isCheckEmail && (
         <div className={s.checkEmail}>
           <IconSvg name={'checkEmail'} />
         </div>
       )}
 
-      {formInfo[title] && !switchPersonalInfo && (
-        <TextFormat className={`${s.description} ${checkEmail && s.positionMod}`} variant={'body2'}>
+      {formInfo[title] && !isEditingPersonalInfo && (
+        <TextFormat
+          className={`${s.description} ${isCheckEmail && s.positionMod}`}
+          variant={'body2'}
+        >
           {formInfo[title].description}
         </TextFormat>
       )}
 
       <Button
         as={formInfo[title].rote ? Link : 'button'}
-        className={`${s.submitBtn} ${personalInformation && s.submitBtnMarginMod}`}
+        className={`${s.submitBtn} ${isPersonalInformation && s.submitBtnMarginMod}`}
         onClick={setChangeNameHandler}
         to={formInfo[title].rote ? formInfo[title].rote : ''}
         type={'submit'}
-        variant={personalInformation && !switchPersonalInfo ? 'secondary' : 'primary'}
+        variant={isPersonalInformation && !isEditingPersonalInfo ? 'secondary' : 'primary'}
       >
-        {personalInformation && !switchPersonalInfo && (
+        {isPersonalInformation && !isEditingPersonalInfo && (
           <div className={s.logOut}>
             <IconSvg name={'logOut'} />
           </div>
         )}
-        {switchPersonalInfo ? 'Save Changes' : formInfo[title].buttonName}
+        {isEditingPersonalInfo ? 'Save Changes' : formInfo[title].buttonName}
       </Button>
 
       {formInfo[title].redirect && (
