@@ -16,6 +16,7 @@ type ItemType = {
   buttonName?: string
   description?: string
   redirect: boolean
+  rote?: string
 }
 type FormInfoType = {
   [key: string]: ItemType
@@ -25,6 +26,12 @@ const formInfo: FormInfoType = {
     buttonName: 'Back to Sign In',
     description: 'We’ve sent an Email with instructions to example@mail.com',
     redirect: false,
+    rote: '/login',
+  },
+  'confirm email': {
+    buttonName: 'Back to Sign In',
+    redirect: false,
+    rote: '/login',
   },
   'create new password': {
     buttonName: 'Create New Password',
@@ -47,6 +54,7 @@ const formInfo: FormInfoType = {
 
 export type TitleType =
   | 'check email'
+  | 'confirm email'
   | 'create new password'
   | 'forgot password'
   | 'forgot your password?'
@@ -60,6 +68,7 @@ type Props<TFieldValues extends FieldValues> = {
   errorMessage?: FieldErrors<TFieldValues>
   formItem?: (Path<TFieldValues> & string)[]
   onSubmit?: FormEventHandler<HTMLFormElement>
+  response?: string
   title: TitleType
 }
 
@@ -69,6 +78,7 @@ export const FormAuth = <TFieldValues extends FieldValues>({
   errorMessage,
   formItem,
   onSubmit,
+  response,
   title,
 }: Props<TFieldValues>) => {
   const [switchPersonalInfo, setSwitchPersonalInfo] = useState(false)
@@ -84,6 +94,8 @@ export const FormAuth = <TFieldValues extends FieldValues>({
       setSwitchPersonalInfo(false)
     }
   }
+
+  response ? (formInfo[title].description = response) : null
 
   return (
     <form
@@ -137,6 +149,7 @@ export const FormAuth = <TFieldValues extends FieldValues>({
         )}
 
       {title === 'sign in' && <AuthRedirectLink className={s.link} title={'forgot password'} />}
+      {title === 'confirm email' && <IconSvg name={'okEmail'} />}
 
       {checkEmail && (
         <div className={s.checkEmail}>
@@ -151,10 +164,10 @@ export const FormAuth = <TFieldValues extends FieldValues>({
       )}
 
       <Button
-        as={formInfo[title].buttonName === 'Back to Sign In' ? Link : 'button'}
+        as={formInfo[title].rote ? Link : 'button'}
         className={`${s.submitBtn} ${personalInformation && s.submitBtnMarginMod}`}
         onClick={setChangeNameHandler}
-        to={formInfo[title].buttonName === 'Back to Sign In' ? '/login' : ''}
+        to={formInfo[title].rote ? formInfo[title].rote : ''}
         type={'submit'}
         variant={personalInformation && !switchPersonalInfo ? 'secondary' : 'primary'}
       >
