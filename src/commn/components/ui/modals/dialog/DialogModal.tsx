@@ -14,7 +14,7 @@ export const DialogModal: FC<Props> = ({ children, textH2, textP }) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <button>Value</button>
+        <button type={'button'}>Value</button>
       </Dialog.Trigger>
 
       <Dialog.Portal>
@@ -24,7 +24,7 @@ export const DialogModal: FC<Props> = ({ children, textH2, textP }) => {
             {textH2}
             <Dialog.Close asChild>
               {textH2 && (
-                <button className={s.buttonClose}>
+                <button className={s.buttonClose} type={'button'}>
                   <IconSvg name={'close'} />
                 </button>
               )}
