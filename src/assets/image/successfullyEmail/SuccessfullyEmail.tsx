@@ -1,4 +1,4 @@
-import s from 'src/assets/image/successfullyEmail/SuccessfullyEmail.module.scss'
+import s from './SuccessfullyEmail.module.scss'
 
 export const SuccessfullyEmail = () => {
   return (
