@@ -28,7 +28,7 @@ const publicRoutes: RouteObject[] = [
   },
   {
     element: <ConfirmEmail />,
-    path: '/confirm-email',
+    path: '/confirm-email/:token',
   },
 ]
 const privateRoutes: RouteObject[] = [
