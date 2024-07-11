@@ -8,14 +8,18 @@ import { Page } from '@/features/pages/Page'
 import { useGetVerifyEmailMutation } from '@/services/auth/authService'
 
 export const ConfirmEmail = () => {
-  const { token } = useParams<{ token: string }>()
-  const [verifyToken, { data, error, isError, isLoading }] = useGetVerifyEmailMutation()
+  const { token: code } = useParams<{ token: string }>()
+  const [verifyToken, { error, isError, isLoading }] = useGetVerifyEmailMutation()
 
   useEffect(() => {
-    if (token) {
-      verifyToken({ token })
+    if (code) {
+      verifyToken({ code })
     }
-  }, [token, verifyToken])
+  }, [code, verifyToken])
+
+  if (isError) {
+    return <div>Error: {JSON.stringify(error)}</div>
+  }
 
   return (
     <Page marginTop={'var(--margin-top-page)'}>
