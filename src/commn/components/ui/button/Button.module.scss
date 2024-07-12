@@ -1,5 +1,3 @@
-@import '@/assets/styles/mixins';
-
 .button {
   all: unset;
 
@@ -31,6 +29,7 @@
 
 /* ------------------------------------------------------------------ */
 .primary {
+
   @include button-styles(
     var(--color-primary-500),
     var(--color-primary-sw),
