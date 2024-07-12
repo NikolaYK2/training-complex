@@ -25,10 +25,15 @@
 .link {
   display: flex;
   justify-content: end;
+  width: 100%;
   margin: 1.75% 0 0;
 
   > a {
+    display: flex;
+    justify-content: end;
+
     padding: 0;
+
     font-weight: 400;
     color: var(--color-light-100);
   }
