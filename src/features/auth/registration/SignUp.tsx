@@ -5,6 +5,7 @@ import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { errorsResponse } from '@/commn/utils/errorsResponse'
+import { emailConfirmationTemplate } from '@/features/auth/emailTemplate/emailTemplate'
 import { Page } from '@/features/pages/Page'
 import { useRegistrationAuthMutation } from '@/services/auth/authService'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -22,14 +23,6 @@ export const RegisterSchema = z
   })
 
 export type RegisterFormType = z.infer<typeof RegisterSchema>
-
-const emailConfirmationTemplate = `
-  <b>Hello, ##name##!</b><br/>
-  Please confirm your email by clicking on the link below:<br/>
-  <a href="http://localhost:5173/confirm-email/##token##">Confirm email</a>.
-  If it doesn't work, copy and paste the following link in your browser:<br/>
-  http://localhost:5173/confirm-email/##token##
-`
 
 export const SignUp = () => {
   const {
@@ -51,13 +44,16 @@ export const SignUp = () => {
 
   const onSubmit: SubmitHandler<RegisterFormType> = async data => {
     try {
-      await registration({
+      const registrationResult = await registration({
         email: data.email,
         html: emailConfirmationTemplate,
         password: data.password,
         sendConfirmationEmail: true,
       }).unwrap()
-      navigate('/check-email', { state: { email: data.email } })
+
+      navigate('/check-email', {
+        state: { email: registrationResult.email, userId: registrationResult.id },
+      })
       reset()
     } catch (e) {
       console.error('failed to register: ', e)
