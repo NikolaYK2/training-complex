@@ -1,4 +1,4 @@
-import { RegistrationArgs, RegistrationResponse } from '@/services/auth/AuthTypes'
+import { RegistrationArgs, RegistrationResponse, VerifyEmailArgc } from '@/services/auth/AuthTypes'
 import { flashcardsApi } from '@/services/flashcardsApi'
 
 const AUTH = 'v1/auth/'
@@ -19,7 +19,18 @@ export const authService = flashcardsApi.injectEndpoints({
         url: `${AUTH}sign-up`,
       }),
     }),
+    resendVerificationEmail: builder.mutation<void, VerifyEmailArgc>({
+      query: userId => ({
+        body: userId,
+        method: 'POST',
+        url: `${AUTH}resend-verification-email`,
+      }),
+    }),
   }),
 })
 
-export const { useGetVerifyEmailMutation, useRegistrationAuthMutation } = authService
+export const {
+  useGetVerifyEmailMutation,
+  useRegistrationAuthMutation,
+  useResendVerificationEmailMutation,
+} = authService

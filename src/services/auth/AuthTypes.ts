@@ -14,3 +14,4 @@ export type RegistrationArgs = {
   password: string
   sendConfirmationEmail: boolean
 }
+export type VerifyEmailArgc = Pick<RegistrationArgs, 'html'> & { userId: string }
