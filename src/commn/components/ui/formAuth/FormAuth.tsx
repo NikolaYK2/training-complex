@@ -23,10 +23,9 @@ type FormInfoType = {
 }
 const formInfo: FormInfoType = {
   'check email': {
-    buttonName: 'Back to Sign In',
+    buttonName: 'Send verification email again',
     description: 'We’ve sent an Email with instructions to example@mail.com',
-    redirect: false,
-    rote: '/login',
+    redirect: true,
   },
   'confirm email': {
     buttonName: 'Back to Sign In',
