@@ -20,6 +20,7 @@ export const AuthRedirectLink = ({ className, describe = false, title }: Props) 
       {describe && <TextFormat variant={'body2'}>{getTitle(title).message}</TextFormat>}
       <Button
         as={Link}
+        fullWidth
         style={{ textDecoration: describe ? 'underline' : '', textTransform: 'capitalize' }}
         to={getTitle(title).route}
         variant={'link'}
@@ -49,6 +50,12 @@ const getTitle = (title: TitleType): RoutesType => {
       return {
         buttonName: 'Forgot Password?',
         route: '/forgot-password',
+      }
+    }
+    case 'check email': {
+      return {
+        buttonName: 'back to sign in',
+        route: '/login',
       }
     }
 
