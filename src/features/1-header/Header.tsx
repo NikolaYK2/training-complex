@@ -1,5 +1,8 @@
+import { Link } from 'react-router-dom'
+
 import { Button } from '@/commn/components/ui/button'
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
+import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 
 import s from './Header.module.scss'
 
@@ -11,8 +14,8 @@ export const Header = () => {
           <IconSvg name={'logo'} />
         </div>
 
-        <Button as={'button'} variant={'primary'}>
-          Login
+        <Button as={Link} to={'/login'} variant={'secondary'}>
+          <TextFormat variant={'subtitle2'}>Sign In</TextFormat>
         </Button>
       </div>
     </header>
