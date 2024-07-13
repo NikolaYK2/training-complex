@@ -5,8 +5,9 @@ import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { errorsResponse } from '@/commn/utils/errorsResponse'
-import { emailConfirmationTemplate } from '@/features/auth/emailTemplate/emailTemplate'
+import { templatesEmail } from '@/features/auth/templates/templatesEmail'
 import { Page } from '@/features/pages/Page'
+import { CHECK_EMAIL } from '@/routes/Router'
 import { useRegistrationAuthMutation } from '@/services/auth/authService'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -46,12 +47,12 @@ export const SignUp = () => {
     try {
       const registrationResult = await registration({
         email: data.email,
-        html: emailConfirmationTemplate,
+        html: templatesEmail.checkEmail,
         password: data.password,
         sendConfirmationEmail: true,
       }).unwrap()
 
-      navigate('/check-email', {
+      navigate(CHECK_EMAIL, {
         state: { email: registrationResult.email, userId: registrationResult.id },
       })
       reset()

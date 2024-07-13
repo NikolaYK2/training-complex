@@ -27,7 +27,7 @@ export const ConfirmEmail = () => {
         <Loading />
       ) : (
         <Card>
-          <FormAuth response={'Email verified successfully'} title={'confirm email'} />
+          <FormAuth descriptionMessage={'Email verified successfully'} title={'confirm email'} />
         </Card>
       )}
     </Page>

@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
-import { emailConfirmationTemplate } from '@/features/auth/emailTemplate/emailTemplate'
+import { templatesEmail } from '@/features/auth/templates/templatesEmail'
 import { Page } from '@/features/pages/Page'
 import { useResendVerificationEmailMutation } from '@/services/auth/authService'
 
@@ -17,7 +17,7 @@ export const CheckEmail = () => {
 
   const { control, handleSubmit } = useForm<UserIdType>({
     defaultValues: {
-      html: emailConfirmationTemplate,
+      html: templatesEmail.checkEmail,
       userId: userId,
     },
   })
@@ -40,8 +40,10 @@ export const CheckEmail = () => {
         {isLoading && <Loading />}
         <FormAuth
           control={control}
+          descriptionMessage={`We’ve sent an Email with instructions to ${
+            email ? email : '\u{1F4E7}'
+          }`}
           onSubmit={handleSubmit(onSubmit)}
-          response={`We’ve sent an Email with instructions to ${email ? email : '\u{1F4E7}'}`}
           title={'check email'}
         />
       </Card>
