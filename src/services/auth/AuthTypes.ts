@@ -22,3 +22,5 @@ export type LoginArgs = Pick<RegistrationArgs, 'email' | 'password'> & {
   rememberMe: boolean
 }
 export type VerifyEmailArgc = Pick<RegistrationArgs, 'html'> & { userId: string }
+
+export type PasswordRecoveryEmailArgs = Pick<RegistrationArgs, 'email' | 'html'>

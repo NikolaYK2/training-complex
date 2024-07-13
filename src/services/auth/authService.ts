@@ -1,6 +1,7 @@
 import {
   LoginArgs,
   LoginResponse,
+  PasswordRecoveryEmailArgs,
   RegistrationArgs,
   RegistrationResponse,
   VerifyEmailArgc,
@@ -25,11 +26,18 @@ export const authService = flashcardsApi.injectEndpoints({
         url: `${AUTH}login`,
       }),
     }),
-    logout: builder.mutation<void, void>({
+    logout: builder.mutation<void, PasswordRecoveryEmailArgs>({
       query: args => ({
         body: args,
         method: 'POST',
         url: `${AUTH}logout`,
+      }),
+    }),
+    passwordRecovery: builder.mutation<void, PasswordRecoveryEmailArgs>({
+      query: args => ({
+        body: args,
+        method: 'POST',
+        url: `${AUTH}recover-password`,
       }),
     }),
     registrationAuth: builder.mutation<RegistrationResponse, RegistrationArgs>({
@@ -52,6 +60,7 @@ export const authService = flashcardsApi.injectEndpoints({
 export const {
   useGetVerifyEmailMutation,
   useLoginAuthMutation,
+  usePasswordRecoveryMutation,
   useRegistrationAuthMutation,
   useResendVerificationEmailMutation,
 } = authService
