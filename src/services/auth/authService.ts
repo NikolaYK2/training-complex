@@ -1,4 +1,10 @@
-import { RegistrationArgs, RegistrationResponse, VerifyEmailArgc } from '@/services/auth/AuthTypes'
+import {
+  LoginArgs,
+  LoginResponse,
+  RegistrationArgs,
+  RegistrationResponse,
+  VerifyEmailArgc,
+} from '@/services/auth/AuthTypes'
 import { flashcardsApi } from '@/services/flashcardsApi'
 
 const AUTH = 'v1/auth/'
@@ -10,6 +16,13 @@ export const authService = flashcardsApi.injectEndpoints({
         body: token,
         method: 'POST',
         url: `${AUTH}verify-email`,
+      }),
+    }),
+    loginAuth: builder.mutation<LoginResponse, LoginArgs>({
+      query: args => ({
+        body: args,
+        method: 'POST',
+        url: `${AUTH}login`,
       }),
     }),
     registrationAuth: builder.mutation<RegistrationResponse, RegistrationArgs>({
@@ -31,6 +44,7 @@ export const authService = flashcardsApi.injectEndpoints({
 
 export const {
   useGetVerifyEmailMutation,
+  useLoginAuthMutation,
   useRegistrationAuthMutation,
   useResendVerificationEmailMutation,
 } = authService
