@@ -5,6 +5,7 @@ import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { errorsResponse } from '@/commn/utils/errorsResponse'
+import { CheckEmailStateType } from '@/features/auth/checkEmail/CheckEmail'
 import { templatesEmail } from '@/features/auth/templates/templatesEmail'
 import { Page } from '@/features/pages/Page'
 import { CHECK_EMAIL } from '@/routes/Router'
@@ -41,6 +42,7 @@ export const SignUp = () => {
   })
   const [registration, { error, isError, isLoading: isLoadingRegistration }] =
     useRegistrationAuthMutation()
+
   const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<RegisterFormType> = async data => {
@@ -53,7 +55,10 @@ export const SignUp = () => {
       }).unwrap()
 
       navigate(CHECK_EMAIL, {
-        state: { email: registrationResult.email, userId: registrationResult.id },
+        state: {
+          email: registrationResult.email,
+          userId: registrationResult.id,
+        } as CheckEmailStateType,
       })
       reset()
     } catch (e) {

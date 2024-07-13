@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
+import { CheckEmailStateType } from '@/features/auth/checkEmail/CheckEmail'
 import { templatesEmail } from '@/features/auth/templates/templatesEmail'
 import { Page } from '@/features/pages/Page'
-import { CHECK_EMAIL } from '@/routes/Router'
+import { CHECK_EMAIL, LOGIN } from '@/routes/Router'
 import { usePasswordRecoveryMutation } from '@/services/auth/authService'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -34,7 +35,14 @@ export const ForgotPassword = () => {
   const onSubmit: SubmitHandler<ForgotPasswordType> = async data => {
     try {
       await forgotPassword({ email: data.email, html: templatesEmail.recoverPassword }).unwrap()
-      navigate(CHECK_EMAIL)
+      navigate(CHECK_EMAIL, {
+        state: {
+          buttonName: 'back to sign in',
+          email: data.email,
+          redirect: false,
+          route: LOGIN,
+        } as CheckEmailStateType,
+      })
       reset()
     } catch (e) {
       console.error('Forgot password: ', e)
