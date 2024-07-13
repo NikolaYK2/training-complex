@@ -2,6 +2,7 @@ import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-d
 
 import { CheckEmail } from '@/features/auth/checkEmail/CheckEmail'
 import { ConfirmEmail } from '@/features/auth/confirmEmail/ConfirmEmail'
+import { CreateNewPassword } from '@/features/auth/createPassword/CreateNewPassword'
 import { ForgotPassword } from '@/features/auth/forgotPassword/ForgotPassword'
 import { SignIn } from '@/features/auth/login/SignIn'
 import { SignUp } from '@/features/auth/registration/SignUp'
@@ -10,32 +11,44 @@ import { AppRoutes } from '@/routes/AppRoutes'
 import { PrivateRoutes } from '@/routes/PrivateRoutes'
 import { ErrorRoute } from '@/routes/errorRoute/ErrorRoute'
 
+export const HOME_ROUTE = '/'
+export const LOGIN = '/login'
+export const REGISTER = '/register'
+export const FORGOT_PASSWORD = '/forgot-password'
+export const CREATE_NEW_PASSWORD = '/create-password'
+export const CHECK_EMAIL = '/check-email'
+export const CONFIRM_EMAIL = '/confirm-email'
+
 const publicRoutes: RouteObject[] = [
   {
     element: <SignIn />,
-    path: '/login',
+    path: LOGIN,
   },
   {
     element: <SignUp />,
-    path: '/register',
+    path: REGISTER,
   },
   {
     element: <ForgotPassword />,
-    path: '/forgot-password',
+    path: FORGOT_PASSWORD,
+  },
+  {
+    element: <CreateNewPassword />,
+    path: `${CREATE_NEW_PASSWORD}/:token`,
   },
   {
     element: <CheckEmail />,
-    path: '/check-email',
+    path: CHECK_EMAIL,
   },
   {
     element: <ConfirmEmail />,
-    path: '/confirm-email/:token',
+    path: `${CONFIRM_EMAIL}/:token`,
   },
 ]
 const privateRoutes: RouteObject[] = [
   {
     element: <Decks />,
-    path: '/',
+    path: HOME_ROUTE,
   },
 ]
 
