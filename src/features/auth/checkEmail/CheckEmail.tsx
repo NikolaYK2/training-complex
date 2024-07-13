@@ -8,12 +8,21 @@ import { templatesEmail } from '@/features/auth/templates/templatesEmail'
 import { Page } from '@/features/pages/Page'
 import { useResendVerificationEmailMutation } from '@/services/auth/authService'
 
+export type CheckEmailStateType = {
+  buttonName?: string
+  email: string
+  redirect: boolean
+  route?: string
+  userId?: string
+}
+
 type UserIdType = { html: string; userId: string }
 export const CheckEmail = () => {
   const location = useLocation()
-  const { email, userId } = location.state || {}
+  const { buttonName, email, redirect, route, userId } =
+    (location.state as CheckEmailStateType) || {}
 
-  const [sendVerification, { error, isError, isLoading }] = useResendVerificationEmailMutation()
+  const [setVerify, { error, isError, isLoading }] = useResendVerificationEmailMutation()
 
   const { control, handleSubmit } = useForm<UserIdType>({
     defaultValues: {
@@ -24,7 +33,7 @@ export const CheckEmail = () => {
 
   const onSubmit: SubmitHandler<UserIdType> = async data => {
     try {
-      await sendVerification({ html: data.html, userId: data.userId })
+      await setVerify({ html: data.html, userId: data.userId })
     } catch (e) {
       console.error('Error send verify ', e)
     }
@@ -39,11 +48,14 @@ export const CheckEmail = () => {
       <Card>
         {isLoading && <Loading />}
         <FormAuth
+          buttonName={buttonName}
           control={control}
           descriptionMessage={`We’ve sent an Email with instructions to ${
             email ? email : '\u{1F4E7}'
           }`}
           onSubmit={handleSubmit(onSubmit)}
+          redirect={redirect}
+          route={route}
           title={'check email'}
         />
       </Card>

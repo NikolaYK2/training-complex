@@ -15,7 +15,7 @@ import s from './FormAuth.module.scss'
 type ItemType = {
   buttonName?: string
   description?: string
-  redirect: boolean
+  redirect?: boolean
   rote?: string
 }
 type FormInfoType = {
@@ -24,7 +24,6 @@ type FormInfoType = {
 const formInfo: FormInfoType = {
   'check email': {
     buttonName: 'Send verification email again',
-    description: 'We’ve sent an Email with instructions to example@mail.com',
     redirect: true,
   },
   'confirm email': {
@@ -62,22 +61,28 @@ export type TitleType =
   | 'sign up'
 
 type Props<TFieldValues extends FieldValues> = {
+  buttonName?: null | string
   className?: string
   control?: Control<TFieldValues>
+  descriptionMessage?: string
   errorMessage?: FieldErrors<TFieldValues>
   formItem?: (Path<TFieldValues> & string)[]
   onSubmit?: FormEventHandler<HTMLFormElement>
-  response?: string
+  redirect?: boolean | undefined
+  route?: string
   title: TitleType
 }
 
 export const FormAuth = <TFieldValues extends FieldValues>({
+  buttonName,
   className,
   control,
+  descriptionMessage,
   errorMessage,
   formItem,
   onSubmit,
-  response,
+  redirect,
+  route,
   title,
 }: Props<TFieldValues>) => {
   const [isEditingPersonalInfo, setIsEditingPersonalInfo] = useState(false)
@@ -94,8 +99,18 @@ export const FormAuth = <TFieldValues extends FieldValues>({
     }
   }
 
-  if (response) {
-    formInfo[title].description = response
+  if (descriptionMessage) {
+    formInfo[title].description = descriptionMessage
+  }
+  if (buttonName) {
+    formInfo[title].buttonName = buttonName
+  }
+  if (route) {
+    formInfo[title].rote = route
+  }
+
+  if (redirect !== undefined) {
+    formInfo[title].redirect = redirect
   }
 
   return (
