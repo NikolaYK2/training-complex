@@ -24,3 +24,7 @@ export type LoginArgs = Pick<RegistrationArgs, 'email' | 'password'> & {
 export type VerifyEmailArgc = Pick<RegistrationArgs, 'html'> & { userId: string }
 
 export type PasswordRecoveryEmailArgs = Pick<RegistrationArgs, 'email' | 'html'>
+
+export type PasswordResetArgs = Pick<RegistrationArgs, 'password'> & {
+  token: string
+}
