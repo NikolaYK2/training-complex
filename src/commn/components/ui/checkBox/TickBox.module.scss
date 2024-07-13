@@ -27,7 +27,6 @@ button {
 
   border-radius: 50%;
 
-
   &:hover {
     background: var(--color-dark-500);
   }
@@ -39,7 +38,6 @@ button {
   &:active {
     background: var(--color-dark-100);
   }
-
 }
 
 .rootBlock {
@@ -47,7 +45,6 @@ button {
   height: 14px;
   border: 2px solid var(--color-light-900);
   border-radius: 2px;
-
 
   .indicator {
     display: block;
@@ -70,10 +67,11 @@ button {
   &:disabled svg path {
     fill: var(--color-dark-100);
   }
-
 }
 
 .label {
+  cursor: pointer;
+
   font-size: var(--font-size-14);
   line-height: var(--line-height-24);
   color: var(--color-light-100);
