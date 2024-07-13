@@ -6,6 +6,7 @@ import { ForgotPassword } from '@/features/auth/forgotPassword/ForgotPassword'
 import { SignIn } from '@/features/auth/login/SignIn'
 import { SignUp } from '@/features/auth/registration/SignUp'
 import { Decks } from '@/features/decks/Decks'
+import { AppRoutes } from '@/routes/AppRoutes'
 import { PrivateRoutes } from '@/routes/PrivateRoutes'
 import { ErrorRoute } from '@/routes/errorRoute/ErrorRoute'
 
@@ -37,12 +38,18 @@ const privateRoutes: RouteObject[] = [
     path: '/',
   },
 ]
-const router = createBrowserRouter([
-  ...publicRoutes,
+
+export const router = createBrowserRouter([
   {
-    children: privateRoutes,
-    element: <PrivateRoutes />,
-    errorElement: <ErrorRoute />,
+    children: [
+      ...publicRoutes,
+      {
+        children: privateRoutes,
+        element: <PrivateRoutes />,
+        errorElement: <ErrorRoute />,
+      },
+    ],
+    element: <AppRoutes />,
   },
 ])
 
