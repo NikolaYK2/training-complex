@@ -25,6 +25,13 @@ export const authService = flashcardsApi.injectEndpoints({
         url: `${AUTH}login`,
       }),
     }),
+    logout: builder.mutation<void, void>({
+      query: args => ({
+        body: args,
+        method: 'POST',
+        url: `${AUTH}logout`,
+      }),
+    }),
     registrationAuth: builder.mutation<RegistrationResponse, RegistrationArgs>({
       query: args => ({
         body: args,
