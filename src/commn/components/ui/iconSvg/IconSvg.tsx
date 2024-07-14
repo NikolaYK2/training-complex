@@ -1,8 +1,8 @@
+import { AvatarDefault } from '@/assets/image/avaDefault/AvatarDefault'
 import { CheckEmailIcon } from '@/assets/image/checkEmail/CheckEmailIcon'
 import { ClearIcon } from '@/assets/image/clear/ClearIcon'
 import { ErrorRouteIcon } from '@/assets/image/errorRote/ErrorRouteIcon'
 import { LogoIcon } from '@/assets/image/logo/LogoIcon'
-import ava from '@/assets/image/logo/ava.png'
 import { ShowPassIcon } from '@/assets/image/showPass/ShowPassIcon'
 import { SuccessfullyEmail } from '@/assets/image/successfullyEmail/SuccessfullyEmail'
 import { TickIcon } from '@/assets/image/tick/TickIcon'
@@ -24,7 +24,7 @@ const icons = {
       />
     </svg>
   ),
-  avatar: <img alt={''} src={ava} />,
+  avatar: <AvatarDefault />,
   checkEmail: <CheckEmailIcon />,
   clear: <ClearIcon />,
   close: (
