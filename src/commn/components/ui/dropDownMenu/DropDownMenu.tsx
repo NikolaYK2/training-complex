@@ -1,50 +1,55 @@
-import { FC } from 'react'
-
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 
 import s from './DropDownMenu.module.scss'
 
-type MenuType = {
-  arr: ArrType[]
-  id: number
-  name: string
-}
-export type ArrType = {
+export type MenuItem = {
   buttonName: string
+  className?: string
   email?: string
   icon: 'avatar' | 'delete' | 'edit' | 'learn' | 'logOut' | 'profile'
 }
-type Props = {
-  obj: MenuType
+type MenuType = {
+  content: MenuItem[]
+  trigger: string
 }
-// const card = {
-//   id: 1,
-//   name: 'icon',
-//   arr: [
-//     {icon: 'learn', name: 'Learn'},
-//     {icon: 'edit', name: 'Edit'},
-//     {icon: 'delete', name: 'Delete'},
-//   ] as ArrType[]
-// }
-
-export const DropDownMenu: FC<Props> = ({ obj }) => {
+type Props = {
+  menuConfig: MenuType
+}
+/**
+ * Example of use:
+ *
+ * const menuConfig: MenuType = {
+ *   trigger: 'icon', - for open menu
+ *   content: [ - content menu
+ *     { icon: 'learn', buttonName: 'Learn' },
+ *     { icon: 'edit', buttonName: 'Edit' },
+ *     { icon: 'delete', buttonName: 'Delete' },
+ *   ]
+ * };
+ */
+export const DropDownMenu = ({ menuConfig }: Props) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button aria-label={'Customise options'} className={'IconButton'}>
-          {obj.name}
+        <button aria-label={'Customise options'} className={'IconButton'} type={'submit'}>
+          {menuConfig.trigger}
         </button>
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content className={s.content} sideOffset={5}>
-          {obj.arr.map(el => (
-            <DropdownMenu.Item className={s.item} key={el.icon}>
-              <div className={el.email ? s.avatar : s.iconSlot}>
+          {menuConfig.content.map(el => (
+            <DropdownMenu.Item
+              className={`${s.item} ${!el.email ? s.isActive : ''} ${
+                el.className ? el.className : ''
+              }`}
+              key={el.icon}
+            >
+              <div className={`${el.email ? s.avatar : s.iconSlot}`}>
                 <IconSvg name={el.icon} />
               </div>
-              <div className={s.text}>
+              <div className={`${s.text}`}>
                 <span>{el.buttonName}</span>
                 <span>{el.email}</span>
               </div>
@@ -56,43 +61,3 @@ export const DropDownMenu: FC<Props> = ({ obj }) => {
     </DropdownMenu.Root>
   )
 }
-// export const DropDownMenu: FC<Props> = ({obj}) => {
-//
-//   return (
-//     <DropdownMenu.Root>
-//       <DropdownMenu.Trigger asChild>
-//         <button className="IconButton" aria-label="Customise options">
-//           {obj.name}
-//         </button>
-//       </DropdownMenu.Trigger>
-//
-//       <DropdownMenu.Portal>
-//         <DropdownMenu.Content className={s.content} sideOffset={5}>
-//           <DropdownMenu.Item className={s.item}>
-//             {obj.email ?
-//               <div className={s.avatar}>
-//                 <img src={ava} alt=""/>
-//               </div> :
-//               <div className={s.iconSlot}>
-//                 <IconSvg name={'learn'}/>
-//               </div>}
-//             <div className={s.text}>
-//               {(obj.nameProfile && obj.email) ? <><span>{obj.nameProfile}</span><span>{obj.email}</span> </> : obj.learn}
-//             </div>
-//           </DropdownMenu.Item>
-//           <DropdownMenu.Item className={s.item}>
-//             <div className={s.iconSlot}>
-//               <IconSvg name={obj.profile ? 'profile' : 'edit'}/>
-//             </div>
-//             {obj.profile || obj.edit}
-//           </DropdownMenu.Item>
-//           <DropdownMenu.Item className={s.item}>
-//             <div className={s.iconSlot}><IconSvg name={obj.logOut ? 'logOut' : 'delete'}/></div>
-//             {obj.logOut || obj.delete}
-//           </DropdownMenu.Item>
-//           <DropdownMenu.Arrow className={s.menuArrow}/>
-//         </DropdownMenu.Content>
-//       </DropdownMenu.Portal>
-//     </DropdownMenu.Root>
-//   );
-// };
