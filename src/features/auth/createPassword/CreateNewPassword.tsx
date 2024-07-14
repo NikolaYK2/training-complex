@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
+import { Page } from '@/features/pages/Page'
 import { LOGIN } from '@/routes/Router'
 import { usePasswordResetMutation } from '@/services/auth/authService'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -50,15 +51,17 @@ export const CreateNewPassword = () => {
   }
 
   return (
-    <Card>
-      {isLoading && <Loading />}
-      <FormAuth
-        control={control}
-        errorMessage={errors}
-        formItem={['password']}
-        onSubmit={handleSubmit(onSubmit)}
-        title={'create new password'}
-      />
-    </Card>
+    <Page marginTop={'var(--margin-top-page)'}>
+      <Card>
+        {isLoading && <Loading />}
+        <FormAuth
+          control={control}
+          errorMessage={errors}
+          formItem={['password']}
+          onSubmit={handleSubmit(onSubmit)}
+          title={'create new password'}
+        />
+      </Card>
+    </Page>
   )
 }
