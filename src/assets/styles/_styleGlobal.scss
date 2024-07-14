@@ -9,4 +9,79 @@
     height: 100%;
     margin: 0 auto;
   }
+
+  .iconLogOut {
+    &:hover div svg path:last-child {
+      animation: active-logout 0.8s forwards 0s;
+    }
+
+    &:not(:hover) div svg path:last-child {
+      animation: inactive-logout 0.4s forwards;
+    }
+  }
+
+  .iconProfile {
+    &:hover div svg path:first-child {
+      animation: active-profile 1s forwards 0s;
+    }
+
+    &:not(:hover) div svg path:first-child {
+      animation: inactive-profile 0.4s forwards;
+    }
+  }
+}
+
+@keyframes active-logout {
+  0% {
+    transform: translateX(2px);
+  }
+
+  50% {
+    transform: translateX(-4px);
+    fill: var(--color-light-100);
+  }
+  100% {
+    fill: var(--color-primary-500);
+  }
+}
+
+@keyframes inactive-logout {
+  0% {
+    transform: translateX(-4px);
+  }
+
+  50% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes active-profile {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0px);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-3px);
+    fill: var(--color-light-100);
+  }
+  100% {
+    transform: translateY(0px);
+    fill: var(--color-primary-500);
+  }
+}
+
+@keyframes inactive-profile {
+  0% {
+    transform: translateY(-4px);
+  }
+
+  50% {
+    transform: translateY(2px);
+  }
 }
