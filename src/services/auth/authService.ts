@@ -4,7 +4,7 @@ import {
   PasswordRecoveryEmailArgs,
   PasswordResetArgs,
   RegistrationArgs,
-  RegistrationResponse,
+  ResponseType,
   VerifyEmailArgc,
 } from '@/services/auth/AuthTypes'
 import { flashcardsApi } from '@/services/flashcardsApi'
@@ -13,6 +13,11 @@ const AUTH = 'v1/auth/'
 
 export const authService = flashcardsApi.injectEndpoints({
   endpoints: builder => ({
+    getCurrentUserData: builder.query<ResponseType, void>({
+      query: () => ({
+        url: `${AUTH}me`,
+      }),
+    }),
     getVerifyEmail: builder.mutation<void, { code: string }>({
       query: token => ({
         body: token,
@@ -27,7 +32,7 @@ export const authService = flashcardsApi.injectEndpoints({
         url: `${AUTH}login`,
       }),
     }),
-    logout: builder.mutation<void, PasswordRecoveryEmailArgs>({
+    logout: builder.mutation<void, void>({
       query: args => ({
         body: args,
         method: 'POST',
@@ -48,7 +53,7 @@ export const authService = flashcardsApi.injectEndpoints({
         url: `${AUTH}reset-password/${token}`,
       }),
     }),
-    registrationAuth: builder.mutation<RegistrationResponse, RegistrationArgs>({
+    registrationAuth: builder.mutation<ResponseType, RegistrationArgs>({
       query: args => ({
         body: args,
         method: 'POST',
@@ -62,12 +67,21 @@ export const authService = flashcardsApi.injectEndpoints({
         url: `${AUTH}resend-verification-email`,
       }),
     }),
+    updateUserData: builder.query<ResponseType, FormData>({
+      query: formData => ({
+        body: formData,
+        method: 'PATCH',
+        url: `${AUTH}me`,
+      }),
+    }),
   }),
 })
 
 export const {
+  useGetCurrentUserDataQuery,
   useGetVerifyEmailMutation,
   useLoginAuthMutation,
+  useLogoutMutation,
   usePasswordRecoveryMutation,
   usePasswordResetMutation,
   useRegistrationAuthMutation,

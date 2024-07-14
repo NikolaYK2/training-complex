@@ -1,4 +1,4 @@
-export type RegistrationResponse = {
+export type ResponseType = {
   avatar: string
   created: string
   email: string
