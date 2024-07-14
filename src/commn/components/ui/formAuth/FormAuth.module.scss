@@ -6,6 +6,7 @@
   .title {
     display: block;
     margin: 0 auto 14.77%;
+    text-align: center;
     text-transform: capitalize;
   }
 
@@ -49,19 +50,30 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: -9px 0 0;
 
   .avatar {
-    width: 100%;
-    max-width: 96px;
+    cursor: pointer;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    width: 96px;
+    height: 96px;
     margin: 0 0 6px;
 
     > img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      border-radius: 50%;
     }
 
-    > div.iconName {
+    > div.editAvatar {
+      position: absolute;
+      right: 0;
       bottom: 0;
       transform: translateX(4px);
 
@@ -74,23 +86,19 @@
     }
   }
 
-  .name,
-  .avatar {
+  .name {
     cursor: pointer;
-
-    position: relative;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     width: 100%;
+    margin: 0 -33px 0 0;
 
-    .iconName {
-      position: absolute;
-      right: 0;
-
+    .iconEditName {
       width: 16px;
+      min-width: 16px;
       height: 16px;
       margin: 0 0 0 9px;
     }

@@ -1,8 +1,7 @@
-import { FormEventHandler, useState } from 'react'
+import { FormEventHandler, useEffect, useState } from 'react'
 import { Control, FieldErrors, FieldValues, Path } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
-import ava from '@/assets/image/profile/avatar.png'
 import { Button } from '@/commn/components/ui/button'
 import { ControlledCheckbox } from '@/commn/components/ui/checkBox/ControlledCheckbox'
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
@@ -13,15 +12,17 @@ import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import s from './FormAuth.module.scss'
 
 type ItemType = {
+  avatar?: string
   buttonName?: string
   description?: string
+  nikName?: string
   redirect?: boolean
   rote?: string
 }
 type FormInfoType = {
   [key: string]: ItemType
 }
-const formInfo: FormInfoType = {
+const initialFormInfo: FormInfoType = {
   'check email': {
     buttonName: 'Send verification email again',
     redirect: true,
@@ -43,7 +44,6 @@ const formInfo: FormInfoType = {
   },
   'personal information': {
     buttonName: 'Logout',
-    description: 'example@mail.com',
     redirect: false,
   },
   'sign in': { buttonName: 'sign in', redirect: true },
@@ -61,12 +61,14 @@ export type TitleType =
   | 'sign up'
 
 type Props<TFieldValues extends FieldValues> = {
+  avatar?: string
   buttonName?: null | string
   className?: string
   control?: Control<TFieldValues>
   descriptionMessage?: string
   errorMessage?: FieldErrors<TFieldValues>
   formItem?: (Path<TFieldValues> & string)[]
+  nikName?: string
   onSubmit?: FormEventHandler<HTMLFormElement>
   redirect?: boolean | undefined
   route?: string
@@ -74,12 +76,14 @@ type Props<TFieldValues extends FieldValues> = {
 }
 
 export const FormAuth = <TFieldValues extends FieldValues>({
+  avatar,
   buttonName,
-  className,
+  className = '',
   control,
   descriptionMessage,
   errorMessage,
-  formItem,
+  formItem = [],
+  nikName = '',
   onSubmit,
   redirect,
   route,
@@ -99,19 +103,38 @@ export const FormAuth = <TFieldValues extends FieldValues>({
     }
   }
 
-  if (descriptionMessage) {
-    formInfo[title].description = descriptionMessage
-  }
-  if (buttonName) {
-    formInfo[title].buttonName = buttonName
-  }
-  if (route) {
-    formInfo[title].rote = route
-  }
+  const [formInfo, setFormInfo] = useState<FormInfoType>(initialFormInfo)
 
-  if (redirect !== undefined) {
-    formInfo[title].redirect = redirect
-  }
+  // Обновление formInfo на основе входных параметров
+  useEffect(() => {
+    setFormInfo(prevFormInfo => ({
+      ...prevFormInfo,
+      [title]: {
+        ...prevFormInfo[title],
+        buttonName: buttonName || prevFormInfo[title].buttonName,
+        description: descriptionMessage || prevFormInfo[title].description,
+        nikName: nikName || prevFormInfo[title].nikName,
+        redirect: redirect !== undefined ? redirect : prevFormInfo[title].redirect,
+        rote: route || prevFormInfo[title].rote,
+      },
+    }))
+  }, [title, buttonName, descriptionMessage, route, redirect, nikName])
+  // if (descriptionMessage) {
+  //   formInfo[title].description = descriptionMessage
+  // }
+  // if (buttonName) {
+  //   formInfo[title].buttonName = buttonName
+  // }
+  // if (route) {
+  //   formInfo[title].rote = route
+  // }
+  //
+  // if (redirect !== undefined) {
+  //   formInfo[title].redirect = redirect
+  // }
+  // if (nikName) {
+  //   formInfo[title].nikName = nikName
+  // }
 
   return (
     <form
@@ -126,17 +149,17 @@ export const FormAuth = <TFieldValues extends FieldValues>({
       {isPersonalInformation && (
         <div className={s.blockPersonalInfo}>
           <div className={s.avatar}>
-            <img alt={'ava'} src={String(ava)} />
+            {avatar ? <img alt={'ava'} src={avatar} /> : <IconSvg name={'avatar'} />}
             {!isEditingPersonalInfo && (
-              <div className={s.iconName}>
+              <div className={s.editAvatar}>
                 <IconSvg name={'edit'} />
               </div>
             )}
           </div>
           {!isEditingPersonalInfo && (
             <div className={s.name} onDoubleClick={() => setIsEditingPersonalInfo(true)}>
-              <TextFormat variant={'h2'}>Nik</TextFormat>
-              <div className={s.iconName}>
+              <TextFormat variant={'h2'}>{nikName ? nikName : 'Ivan'}</TextFormat>
+              <div className={s.iconEditName}>
                 <IconSvg name={'edit'} />
               </div>
             </div>
