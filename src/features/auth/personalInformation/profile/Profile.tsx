@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { KeyboardEvent, useState } from 'react'
 
+import { AvatarDefault } from '@/assets/image/avaDefault/AvatarDefault'
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 
@@ -18,14 +19,23 @@ export const Profile = ({
   setIsEditingPersonalInfo,
 }: Props) => {
   const [isActiveAvatar, setIsActiveAvatar] = useState(false)
+  const handlerOnKeyDown = (event: KeyboardEvent<HTMLImageElement>) => {
+    if (event.key === 'Escape') {
+      setIsActiveAvatar(false)
+    }
+  }
 
   return (
     <div className={s.blockPersonalInfo}>
-      <div
-        className={`${s.avatar} ${isActiveAvatar && s.fullScreenAvatar}`}
-        onClick={() => setIsActiveAvatar(!isActiveAvatar)}
-      >
-        {avatar ? <img alt={'ava'} src={avatar} /> : <IconSvg name={'avatar'} />}
+      <div className={`${s.avatarBlock}`}>
+        <div
+          className={`${s.avatar} ${isActiveAvatar ? s.fullScreenAvatar : ''}`}
+          onClick={() => setIsActiveAvatar(!isActiveAvatar)}
+          onKeyDown={handlerOnKeyDown}
+          tabIndex={0}
+        >
+          {!avatar ? <img alt={'ava'} src={avatar} /> : <AvatarDefault />}
+        </div>
         {!isEditingPersonalInfo && (
           <div className={s.editAvatar}>
             <IconSvg name={'edit'} />
