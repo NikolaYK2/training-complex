@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { Card } from '@/commn/components/ui/card/Card'
@@ -15,22 +16,30 @@ export const personalInformationSchema = z.object({
 export type PersonalInformationType = z.infer<typeof personalInformationSchema>
 
 export const PersonalInformation = () => {
+  const { data, isLoading } = useGetCurrentUserDataQuery()
+
   const {
     control,
     formState: { errors },
     handleSubmit,
     reset,
+    setValue,
   } = useForm<PersonalInformationType>({
     defaultValues: {
-      text: '',
+      text: data?.name,
     },
     resolver: zodResolver(personalInformationSchema),
   })
-  const { data, isLoading } = useGetCurrentUserDataQuery()
 
   const onSubmit: SubmitHandler<PersonalInformationType> = data => {
     reset()
   }
+
+  useEffect(() => {
+    if (data?.name) {
+      setValue('text', data.name)
+    }
+  }, [data, setValue])
 
   return (
     <Page marginTop={'var(--margin-top-page)'}>
