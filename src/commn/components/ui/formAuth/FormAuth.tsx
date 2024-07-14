@@ -8,6 +8,7 @@ import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { ControlledTextField } from '@/commn/components/ui/input/ControlledTextField'
 import { AuthRedirectLink } from '@/commn/components/ui/redirectAuth/AuthRedirectLink'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
+import { Profile } from '@/features/auth/personalInformation/profile/Profile'
 
 import s from './FormAuth.module.scss'
 
@@ -119,6 +120,7 @@ export const FormAuth = <TFieldValues extends FieldValues>({
       },
     }))
   }, [title, buttonName, descriptionMessage, route, redirect, nikName])
+
   // if (descriptionMessage) {
   //   formInfo[title].description = descriptionMessage
   // }
@@ -135,7 +137,6 @@ export const FormAuth = <TFieldValues extends FieldValues>({
   // if (nikName) {
   //   formInfo[title].nikName = nikName
   // }
-
   return (
     <form
       className={`${s.form} ${className} ${isPersonalInformation && s.positionFormMod}`}
@@ -147,24 +148,12 @@ export const FormAuth = <TFieldValues extends FieldValues>({
       </TextFormat>
 
       {isPersonalInformation && (
-        <div className={s.blockPersonalInfo}>
-          <div className={s.avatar}>
-            {avatar ? <img alt={'ava'} src={avatar} /> : <IconSvg name={'avatar'} />}
-            {!isEditingPersonalInfo && (
-              <div className={s.editAvatar}>
-                <IconSvg name={'edit'} />
-              </div>
-            )}
-          </div>
-          {!isEditingPersonalInfo && (
-            <div className={s.name} onDoubleClick={() => setIsEditingPersonalInfo(true)}>
-              <TextFormat variant={'h2'}>{nikName ? nikName : 'Ivan'}</TextFormat>
-              <div className={s.iconEditName}>
-                <IconSvg name={'edit'} />
-              </div>
-            </div>
-          )}
-        </div>
+        <Profile
+          avatar={avatar ?? ''}
+          isEditingPersonalInfo={isEditingPersonalInfo}
+          nikName={nikName}
+          setIsEditingPersonalInfo={setIsEditingPersonalInfo}
+        />
       )}
 
       {formItem &&

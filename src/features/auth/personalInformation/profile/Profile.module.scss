@@ -1,0 +1,99 @@
+.blockPersonalInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: -9px 0 0;
+
+  .avatar {
+    cursor: pointer;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    width: 96px;
+    height: 96px;
+    margin: 0 0 6px;
+
+    > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    > div.editAvatar {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      transform: translateX(4px);
+
+      width: 24px;
+      height: 24px;
+      padding: 4px;
+
+      background: var(--color-dark-300);
+      border-radius: 4px;
+    }
+  }
+
+  .fullScreenAvatar {
+    position: relative;
+
+    > img {
+      position: absolute;
+      z-index: 10;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: contain;
+      background: var(--color-dark-transparent);
+      border-radius: 0;
+
+      transition:
+        border-radius 1s ease,
+        background 1s ease;
+      animation: full-screen-avatar 1s forwards;
+    }
+  }
+
+  .name {
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    margin: 0 -33px 0 0;
+
+    .iconEditName {
+      width: 16px;
+      min-width: 16px;
+      height: 16px;
+      margin: 0 0 0 9px;
+    }
+  }
+}
+
+@keyframes full-screen-avatar {
+  0% {
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    transform: translate(110%, 100%);
+
+    width: 10%;
+    height: 10%;
+  }
+
+  100% {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+}

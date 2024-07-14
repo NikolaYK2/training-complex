@@ -46,65 +46,6 @@
   margin: 0 auto 19px;
 }
 
-.blockPersonalInfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: -9px 0 0;
-
-  .avatar {
-    cursor: pointer;
-
-    position: relative;
-
-    display: flex;
-    align-items: center;
-
-    width: 96px;
-    height: 96px;
-    margin: 0 0 6px;
-
-    > img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-
-    > div.editAvatar {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      transform: translateX(4px);
-
-      width: 24px;
-      height: 24px;
-      padding: 4px;
-
-      background: var(--color-dark-300);
-      border-radius: 4px;
-    }
-  }
-
-  .name {
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 100%;
-    margin: 0 -33px 0 0;
-
-    .iconEditName {
-      width: 16px;
-      min-width: 16px;
-      height: 16px;
-      margin: 0 0 0 9px;
-    }
-  }
-}
-
 .submitBtn {
   margin: 17.4% 0 0;
 }
