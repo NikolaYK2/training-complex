@@ -2,6 +2,9 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
+import { Loading } from '@/commn/components/ui/loading/Loading'
+import { Page } from '@/features/pages/Page'
+import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
@@ -23,21 +26,30 @@ export const PersonalInformation = () => {
     },
     resolver: zodResolver(personalInformationSchema),
   })
+  const { data, isLoading } = useGetCurrentUserDataQuery()
 
   const onSubmit: SubmitHandler<PersonalInformationType> = data => {
-    console.log(data)
     reset()
   }
 
   return (
-    <Card>
-      <FormAuth
-        control={control}
-        errorMessage={errors}
-        formItem={['text']}
-        onSubmit={handleSubmit(onSubmit)}
-        title={'personal information'}
-      />
-    </Card>
+    <Page marginTop={'var(--margin-top-page)'}>
+      <Card>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <FormAuth
+            avatar={data?.avatar}
+            control={control}
+            descriptionMessage={data?.email}
+            errorMessage={errors}
+            formItem={['text']}
+            nikName={data?.name}
+            onSubmit={handleSubmit(onSubmit)}
+            title={'personal information'}
+          />
+        )}
+      </Card>
+    </Page>
   )
 }
