@@ -46,9 +46,7 @@ export const Profile = ({
       {!isEditingPersonalInfo && (
         <div className={s.name} onDoubleClick={() => setIsEditingPersonalInfo(true)}>
           <TextFormat variant={'h2'}>{nikName ? nikName : 'Ivan'}</TextFormat>
-          <div className={s.iconEditName}>
-            <EditIcon />
-          </div>
+          <EditIcon className={s.iconEditName} />
         </div>
       )}
     </div>
