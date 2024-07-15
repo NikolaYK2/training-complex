@@ -13,38 +13,38 @@ import { PrivateRoutes } from '@/routes/PrivateRoutes'
 import { ErrorRoute } from '@/routes/errorRoute/ErrorRoute'
 
 export const HOME_ROUTE = '/'
-export const LOGIN = '/login'
-export const PROFILE = '/profile'
-export const REGISTER = '/register'
-export const FORGOT_PASSWORD = '/forgot-password'
-export const CREATE_NEW_PASSWORD = '/create-password'
-export const CHECK_EMAIL = '/check-email'
-export const CONFIRM_EMAIL = '/confirm-email'
+export const LOGIN_ROUTE = '/login'
+export const PROFILE_ROUTE = '/profile'
+export const REGISTER_ROUTE = '/register'
+export const FORGOT_PASSWORD_ROUTE = '/forgot-password'
+export const CREATE_NEW_PASSWORD_ROUTE = '/create-password'
+export const CHECK_EMAIL_ROUTE = '/check-email'
+export const CONFIRM_EMAIL_ROUTE = '/confirm-email'
 
 const publicRoutes: RouteObject[] = [
   {
     element: <SignIn />,
-    path: LOGIN,
+    path: LOGIN_ROUTE,
   },
   {
     element: <SignUp />,
-    path: REGISTER,
+    path: REGISTER_ROUTE,
   },
   {
     element: <ForgotPassword />,
-    path: FORGOT_PASSWORD,
+    path: FORGOT_PASSWORD_ROUTE,
   },
   {
     element: <CreateNewPassword />,
-    path: `${CREATE_NEW_PASSWORD}/:token`,
+    path: `${CREATE_NEW_PASSWORD_ROUTE}/:token`,
   },
   {
     element: <CheckEmail />,
-    path: CHECK_EMAIL,
+    path: CHECK_EMAIL_ROUTE,
   },
   {
     element: <ConfirmEmail />,
-    path: `${CONFIRM_EMAIL}/:token`,
+    path: `${CONFIRM_EMAIL_ROUTE}/:token`,
   },
 ]
 const privateRoutes: RouteObject[] = [
@@ -54,7 +54,7 @@ const privateRoutes: RouteObject[] = [
   },
   {
     element: <PersonalInformation />,
-    path: PROFILE,
+    path: PROFILE_ROUTE,
   },
 ]
 

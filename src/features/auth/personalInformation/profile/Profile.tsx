@@ -34,7 +34,7 @@ export const Profile = ({
           onKeyDown={handlerOnKeyDown}
           tabIndex={0}
         >
-          {!avatar ? <img alt={'ava'} src={avatar} /> : <AvatarDefault />}
+          {avatar ? <img alt={'ava'} src={avatar} /> : <AvatarDefault />}
         </div>
         {!isEditingPersonalInfo && (
           <div className={s.editAvatar}>

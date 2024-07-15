@@ -5,7 +5,7 @@ import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/features/pages/Page'
-import { LOGIN } from '@/routes/Router'
+import { LOGIN_ROUTE } from '@/routes/Router'
 import { usePasswordResetMutation } from '@/services/auth/authService'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -38,7 +38,7 @@ export const CreateNewPassword = () => {
         // Добавление задержки или других мер подтверждения успешного сброса пароля
         // перед переходом на страницу входа
         setTimeout(() => {
-          navigate(LOGIN)
+          navigate(LOGIN_ROUTE)
         }, 1000)
       }
     } catch (e) {

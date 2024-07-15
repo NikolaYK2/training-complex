@@ -8,7 +8,7 @@ import { errorsResponse } from '@/commn/utils/errorsResponse'
 import { CheckEmailStateType } from '@/features/auth/checkEmail/CheckEmail'
 import { templatesEmail } from '@/features/auth/templates/templatesEmail'
 import { Page } from '@/features/pages/Page'
-import { CHECK_EMAIL } from '@/routes/Router'
+import { CHECK_EMAIL_ROUTE } from '@/routes/Router'
 import { useRegistrationAuthMutation } from '@/services/auth/authService'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -54,7 +54,7 @@ export const SignUp = () => {
         sendConfirmationEmail: true,
       }).unwrap()
 
-      navigate(CHECK_EMAIL, {
+      navigate(CHECK_EMAIL_ROUTE, {
         state: {
           email: registrationResult.email,
           userId: registrationResult.id,
