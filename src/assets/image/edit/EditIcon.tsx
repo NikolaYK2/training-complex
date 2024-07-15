@@ -3,7 +3,7 @@ import { ComponentPropsWithoutRef, useRef } from 'react'
 import s from './EditIcon.module.scss'
 
 type Props = ComponentPropsWithoutRef<'div'>
-export const EditIcon = ({ ...rest }: Props) => {
+export const EditIcon = ({ className = '', ...rest }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null)
 
   const handleMouseEnter = () => {
@@ -20,7 +20,7 @@ export const EditIcon = ({ ...rest }: Props) => {
 
   return (
     <div
-      className={s.containerEdite}
+      className={`${s.containerEdite} ${className}`}
       onAnimationEnd={handleAnimationEnd}
       onMouseEnter={handleMouseEnter}
       ref={containerRef}
