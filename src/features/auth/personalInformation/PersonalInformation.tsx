@@ -5,7 +5,7 @@ import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/features/pages/Page'
-import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
+import { useGetCurrentUserDataQuery, useUpdateUserDataMutation } from '@/services/auth/authService'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
@@ -16,13 +16,15 @@ export const personalInformationSchema = z.object({
 export type PersonalInformationType = z.infer<typeof personalInformationSchema>
 
 export const PersonalInformation = () => {
-  const { data, isLoading } = useGetCurrentUserDataQuery()
-
+  const { data, error, isError, isLoading } = useGetCurrentUserDataQuery()
+  const [
+    updateUserData,
+    { error: errorUpdUser, isError: isErrorUpdUser, isLoading: isLoadingUpdUser },
+  ] = useUpdateUserDataMutation()
   const {
     control,
     formState: { errors },
     handleSubmit,
-    reset,
     setValue,
   } = useForm<PersonalInformationType>({
     defaultValues: {
@@ -31,8 +33,16 @@ export const PersonalInformation = () => {
     resolver: zodResolver(personalInformationSchema),
   })
 
-  const onSubmit: SubmitHandler<PersonalInformationType> = data => {
-    reset()
+  const onSubmit: SubmitHandler<PersonalInformationType> = async data => {
+    try {
+      const formData = new FormData()
+
+      formData.append('name', data.text)
+
+      await updateUserData(formData)
+    } catch (e) {
+      console.error('upd Text user data ', e)
+    }
   }
 
   useEffect(() => {
@@ -41,10 +51,19 @@ export const PersonalInformation = () => {
     }
   }, [data, setValue])
 
+  if (isErrorUpdUser || isError) {
+    if (error) {
+      return <div>Error: {JSON.stringify(error)}</div>
+    }
+    if (errorUpdUser) {
+      return <div>Error: {JSON.stringify(errorUpdUser)}</div>
+    }
+  }
+
   return (
     <Page marginTop={'var(--margin-top-page)'}>
       <Card>
-        {isLoading ? (
+        {isLoading || isLoadingUpdUser ? (
           <Loading />
         ) : (
           <FormAuth
