@@ -1,12 +1,33 @@
+/* reset */
 button {
   all: unset;
+}
+
+.triggerBlock {
+  display: flex;
+  align-items: center;
+
+  .titleTrigger {
+    border-bottom: 1px dashed var(--color-light-100);
+  }
+
+  .triggerAvatar {
+    width: 36px;
+    height: 36px;
+    margin: 0 0 0 14px;
+
+    > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
 }
 
 .content {
   position: relative;
   z-index: 10;
-  top: 0;
-  left: 0;
 
   padding: 12px;
 
@@ -97,6 +118,7 @@ button {
   }
 
   .menuArrow {
+    transform: translateX(-60px);
     filter: drop-shadow(0 1px 0 var(--color-dark-500));
     fill: var(--color-dark-700);
   }

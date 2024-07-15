@@ -41,32 +41,33 @@ export const Header = () => {
             <TextFormat variant={'subtitle2'}>Sign In</TextFormat>
           </Button>
         ) : (
-          <>
-            <DropDownMenu
-              menuConfig={{
-                content: [
-                  {
-                    buttonName: data?.name ?? '',
-                    email: data?.email,
-                    icon: data?.avatar ?? 'avatar',
-                  },
-                  {
-                    buttonName: 'My profile',
-                    className: 'iconProfile',
-                    icon: 'profile',
-                    route: PROFILE_ROUTE,
-                  },
-                  {
-                    buttonName: 'sign out',
-                    callback: logout,
-                    className: 'iconLogOut',
-                    icon: 'logOut',
-                  },
-                ],
-                trigger: data?.name ?? '',
-              }}
-            ></DropDownMenu>
-          </>
+          <DropDownMenu
+            menuConfig={{
+              content: [
+                {
+                  buttonName: data?.name ?? '',
+                  email: data?.email,
+                  icon: data?.avatar ?? 'avatar',
+                },
+                {
+                  buttonName: 'My profile',
+                  className: 'iconProfile',
+                  icon: 'profile',
+                  route: PROFILE_ROUTE,
+                },
+                {
+                  buttonName: 'sign out',
+                  callback: logout,
+                  className: 'iconLogOut',
+                  icon: 'logOut',
+                },
+              ],
+              trigger: {
+                icon: data?.avatar,
+                title: data?.name ?? '',
+              },
+            }}
+          ></DropDownMenu>
         )}
       </div>
     </header>

@@ -2,10 +2,15 @@ import { Link } from 'react-router-dom'
 
 import { Button } from '@/commn/components/ui/button'
 import { IconName, IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
+import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 
 import s from './DropDownMenu.module.scss'
 
+type TriggerType = {
+  icon?: string
+  title?: string
+}
 export type MenuItem = {
   buttonName: string
   callback?: () => void
@@ -16,7 +21,7 @@ export type MenuItem = {
 }
 type MenuType = {
   content: MenuItem[]
-  trigger: string
+  trigger: TriggerType
 }
 type Props = {
   menuConfig: MenuType
@@ -25,7 +30,10 @@ type Props = {
  * Example of use:
  *
  * const menuConfig: MenuType = {
- *   trigger: 'icon', - for open menu
+ *   trigger: {
+ *   title: 'name',
+ *   icon:'icon'
+ *   }, - for open menu
  *   content: [ - content menu
  *     { icon: 'learn', buttonName: 'Learn' },
  *     { icon: 'edit', buttonName: 'Edit' },
@@ -37,8 +45,17 @@ export const DropDownMenu = ({ menuConfig }: Props) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button aria-label={'Customise options'} className={'IconButton'} type={'submit'}>
-          {menuConfig.trigger}
+        <button aria-label={'Customise options'} className={s.triggerBlock} type={'submit'}>
+          {menuConfig.trigger.title && (
+            <span className={s.titleTrigger}>
+              <TextFormat variant={'subtitle1'}>{menuConfig.trigger.title}</TextFormat>
+            </span>
+          )}
+          {menuConfig.trigger.icon && (
+            <div className={s.triggerAvatar}>
+              <img alt={'avatar'} src={menuConfig.trigger.icon} />
+            </div>
+          )}
         </button>
       </DropdownMenu.Trigger>
 
