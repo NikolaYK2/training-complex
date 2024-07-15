@@ -14,6 +14,7 @@ const AUTH = 'v1/auth/'
 export const authService = flashcardsApi.injectEndpoints({
   endpoints: builder => ({
     getCurrentUserData: builder.query<ResponseType, void>({
+      providesTags: ['Auth'],
       query: () => ({
         url: `${AUTH}me`,
       }),
@@ -67,7 +68,8 @@ export const authService = flashcardsApi.injectEndpoints({
         url: `${AUTH}resend-verification-email`,
       }),
     }),
-    updateUserData: builder.query<ResponseType, FormData>({
+    updateUserData: builder.mutation<ResponseType, FormData>({
+      invalidatesTags: ['Auth'],
       query: formData => ({
         body: formData,
         method: 'PATCH',
@@ -86,4 +88,5 @@ export const {
   usePasswordResetMutation,
   useRegistrationAuthMutation,
   useResendVerificationEmailMutation,
+  useUpdateUserDataMutation,
 } = authService
