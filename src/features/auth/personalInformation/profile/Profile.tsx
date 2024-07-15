@@ -1,7 +1,7 @@
 import { KeyboardEvent, useState } from 'react'
 
 import { AvatarDefault } from '@/assets/image/avaDefault/AvatarDefault'
-import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
+import { EditIcon } from '@/assets/image/edit/EditIcon'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 
 import s from './Profile.module.scss'
@@ -37,16 +37,17 @@ export const Profile = ({
           {avatar ? <img alt={'ava'} src={avatar} /> : <AvatarDefault />}
         </div>
         {!isEditingPersonalInfo && (
-          <div className={s.editAvatar}>
-            <IconSvg name={'edit'} />
-          </div>
+          <label className={s.editAvatar}>
+            <input className={s.editInput} type={'file'} />
+            <EditIcon style={{ padding: '4px' }} />
+          </label>
         )}
       </div>
       {!isEditingPersonalInfo && (
         <div className={s.name} onDoubleClick={() => setIsEditingPersonalInfo(true)}>
           <TextFormat variant={'h2'}>{nikName ? nikName : 'Ivan'}</TextFormat>
           <div className={s.iconEditName}>
-            <IconSvg name={'edit'} />
+            <EditIcon />
           </div>
         </div>
       )}
