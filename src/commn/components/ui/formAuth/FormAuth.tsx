@@ -62,17 +62,17 @@ export type TitleType =
   | 'sign up'
 
 type Props<TFieldValues extends FieldValues> = {
-  avatar?: string
   buttonName?: null | string
   className?: string
   control?: Control<TFieldValues>
   descriptionMessage?: string
   errorMessage?: FieldErrors<TFieldValues>
   formItem?: (Path<TFieldValues> & string)[]
-  nikName?: string
+  isEditingPersonalInfo: boolean
   onSubmit?: FormEventHandler<HTMLFormElement>
   redirect?: boolean | undefined
   route?: string
+  setIsEditingPersonalInfo: (isValue: boolean) => void
   title: TitleType
 }
 
@@ -83,24 +83,15 @@ export const FormAuth = <TFieldValues extends FieldValues>({
   descriptionMessage,
   errorMessage,
   formItem = [],
+  isEditingPersonalInfo,
   onSubmit,
   redirect,
   route,
+  setIsEditingPersonalInfo,
   title,
 }: Props<TFieldValues>) => {
-  const [isEditingPersonalInfo, setIsEditingPersonalInfo] = useState(false)
   const isCheckEmail = title === 'check email'
   const isPersonalInformation = title === 'personal information'
-
-  const setChangeNameHandler = () => {
-    // Получаем текущее значение поля 'text'
-    const fieldValue = control?.getFieldState('text' as Path<TFieldValues>)
-
-    // Проверяем, что значение поля 'text' не пустое
-    if (!fieldValue?.error && fieldValue?.isDirty) {
-      setIsEditingPersonalInfo(false)
-    }
-  }
 
   const [formInfo, setFormInfo] = useState<FormInfoType>(initialFormInfo)
 
@@ -118,22 +109,6 @@ export const FormAuth = <TFieldValues extends FieldValues>({
     }))
   }, [title, buttonName, descriptionMessage, route, redirect])
 
-  // if (descriptionMessage) {
-  //   formInfo[title].description = descriptionMessage
-  // }
-  // if (buttonName) {
-  //   formInfo[title].buttonName = buttonName
-  // }
-  // if (route) {
-  //   formInfo[title].rote = route
-  // }
-  //
-  // if (redirect !== undefined) {
-  //   formInfo[title].redirect = redirect
-  // }
-  // if (nikName) {
-  //   formInfo[title].nikName = nikName
-  // }
   return (
     <form
       className={`${s.form} ${className} ${isPersonalInformation && s.positionFormMod}`}
@@ -191,8 +166,7 @@ export const FormAuth = <TFieldValues extends FieldValues>({
 
       <Button
         as={formInfo[title].rote ? Link : 'button'}
-        className={`${s.submitBtn} ${isPersonalInformation && s.submitBtnMarginMod}`}
-        onClick={setChangeNameHandler}
+        className={`${s.submitBtn} ${isPersonalInformation && s.submitBtnMarginMod} iconLogOut`}
         to={formInfo[title].rote ? formInfo[title].rote : ''}
         type={'submit'}
         variant={isPersonalInformation && !isEditingPersonalInfo ? 'secondary' : 'primary'}
