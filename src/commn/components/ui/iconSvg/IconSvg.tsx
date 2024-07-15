@@ -232,12 +232,12 @@ const icons = {
   tick: <TickIcon />,
 }
 
-type IconName = keyof typeof icons
+export type IconName = keyof typeof icons
 
-type Props = {
+type IconSvgType = {
   name: IconName
 }
 
-export const IconSvg = (props: Props) => {
+export const IconSvg = (props: IconSvgType) => {
   return icons[props.name] || null
 }
