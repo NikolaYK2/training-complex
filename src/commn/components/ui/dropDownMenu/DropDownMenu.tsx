@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import { Button } from '@/commn/components/ui/button'
-import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
+import { IconName, IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 
 import s from './DropDownMenu.module.scss'
@@ -11,7 +11,7 @@ export type MenuItem = {
   callback?: () => void
   className?: string
   email?: string
-  icon: 'avatar' | 'delete' | 'edit' | 'learn' | 'logOut' | 'profile'
+  icon: 'avatar' | 'delete' | 'edit' | 'learn' | 'logOut' | 'profile' | string
   route?: string
 }
 type MenuType = {
@@ -56,7 +56,11 @@ export const DropDownMenu = ({ menuConfig }: Props) => {
                 to={el.route ?? ''}
               >
                 <div className={`${el.email ? s.avatar : s.iconSlot}`}>
-                  <IconSvg name={el.icon} />
+                  {el.email ? (
+                    <img alt={'avatar'} src={el.icon} />
+                  ) : (
+                    <IconSvg name={el.email ? 'avatar' : (el.icon as IconName)} />
+                  )}
                 </div>
                 <div className={`${s.text}`}>
                   <span>{el.buttonName}</span>
