@@ -1,0 +1,28 @@
+.containerEdite {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .pencil {
+    transform-origin: center;
+  }
+
+  &.animate .pencil {
+    animation: write-pencil 0.7s alternate forwards;
+  }
+}
+
+@keyframes write-pencil {
+  0% {
+    transform: translate(0, 0) rotate(15deg);
+  }
+
+  50% {
+    transform: translate(4px, 0) rotate(-15deg);
+  }
+
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+}
