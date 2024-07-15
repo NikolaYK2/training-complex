@@ -18,6 +18,8 @@ button {
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 
   .item {
+    cursor: pointer;
+
     display: flex;
     align-items: center;
 
@@ -35,6 +37,12 @@ button {
     &:last-of-type {
       padding-bottom: 0;
       border-bottom: none;
+    }
+
+    .block {
+      all: unset;
+      display: flex;
+      align-items: center;
     }
 
     .avatarBlock {
@@ -79,10 +87,6 @@ button {
       color: var(--color-primary-500);
       transition: 0.5s ease 0.6s;
     }
-  }
-
-  .isActive {
-    cursor: pointer;
   }
 
   .menuArrow {
