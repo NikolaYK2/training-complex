@@ -67,12 +67,9 @@ export const PersonalInformation = () => {
           <Loading />
         ) : (
           <FormAuth
-            avatar={data?.avatar}
             control={control}
-            descriptionMessage={data?.email}
             errorMessage={errors}
             formItem={['text']}
-            nikName={data?.name}
             onSubmit={handleSubmit(onSubmit)}
             title={'personal information'}
           />

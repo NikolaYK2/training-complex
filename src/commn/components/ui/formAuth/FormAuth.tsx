@@ -77,14 +77,12 @@ type Props<TFieldValues extends FieldValues> = {
 }
 
 export const FormAuth = <TFieldValues extends FieldValues>({
-  avatar,
   buttonName,
   className = '',
   control,
   descriptionMessage,
   errorMessage,
   formItem = [],
-  nikName = '',
   onSubmit,
   redirect,
   route,
@@ -114,12 +112,11 @@ export const FormAuth = <TFieldValues extends FieldValues>({
         ...prevFormInfo[title],
         buttonName: buttonName || prevFormInfo[title].buttonName,
         description: descriptionMessage || prevFormInfo[title].description,
-        nikName: nikName || prevFormInfo[title].nikName,
         redirect: redirect !== undefined ? redirect : prevFormInfo[title].redirect,
         rote: route || prevFormInfo[title].rote,
       },
     }))
-  }, [title, buttonName, descriptionMessage, route, redirect, nikName])
+  }, [title, buttonName, descriptionMessage, route, redirect])
 
   // if (descriptionMessage) {
   //   formInfo[title].description = descriptionMessage
@@ -149,9 +146,7 @@ export const FormAuth = <TFieldValues extends FieldValues>({
 
       {isPersonalInformation && (
         <Profile
-          avatar={avatar ?? ''}
           isEditingPersonalInfo={isEditingPersonalInfo}
-          nikName={nikName}
           setIsEditingPersonalInfo={setIsEditingPersonalInfo}
         />
       )}
