@@ -45,7 +45,11 @@ export const Header = () => {
             <DropDownMenu
               menuConfig={{
                 content: [
-                  { buttonName: data?.name ?? '', email: data?.email, icon: 'avatar' },
+                  {
+                    buttonName: data?.name ?? '',
+                    email: data?.email,
+                    icon: data?.avatar ?? 'avatar',
+                  },
                   {
                     buttonName: 'My profile',
                     className: 'iconProfile',
