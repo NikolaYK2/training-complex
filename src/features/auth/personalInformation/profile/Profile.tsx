@@ -9,8 +9,8 @@ import { useGetCurrentUserDataQuery, useUpdateUserDataMutation } from '@/service
 import s from './Profile.module.scss'
 
 type Props = {
-  isEditingPersonalInfo: boolean
-  setIsEditingPersonalInfo: (isEdit: boolean) => void
+  isEditingPersonalInfo?: boolean
+  setIsEditingPersonalInfo?: (isEdit: boolean) => void
 }
 export const Profile = ({ isEditingPersonalInfo, setIsEditingPersonalInfo }: Props) => {
   const [isActiveAvatar, setIsActiveAvatar] = useState(false)
@@ -20,6 +20,9 @@ export const Profile = ({ isEditingPersonalInfo, setIsEditingPersonalInfo }: Pro
     { error: errorUpdUser, isError: isErrorUpdUser, isLoading: isLoadingUpdUser },
   ] = useUpdateUserDataMutation()
 
+  const onDoubleClickHandle = () => {
+    setIsEditingPersonalInfo?.(true)
+  }
   const handlerOnKeyDown = (event: KeyboardEvent<HTMLImageElement>) => {
     if (event.key === 'Escape') {
       setIsActiveAvatar(false)
@@ -78,7 +81,7 @@ export const Profile = ({ isEditingPersonalInfo, setIsEditingPersonalInfo }: Pro
         )}
       </div>
       {!isEditingPersonalInfo && (
-        <div className={s.name} onDoubleClick={() => setIsEditingPersonalInfo(true)}>
+        <div className={s.name} onDoubleClick={onDoubleClickHandle}>
           <TextFormat variant={'h2'}>{data?.name ? data?.name : 'Ivan'}</TextFormat>
           <EditIcon className={s.iconEditName} />
         </div>

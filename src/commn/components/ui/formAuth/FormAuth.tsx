@@ -68,11 +68,11 @@ type Props<TFieldValues extends FieldValues> = {
   descriptionMessage?: string
   errorMessage?: FieldErrors<TFieldValues>
   formItem?: (Path<TFieldValues> & string)[]
-  isEditingPersonalInfo: boolean
+  isEditingPersonalInfo?: boolean
   onSubmit?: FormEventHandler<HTMLFormElement>
   redirect?: boolean | undefined
   route?: string
-  setIsEditingPersonalInfo: (isValue: boolean) => void
+  setIsEditingPersonalInfo?: (isValue: boolean) => void
   title: TitleType
 }
 
