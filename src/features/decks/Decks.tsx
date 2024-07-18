@@ -4,13 +4,15 @@ import { useSearchParams } from 'react-router-dom'
 import { Button } from '@/commn/components/ui/button'
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { TextField } from '@/commn/components/ui/input/TextField'
+import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Pagination } from '@/commn/components/ui/pagination/Pagination'
 import { SliderValue } from '@/commn/components/ui/slider/SliderValue'
 import { TabSwitcher } from '@/commn/components/ui/tabSwitcher/TabSwitcher'
 import { Table } from '@/commn/components/ui/tables/Table'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { Page } from '@/features/pages/Page'
-import { useCreateDeckMutation, useGetDecksQuery } from '@/services/decks/decksService'
+import { CreateDeck } from '@/services/decks/createDeck/CreateDeck'
+import { useGetDecksQuery } from '@/services/decks/decksService'
 
 import s from './Decks.module.scss'
 
@@ -45,9 +47,6 @@ export const Decks = () => {
     name: name ?? undefined,
   }) //из query возвращается обьект из mutation картэш(массив с заранее определенными элементами)
 
-  //картешь, первым элементам у нас функция а вторым обьект с данными что приходят
-  const [createDeck, { isLoading: isLoadingCreatedDeck }] = useCreateDeckMutation()
-
   //table ----------------------
   const headers = [
     { id: 1, title: 'Name' },
@@ -68,7 +67,7 @@ export const Decks = () => {
     })) || []
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <Loading />
   }
   if (isError) {
     console.error(error)
@@ -80,9 +79,7 @@ export const Decks = () => {
     <Page>
       <div className={s.deck}>
         <TextFormat variant={'h1'}>Decks list</TextFormat>
-        <Button disabled={isLoadingCreatedDeck} onClick={() => createDeck({ name: '123' })}>
-          {isLoadingCreatedDeck ? 'loading' : 'Add new deck'}
-        </Button>
+        <CreateDeck />
       </div>
       <div className={s.filters}>
         <div className={s.search}>
