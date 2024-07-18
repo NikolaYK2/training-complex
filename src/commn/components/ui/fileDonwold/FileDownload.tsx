@@ -11,13 +11,10 @@ type Props = {
   disabled?: boolean
   iconComponent: ReactElement
 }
-export const FileDownload = ({
-  buttonName,
-  callback,
-  className,
-  disabled,
-  iconComponent,
-}: Props) => {
+
+export const FileDownload = (props: Props) => {
+  const { buttonName, callback, className, disabled, iconComponent } = props
+
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const formData: FormData = new FormData()
@@ -34,12 +31,7 @@ export const FileDownload = ({
 
   return (
     <label className={`${s.editAvatar} ${className || ''}`}>
-      <input
-        className={s.editInput}
-        disabled={disabled}
-        onChange={handleFileChange}
-        type={'file'}
-      />
+      <input className={s.input} disabled={disabled} onChange={handleFileChange} type={'file'} />
       {iconComponent}
       {buttonName && (
         <TextFormat style={{ textTransform: 'capitalize' }} variant={'subtitle2'}>
