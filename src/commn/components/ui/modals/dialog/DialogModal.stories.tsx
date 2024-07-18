@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { EditIcon } from '@/assets/image/edit/EditIcon'
+import { ImageIcon } from '@/assets/image/image/ImageIcon'
 import { TickBox } from '@/commn/components/ui/checkBox/TickBox'
 import { FileDownload } from '@/commn/components/ui/fileDonwold/FileDownload'
 import { TextField } from '@/commn/components/ui/input/TextField'
@@ -77,7 +77,7 @@ export const modalAddDeck: Story = {
           buttonName={'upload image'}
           callback={() => {}}
           className={s.newDeck}
-          iconComponent={<EditIcon className={s.iconDeck} />}
+          iconComponent={<ImageIcon />}
           key={'input2'}
         />,
         <TickBox key={'TickBox'} label={'opana!'} />,
