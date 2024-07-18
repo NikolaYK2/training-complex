@@ -1,22 +1,14 @@
-import { ComponentPropsWithoutRef, useRef } from 'react'
+import { ComponentPropsWithoutRef } from 'react'
+
+import { useAnimation } from '@/commn/hooks/useAnimation'
 
 import s from './EditIcon.module.scss'
 
 type Props = ComponentPropsWithoutRef<'div'>
 export const EditIcon = ({ className = '', ...rest }: Props) => {
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  const handleMouseEnter = () => {
-    if (containerRef.current) {
-      containerRef.current.classList.add(s.animate)
-    }
-  }
-
-  const handleAnimationEnd = () => {
-    if (containerRef.current) {
-      containerRef.current.classList.remove(s.animate)
-    }
-  }
+  const { containerRef, handleAnimationEnd, handleMouseEnter } = useAnimation({
+    animationTriggerClass: s.animate,
+  })
 
   return (
     <div
