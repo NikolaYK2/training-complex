@@ -94,6 +94,10 @@ input {
   }
 
   .buttonsBlock {
+    padding-top: 0;
+  }
+
+  .buttonsBlock {
     display: flex;
     justify-content: space-between;
     padding-bottom: min(6.793%, 36px);
@@ -132,6 +136,7 @@ input {
 
 .newDeck {
   height: 36px;
+  margin: 0 0 5%;
 
   > div {
     width: 16px;
