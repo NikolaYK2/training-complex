@@ -1,7 +1,8 @@
-import { ChangeEvent, KeyboardEvent, useState } from 'react'
+import { KeyboardEvent, useState } from 'react'
 
 import { AvatarDefault } from '@/assets/image/avaDefault/AvatarDefault'
 import { EditIcon } from '@/assets/image/edit/EditIcon'
+import { FileDownload } from '@/commn/components/ui/fileDonwold/FileDownload'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { useGetCurrentUserDataQuery, useUpdateUserDataMutation } from '@/services/auth/authService'
@@ -26,20 +27,6 @@ export const Profile = ({ isEditingPersonalInfo, setIsEditingPersonalInfo }: Pro
   const handlerOnKeyDown = (event: KeyboardEvent<HTMLImageElement>) => {
     if (event.key === 'Escape') {
       setIsActiveAvatar(false)
-    }
-  }
-
-  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const formData: FormData = new FormData()
-
-      formData.append('avatar', e.target.files[0])
-
-      try {
-        await updateUserData(formData)
-      } catch (error) {
-        console.error('Error updating user data:', error)
-      }
     }
   }
 
@@ -69,15 +56,12 @@ export const Profile = ({ isEditingPersonalInfo, setIsEditingPersonalInfo }: Pro
           {data?.avatar ? <img alt={'ava'} src={data?.avatar} /> : <AvatarDefault />}
         </div>
         {!isEditingPersonalInfo && (
-          <label className={s.editAvatar}>
-            <input
-              className={s.editInput}
-              disabled={isLoadingUpdUser && true}
-              onChange={handleFileChange}
-              type={'file'}
-            />
-            <EditIcon style={{ padding: '4px' }} />
-          </label>
+          <FileDownload
+            callback={updateUserData}
+            className={s.editAvatar}
+            disabled={isLoadingUpdUser}
+            iconComponent={<EditIcon style={{ padding: '4px' }} />}
+          />
         )}
       </div>
       {!isEditingPersonalInfo && (

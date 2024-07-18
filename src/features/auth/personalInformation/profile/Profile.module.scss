@@ -38,20 +38,6 @@
 
       width: 24px;
       height: 24px;
-
-      background: var(--color-dark-300);
-      border-radius: 4px;
-
-      transition: background 0.4s ease;
-
-      &:hover {
-        background: var(--color-dark-100);
-        transition: all 0.4s ease;
-      }
-
-      .editInput {
-        display: none;
-      }
     }
 
     .fullScreenAvatar {
