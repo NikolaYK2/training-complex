@@ -20,23 +20,21 @@ input {
 
 .content {
   position: fixed;
+  z-index: 1;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
 
   display: flex;
   flex-direction: column;
 
   width: 100%;
   max-width: 532px;
-  padding: min(1.871%, 24px);
-
 
   background-color: var(--color-dark-700);
   border: 1px solid var(--color-dark-500);
 
-  animation: overlay-show .4s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: overlay-show 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:focus {
     outline: none;
@@ -45,18 +43,19 @@ input {
   .titleH2 {
     position: relative;
 
-    display: inline-flex;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: min(5%, 18px) min(5%, 24px);
 
     font-size: clamp(var(--font-size-14), 5vw, var(--font-size-18));
     font-weight: var(--font-weight-bold);
     line-height: var(--line-height-24);
 
-    .buttonClose {
-      position: absolute;
-      top: 50%;
-      right: 0;
-      transform: translateY(-50%);
+    border-bottom: 1px solid var(--color-dark-500);
 
+    .buttonClose {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -88,6 +87,18 @@ input {
     line-height: var(--line-height-24);
   }
 
+  .item,
+  .descriptionP,
+  .buttonsBlock {
+    padding: min(5%, 24px) min(5%, 24px);
+  }
+
+  .buttonsBlock {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: min(6.793%, 36px);
+  }
+
   .borderTop {
     border-top: 1px solid var(--color-dark-100);
   }
@@ -95,10 +106,7 @@ input {
   .fieldset {
     display: block;
   }
-
-
 }
-
 
 @keyframes overlay-show {
   from {
@@ -119,5 +127,24 @@ input {
   to {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
+  }
+}
+
+.newDeck {
+  height: 36px;
+}
+
+.iconDeck {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+
+  padding: 0 113px 0 0;
+
+  > svg {
+    width: 16px;
+    height: 16px;
   }
 }
