@@ -51,9 +51,11 @@
 
 .subtitle2 {
   padding: 0 var(--margin-gorizontal);
+
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-24);
+  text-transform: capitalize;
 }
 
 .caption1 {

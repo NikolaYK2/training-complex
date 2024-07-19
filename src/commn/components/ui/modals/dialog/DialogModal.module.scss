@@ -20,7 +20,7 @@ input {
 
 .content {
   position: fixed;
-  z-index: 1;
+  z-index: 100;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -40,7 +40,7 @@ input {
     outline: none;
   }
 
-  .titleH2 {
+  .titleH2Block {
     position: relative;
 
     display: flex;
@@ -54,6 +54,11 @@ input {
     line-height: var(--line-height-24);
 
     border-bottom: 1px solid var(--color-dark-500);
+
+    .titleH2 {
+      font-size: var(--font-size-18);
+      text-transform: capitalize;
+    }
 
     .buttonClose {
       display: flex;
@@ -88,19 +93,14 @@ input {
   }
 
   .item,
-  .descriptionP,
-  .buttonsBlock {
+  .descriptionP {
     padding: min(5%, 24px) min(5%, 24px);
-  }
-
-  .buttonsBlock {
-    padding-top: 0;
   }
 
   .buttonsBlock {
     display: flex;
     justify-content: space-between;
-    padding-bottom: min(6.793%, 36px);
+    padding: min(7.49%, 36px) 0 min(2.49%, 12px);
   }
 
   .borderTop {
@@ -131,16 +131,5 @@ input {
   to {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
-  }
-}
-
-.newDeck {
-  height: 36px;
-  margin: 0 0 5%;
-
-  > div {
-    width: 16px;
-    height: 16px;
-    margin: 0 5px;
   }
 }

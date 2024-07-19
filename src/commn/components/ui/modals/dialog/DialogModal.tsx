@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from 'react'
+import { FormEventHandler, ReactElement, ReactNode } from 'react'
 
 import { Button } from '@/commn/components/ui/button'
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
@@ -8,74 +8,95 @@ import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 
 import s from './DialogModal.module.scss'
 
-type Props = {
+type DialogModalProps = {
   children?: ReactElement[]
-  onSubmit?: any
+  isOpenModal: boolean
+  onSubmit?: FormEventHandler<HTMLFormElement>
+  setIsOpenModal: (open: boolean) => void
   textH2?: string
   textP?: string
   trigger: string
 }
-// {[
-//   <Select
-//     key={1}
-//     options={[
-//       { id: 1, value: 'Select-box' },
-//       { id: 2, value: 'hi maloy' },
-//       { id: 3, value: 'Sam maloy' },
-//     ]}
-//   />,
-//   <TextField key={'Input1'} type={'text'} />,
-//   <TextField key={'Input2'} type={'password'} />,
-//   <TickBox key={'TickBox'} label={'opana!'} />,
-// ]}
-
-export const DialogModal = ({ children, onSubmit, textH2, textP, trigger }: Props) => {
+/**
+ * Example usage of children prop:
+ *
+ * const children = {[children
+ *   <Select
+ *     key={1}
+ *      options={[
+ *       { id: 1, value: 'Select-box' },
+ *       { id: 2, value: 'hi maloy' },
+ *       { id: 3, value: 'Sam maloy' },
+ *     ]}
+ *    />,
+ *   <TextField key={'Input1'} type={'text'} />,
+ *   <TextField key={'Input2'} type={'password'} />,
+ *   <TickBox key={'TickBox'} label={'opana!'} />,
+ * ]}
+ *
+ * Usage:
+ * <DialogModal>
+ *   {children}
+ * </DialogModal>
+ */
+export const DialogModal = ({
+  children,
+  isOpenModal, //указываем условия при котором закрываетя модалка
+  onSubmit,
+  setIsOpenModal, //управление открытия закрытия модал окна
+  textH2,
+  textP,
+  trigger,
+}: DialogModalProps) => {
   return (
-    <Dialog.Root>
+    <Dialog.Root onOpenChange={setIsOpenModal} open={isOpenModal}>
       <Dialog.Trigger asChild>
-        <Button variant={'primary'}>{trigger}</Button>
+        <Button variant={'primary'}>
+          <TextFormat variant={'subtitle2'}>{trigger}</TextFormat>{' '}
+        </Button>
       </Dialog.Trigger>
 
       <Dialog.Portal>
         <Dialog.Overlay className={s.overlayBackground} />
         <Dialog.Content className={s.content}>
-          <IsVisibleTitle isCheck={!textH2}>
-            <Dialog.Title className={`${s.titleH2}`}>
-              {textH2}
+          <VisibilityToggle isHidden={!textH2}>
+            <Dialog.Title className={`${s.titleH2Block}`}>
+              <span className={s.titleH2}>{textH2}</span>
               <Dialog.Close asChild>
                 <button className={s.buttonClose} type={'button'}>
                   <IconSvg name={'close'} />
                 </button>
               </Dialog.Close>
             </Dialog.Title>
-          </IsVisibleTitle>
-          <Dialog.Description
-            className={`${s.descriptionP}`}
-            style={{ padding: !textP ? '0' : '' }}
-          >
-            {textP}
-          </Dialog.Description>
-          <div className={s.item} style={{ padding: !children ? '0' : '' }}>
-            {children?.map(child => (
-              <fieldset className={s.fieldset} key={child.key}>
-                <label>{child}</label>
-              </fieldset>
-            )) ||
-              (!textH2 && !textP && <div className={s.background} />)}
-          </div>
-          {!onSubmit && (
-            <div className={s.buttonsBlock}>
-              <Dialog.Close asChild>
-                <Button variant={'secondary'}>
-                  <TextFormat variant={'subtitle2'}>cansel</TextFormat>{' '}
-                </Button>
-              </Dialog.Close>
+          </VisibilityToggle>
 
-              <Button>
-                <TextFormat variant={'subtitle2'}>add new pack</TextFormat>
-              </Button>
-            </div>
-          )}
+          <VisibilityToggle isHidden={!textP}>
+            <Dialog.Description className={`${s.descriptionP}`}>{textP}</Dialog.Description>
+          </VisibilityToggle>
+
+          <VisibilityToggle isHidden={!children}>
+            <form className={s.item} onSubmit={onSubmit}>
+              {children?.map(child => (
+                <fieldset className={s.fieldset} key={child.key}>
+                  <label>{child}</label>
+                </fieldset>
+              )) ||
+                (!textH2 && !textP && <div className={s.background} />)}
+              {onSubmit && (
+                <div className={s.buttonsBlock}>
+                  <Dialog.Close asChild>
+                    <Button variant={'secondary'}>
+                      <TextFormat variant={'subtitle2'}>cancel</TextFormat>{' '}
+                    </Button>
+                  </Dialog.Close>
+
+                  <Button>
+                    <TextFormat variant={'subtitle2'}>add new pack</TextFormat>
+                  </Button>
+                </div>
+              )}
+            </form>
+          </VisibilityToggle>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
@@ -84,8 +105,8 @@ export const DialogModal = ({ children, onSubmit, textH2, textP, trigger }: Prop
 
 type PropsTitleType = {
   children: ReactNode
-  isCheck: boolean
+  isHidden: boolean
 }
-const IsVisibleTitle = ({ children, isCheck }: PropsTitleType) => {
-  return <>{isCheck ? <VisuallyHidden.Root>{children}</VisuallyHidden.Root> : <>{children}</>}</>
+const VisibilityToggle = ({ children, isHidden }: PropsTitleType) => {
+  return <>{isHidden ? <VisuallyHidden.Root>{children}</VisuallyHidden.Root> : <>{children}</>}</>
 }

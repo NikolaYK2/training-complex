@@ -7,7 +7,7 @@ import { TextField } from '@/commn/components/ui/input/TextField'
 import { DialogModal } from '@/commn/components/ui/modals/dialog/DialogModal'
 import { Select } from '@/commn/components/ui/select/Select'
 
-import s from './DialogModal.module.scss'
+import s from '@/features/decks/createDeck/CreateDeck.module.scss'
 
 const meta = {
   argTypes: {},
@@ -21,18 +21,21 @@ type Story = StoryObj
 
 export const defaultModal: Story = {
   args: {
+    onSubmit: undefined,
     trigger: 'tick',
   },
 }
 
 export const titleModal: Story = {
   args: {
+    onSubmit: undefined,
     textH2: 'Title',
     trigger: 'tick',
   },
 }
 export const description: Story = {
   args: {
+    onSubmit: undefined,
     textP:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniamdsa ',
     trigger: 'tick',
@@ -41,6 +44,7 @@ export const description: Story = {
 
 export const titleDescription: Story = {
   args: {
+    onSubmit: undefined,
     textH2: 'Title',
     textP:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniamdsa ',
@@ -50,7 +54,7 @@ export const titleDescription: Story = {
 
 export const modal: Story = {
   render: () => (
-    <DialogModal trigger={'tick'}>
+    <DialogModal isOpenModal setIsOpenModal={() => {}} trigger={'tick'}>
       {[
         <Select
           key={1}
@@ -70,15 +74,22 @@ export const modal: Story = {
 
 export const modalAddDeck: Story = {
   render: () => (
-    <DialogModal textH2={'add new deck'} trigger={'add new card'}>
+    <DialogModal
+      isOpenModal
+      onSubmit={() => {}}
+      setIsOpenModal={() => {}}
+      textH2={'add new deck'}
+      trigger={'add new card'}
+    >
       {[
         <TextField key={'Input1'} label={'name pack'} type={'text'} value={'name'} />,
         <FileDownload
           buttonName={'upload image'}
-          callback={() => {}}
           className={s.newDeck}
           iconComponent={<ImageIcon />}
           key={'input2'}
+          name={'cover'}
+          onChange={() => {}}
         />,
         <TickBox key={'TickBox'} label={'opana!'} />,
       ]}
