@@ -12,16 +12,12 @@ export const FilePreviewPortal = ({ onClose, src }: Props) => {
   }
   const handleClose = () => onClose(false)
 
-  return (
-    <div className={s.containerFilePreviewPortal} onClick={handleClose}>
-      {createPortal(
-        <div className={s.filePortalContainer}>
-          <div className={s.filePreviewContent}>
-            <img alt={'Preview'} src={src ? src : ''} />
-          </div>
-        </div>,
-        document.body
-      )}
-    </div>
+  return createPortal(
+    <div className={s.filePortalContainer} onClick={handleClose}>
+      <div className={s.filePreviewContent}>
+        <img alt={'Preview'} src={src ? src : ''} />
+      </div>
+    </div>,
+    document.documentElement
   )
 }
