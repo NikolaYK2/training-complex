@@ -61,7 +61,7 @@ export const Profile = ({ isEditingPersonalInfo, setIsEditingPersonalInfo }: Pro
             disabled={isLoadingUpdUser}
             iconComponent={<EditIcon style={{ padding: '4px' }} />}
             name={'avatar'}
-            onChange={updateUserData}
+            onChangeValue={updateUserData}
           />
         )}
       </div>
