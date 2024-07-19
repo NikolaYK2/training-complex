@@ -1,0 +1,10 @@
+.newDeck {
+  height: 36px;
+  margin: 0 0 5%;
+
+  > div {
+    width: 16px;
+    height: 16px;
+    margin: 0 5px;
+  }
+}
