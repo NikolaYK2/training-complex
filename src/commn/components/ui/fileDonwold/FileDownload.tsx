@@ -10,7 +10,8 @@ export type FiledDownloadProps = {
   disabled?: boolean
   iconComponent: ReactElement
   name: string
-  onChange: (file: FormData) => void
+  onChange?: (file: File) => void
+  onChangeValue?: (file: FormData) => void
   setFilePreview?: (file: null | string) => void
 }
 
@@ -22,6 +23,7 @@ export const FileDownload = forwardRef<HTMLInputElement, FiledDownloadProps>((pr
     iconComponent,
     name,
     onChange,
+    onChangeValue,
     setFilePreview,
     ...rest
   } = props
@@ -44,10 +46,11 @@ export const FileDownload = forwardRef<HTMLInputElement, FiledDownloadProps>((pr
           setFileInputKey(prev => prev + 1) //для предотвращения кеширования браузером, в случаи повторной загрузки той же картинки
         }
         reader.readAsDataURL(file) // Чтение файла как Data URL
+        onChange?.(file)
       }
 
       // Вызов коллбэка onChange с FormData
-      onChange?.(formData)
+      onChangeValue?.(formData)
     }
   }
 

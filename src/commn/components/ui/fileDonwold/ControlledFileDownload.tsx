@@ -17,16 +17,17 @@ export const ControlledFileDownload = <TFieldValues extends FieldValues>({
     field: { onChange, ref },
   } = useController({ control, name })
   // Обработчик изменения файла
-  const handleFileChange = (file: FormData) => {
-    onChange(file)
-  }
+  // const handleFileChange = (file: FormData) => {
+  //   onChange(file)
+  // }
 
   return (
     <FileDownload
       {...fileDownloadProps}
       buttonName={buttonName}
       name={name}
-      onChange={handleFileChange}
+      onChange={onChange}
+      // onChangeValue={handleFileChange}
       ref={ref}
     />
   )
