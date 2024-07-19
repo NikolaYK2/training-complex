@@ -36,7 +36,7 @@ export type GetDecksArgs = {
 }
 
 export type CreateDeckArgs = {
-  cover?: FormData
+  cover?: File
   isPrivate?: boolean
   name: string
 }
