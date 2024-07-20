@@ -44,6 +44,11 @@
     height: 50px;
 
     border-radius: 5px;
+
+    > div > svg > path {
+      fill: var(--color-dark-300);
+      transition: fill 0.3s ease;
+    }
   }
 
   .close,
@@ -55,6 +60,11 @@
       opacity: 1;
       background: var(--color-light-opacity);
       transition: background 0.4s ease;
+
+      div > svg > path {
+        fill: var(--color-dark-900);
+        transition: fill 0.3s ease;
+      }
     }
   }
 }
