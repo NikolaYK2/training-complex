@@ -21,14 +21,6 @@ export const DecksService = flashcardsApi.injectEndpoints({
         }
       },
     }),
-    // createDeck: builder.mutation<Deck, FormData>({
-    //   invalidatesTags: ['Decks'],
-    //   query: args => ({
-    //     body: args,
-    //     method: 'POST',
-    //     url: `v1/decks`,
-    //   }),
-    // }),
     getDeckById: builder.query<DecksResponse, { id: string }>({
       //uri params
       query: ({ id }) => {

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { ImageIcon } from '@/assets/image/image/ImageIcon'
-import { TickBox } from '@/commn/components/ui/checkBox/TickBox'
+import { ControlledCheckbox } from '@/commn/components/ui/checkBox/ControlledCheckbox'
 import { ControlledFileDownload } from '@/commn/components/ui/fileDonwold/ControlledFileDownload'
 import { FIlePreview } from '@/commn/components/ui/filePreview/FIlePreview'
 import { ControlledTextField } from '@/commn/components/ui/input/ControlledTextField'
@@ -59,25 +59,6 @@ export const CreateDeck = () => {
     } catch (e) {
       console.error('Error creating deck: ', e)
     }
-
-    // try {
-    //
-    //   const formData = new FormData()
-    //
-    //   // Добавляем поля в FormData
-    //   formData.append('name', data.name)
-    //   formData.append('isPrivate', data.isPrivate.toString())
-    //
-    //   if (data.cover instanceof File) {
-    //     // Проверка, если это файл
-    //     formData.append('cover', data.cover)
-    //   }
-    //
-    //   await createDeck(formData)
-    //   handleClose()
-    // } catch (e) {
-    //   console.error('Error creating deck: ', e)
-    // }
   }
 
   if (isError) {
@@ -120,7 +101,12 @@ export const CreateDeck = () => {
           name={'cover'}
           setFilePreview={setFilePreview}
         />,
-        <TickBox key={'TickBox'} label={'opana!'} />,
+        <ControlledCheckbox
+          control={control}
+          key={'check-box'}
+          label={'Private pack'}
+          name={'isPrivate'}
+        />,
       ]}
     </DialogModal>
   )
