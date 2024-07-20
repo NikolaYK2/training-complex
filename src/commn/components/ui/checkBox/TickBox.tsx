@@ -1,4 +1,4 @@
-import { ElementRef, forwardRef } from 'react'
+import { ElementRef, KeyboardEvent, forwardRef } from 'react'
 
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import * as CheckboxRadix from '@radix-ui/react-checkbox'
@@ -15,6 +15,13 @@ export const TickBox = forwardRef<ElementRef<typeof CheckboxRadix.Root>, TickBox
   (props, ref) => {
     const { disabled, label = '', onValueChange, position = '' } = props
 
+    const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+      if (event.key === 'Enter') {
+        event.preventDefault()
+        event.currentTarget.click()
+      }
+    }
+
     return (
       <div className={`${s.container} ${s[position]}`}>
         <label className={s.clickEffect}>
@@ -24,6 +31,7 @@ export const TickBox = forwardRef<ElementRef<typeof CheckboxRadix.Root>, TickBox
             disabled={disabled}
             id={'c1'}
             onCheckedChange={onValueChange}
+            onKeyDown={handleKeyDown}
             ref={ref}
           >
             <CheckboxRadix.Indicator className={s.indicator}>
