@@ -18,7 +18,7 @@ import s from './Decks.module.scss'
 
 export const Decks = () => {
   //rrm search params ------------
-  const [searchParams, setSearchParams] = useSearchParams({ name: '', page: '1' }) //МОжем испю вместо стейта хз зачем
+  const [searchParams, setSearchParams] = useSearchParams({ name: '', page: '1' })
 
   const page = Number(searchParams.get('page'))
   const name = searchParams.get('name')
@@ -46,25 +46,6 @@ export const Decks = () => {
     itemsPerPage: itemPage,
     name: name ?? undefined,
   }) //из query возвращается обьект из mutation картэш(массив с заранее определенными элементами)
-
-  //table ----------------------
-  const headers = [
-    { id: 1, title: 'Name' },
-    { id: 2, title: 'Cards' },
-    { id: 3, title: 'Last Updated' },
-    { id: 4, title: 'Created By' },
-  ]
-
-  const paragraphs =
-    data?.items.map(deck => ({
-      cells: [
-        { value: deck.name },
-        { value: `${deck.cardsCount}` },
-        { value: new Date(deck.updated).toLocaleDateString() },
-        { value: deck.author.name },
-      ],
-      idCells: deck.id,
-    })) || []
 
   if (isLoading) {
     return <Loading />
@@ -107,7 +88,25 @@ export const Decks = () => {
         </Button>
       </div>
       <div className={s.table}>
-        <Table headers={headers} paragraphs={paragraphs} />
+        <Table
+          headers={[
+            { id: 1, title: 'Name' },
+            { id: 2, title: 'Cards' },
+            { id: 3, title: 'Last Updated' },
+            { id: 4, title: 'Created By' },
+          ]}
+          paragraphs={
+            data?.items.map(deck => ({
+              cells: [
+                { img: deck.cover, value: deck.name },
+                { value: `${deck.cardsCount}` },
+                { value: new Date(deck.updated).toLocaleDateString() },
+                { value: deck.author.name },
+              ],
+              idCells: deck.id,
+            })) || []
+          }
+        />
       </div>
       <Pagination
         currentPage={page}
