@@ -74,6 +74,9 @@ export const Decks = () => {
     setPage(1)
   }
 
+  // if (isLoading) {
+  //   return <Loading />
+  // }
   if (isError) {
     console.error(error)
 

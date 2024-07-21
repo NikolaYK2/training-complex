@@ -11,7 +11,7 @@ import { useGetCurrentUserDataQuery, useLogoutMutation } from '@/services/auth/a
 import s from './Header.module.scss'
 
 export const Header = () => {
-  const { data, error, isError, isLoading } = useGetCurrentUserDataQuery()
+  const { data, error, isError } = useGetCurrentUserDataQuery()
   const [logout, { error: errorLogout, isError: isErrorLogout, isLoading: isLoadingLogout }] =
     useLogoutMutation()
   const isLogin = false
@@ -23,9 +23,9 @@ export const Header = () => {
     return <div>Error: {JSON.stringify(errorLogout)}</div>
   }
 
-  if (isLoading) {
-    return <Loading />
-  }
+  // if (isLoading) {
+  //   return <Loading />
+  // }
   if (isLoadingLogout) {
     return <Loading />
   }
