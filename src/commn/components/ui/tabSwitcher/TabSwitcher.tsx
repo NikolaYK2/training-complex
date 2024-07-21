@@ -7,7 +7,7 @@ type TabInfo = {
   callback: (value: string) => void
   description?: string
   trigger: string
-  value: string | undefined
+  value: 'default' | string | undefined
 }
 type Props = {
   tabInfo: TabInfo[]
@@ -26,16 +26,16 @@ type Props = {
  *     {
  *       callback: setAuthorDecks,
  *       trigger: 'All Cards',
- *       value: 'default',
+ *       value: 'default', watching all cards
  *     },
  *   ]}
  * />
  */ export const TabSwitcher = ({ tabInfo }: Props) => {
   // Determine the default value for Tabs.Root
-  const defaultValue = tabInfo.find(el => el.value === 'default')?.value ?? tabInfo[0]?.value ?? ''
+  const defaultValue = tabInfo.find(el => el.value === 'default')
 
   return (
-    <Tabs.Root className={s.container} defaultValue={defaultValue}>
+    <Tabs.Root className={s.container} defaultValue={defaultValue?.value}>
       <Tabs.List>
         {tabInfo.map(el => (
           <Tabs.Trigger
