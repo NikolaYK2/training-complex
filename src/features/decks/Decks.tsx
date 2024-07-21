@@ -19,11 +19,19 @@ import s from './Decks.module.scss'
 
 export const Decks = () => {
   //rrm search params ------------
-  const [searchParams, setSearchParams] = useSearchParams({ authorId: '', name: '', page: '' })
+  const [searchParams, setSearchParams] = useSearchParams({
+    authorId: '',
+    maxCardsCount: '',
+    minCardsCount: '',
+    name: '',
+    page: '',
+  })
 
   const page = Number(searchParams.get('page'))
   const name = searchParams.get('name')
   const authorId = searchParams.get('authorId')
+  const minCards = Number(searchParams.get('minCardsCount'))
+  const maxCards = Number(searchParams.get('maxCardsCount'))
   const setPage = (page: number) => {
     searchParams.set('page', page.toString())
     setSearchParams(searchParams)
@@ -50,6 +58,29 @@ export const Decks = () => {
     }
     setSearchParams(newParams)
   }
+
+  const setCountMinDecks = (countMin: number) => {
+    const count = countMin.toString()
+
+    if (count === '') {
+      searchParams.delete('minCardsCount')
+    } else {
+      searchParams.set('minCardsCount', countMin.toString())
+    }
+    setSearchParams(searchParams)
+  }
+
+  const setCountMaxDecks = (countMax: number) => {
+    const count = countMax.toString()
+
+    if (count === '') {
+      searchParams.delete('maxCardsCount')
+    } else {
+      searchParams.set('maxCardsCount', countMax.toString())
+    }
+    setSearchParams(searchParams)
+  }
+
   const [itemPage, setItemPage] = useState(10)
 
   const { data, error, isError, isLoading } = useGetDecksQuery({
@@ -57,6 +88,8 @@ export const Decks = () => {
     // как useEffect поулчаем данные
     currentPage: page || 1, //было просто page если use useState
     itemsPerPage: itemPage,
+    maxCardsCount: maxCards ?? undefined,
+    minCardsCount: minCards ?? undefined,
     name: name ?? undefined,
   }) //из query возвращается обьект из mutation картэш(массив с заранее определенными элементами)
 
@@ -99,7 +132,12 @@ export const Decks = () => {
           />
         </div>
         <div className={s.slider}>
-          <SliderValue />
+          <SliderValue
+            maxValue={maxCards ? +maxCards : 100}
+            minValue={minCards ? +minCards : 0}
+            setCountMaxDecks={setCountMaxDecks}
+            setCountMinDecks={setCountMinDecks}
+          />
         </div>
         <Button variant={'secondary'}>
           <IconSvg name={'delete'} />
