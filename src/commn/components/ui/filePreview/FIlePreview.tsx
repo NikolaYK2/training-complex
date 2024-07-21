@@ -1,5 +1,5 @@
 import { FullscreenIcon } from '@/assets/image/fuuscreen/FullscreenIcon'
-import { FilePreviewPortal } from '@/features/decks/createDeck/filePreviewPortal/FilePreviewPortal'
+import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
 
 import s from './FIlePreview.module.scss'
 
@@ -16,7 +16,7 @@ export const FIlePreview = ({
   setFilePreviewFullScreen,
 }: Props) => {
   return (
-    <div>
+    <div className={s.containerFilePreview}>
       {filePreview && (
         <div className={s.filePreview}>
           <img alt={'image'} src={filePreview} />
