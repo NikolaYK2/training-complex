@@ -1,39 +1,55 @@
+import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import * as Tabs from '@radix-ui/react-tabs'
 
 import s from './TabSwitcher.module.scss'
 
 type TabInfo = {
-  description: string
+  callback: (value: string) => void
+  description?: string
   trigger: string
-  value: string
+  value: string | undefined
 }
 type Props = {
   tabInfo: TabInfo[]
 }
-export const TabSwitcher = ({ tabInfo }: Props) => {
-  // const arr = [
-  //   {
-  //     name: 'Switcher1',
-  //     p: "Make changes to your account here. Click save when you're done.",
-  //     value: 'tab1',
-  //   },
-  //   { name: 'Switcher2', p: 'Nice to meet you', value: 'tab2' },
-  //   { name: 'Switcher3', p: 'Ooooh', value: 'tab3' },
-  //   { name: 'Switcher4', p: 'Sexy', value: 'tab4' },
-  //   { name: 'Switcher5', p: 'XXX 18+ very warm!', value: 'tab5' },
-  // ]
+/**
+ * TabSwitcher component to manage tab navigation and content rendering.
+ *
+ * Usage:
+ * <TabSwitcher
+ *   tabInfo={[
+ *     {
+ *       callback: setAuthorDecks,
+ *       trigger: 'My Cards',
+ *       value: dataUserData?.id ?? '',
+ *     },
+ *     {
+ *       callback: setAuthorDecks,
+ *       trigger: 'All Cards',
+ *       value: 'default',
+ *     },
+ *   ]}
+ * />
+ */ export const TabSwitcher = ({ tabInfo }: Props) => {
+  // Determine the default value for Tabs.Root
+  const defaultValue = tabInfo.find(el => el.value === 'default')?.value ?? tabInfo[0]?.value ?? ''
 
   return (
-    <Tabs.Root className={s.container} defaultValue={'tab1'}>
+    <Tabs.Root className={s.container} defaultValue={defaultValue}>
       <Tabs.List>
         {tabInfo.map(el => (
-          <Tabs.Trigger className={s.blockTab} key={el.trigger} value={el.value}>
-            {el.trigger}
+          <Tabs.Trigger
+            className={s.blockTab}
+            key={el.trigger}
+            onClick={() => el.callback(el.value === 'default' ? '' : el.value ?? '')}
+            value={el.value ?? ''}
+          >
+            <TextFormat variant={'body1'}>{el.trigger}</TextFormat>
           </Tabs.Trigger>
         ))}
       </Tabs.List>
       {tabInfo.map(el => (
-        <Tabs.Content key={el.trigger} value={el.value}>
+        <Tabs.Content key={el.trigger} value={el.value ? el.value : ''}>
           <p className={'Text'}>{el.description}</p>
         </Tabs.Content>
       ))}
