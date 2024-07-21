@@ -1,4 +1,4 @@
-import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { Navigate, RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 import { CheckEmail } from '@/features/auth/checkEmail/CheckEmail'
 import { ConfirmEmail } from '@/features/auth/confirmEmail/ConfirmEmail'
@@ -13,6 +13,7 @@ import { PrivateRoutes } from '@/routes/PrivateRoutes'
 import { ErrorRoute } from '@/routes/errorRoute/ErrorRoute'
 
 export const HOME_ROUTE = '/'
+export const DECK_ROUTE = '/deck'
 export const LOGIN_ROUTE = '/login'
 export const PROFILE_ROUTE = '/profile'
 export const REGISTER_ROUTE = '/register'
@@ -49,8 +50,12 @@ const publicRoutes: RouteObject[] = [
 ]
 const privateRoutes: RouteObject[] = [
   {
+    element: <Navigate to={DECK_ROUTE} />,
+    path: `${HOME_ROUTE}`,
+  },
+  {
     element: <Decks />,
-    path: HOME_ROUTE,
+    path: `${DECK_ROUTE}`,
   },
   {
     element: <PersonalInformation />,
