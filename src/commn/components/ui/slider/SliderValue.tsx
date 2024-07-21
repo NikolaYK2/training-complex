@@ -1,6 +1,6 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
-import { debounce } from '@/commn/utils/debounce'
+import { changeValues } from '@/commn/components/ui/slider/lib/changeValues'
 import * as Slider from '@radix-ui/react-slider'
 
 import s from './SliderValue.module.scss'
@@ -13,44 +13,37 @@ type Props = {
 }
 
 export const SliderValue = ({
-  maxValue: max,
-  minValue: min,
+  maxValue: initialMax,
+  minValue: initialMin,
   setCountMaxDecks,
   setCountMinDecks,
 }: Props) => {
-  const [minValue, setMinValue] = useState(min)
-  const [maxValue, setMaxValue] = useState(max)
+  const [minValue, setMinValue] = useState(initialMin)
+  const [maxValue, setMaxValue] = useState(initialMax)
 
-  const debouncedUpdate = useRef(
-    debounce((minVal: number, maxVal: number) => {
-      setCountMinDecks(minVal)
-      setCountMaxDecks(maxVal)
-    }, 500)
-  ).current
-
+  // Дебаунсинг для предотвращения частых обновлений
   const changeSliderValues = (value: number[]) => {
     setMinValue(value[0])
     setMaxValue(value[1])
-    debouncedUpdate(value[0], value[1])
+    setCountMinDecks(value[0])
+    setCountMaxDecks(value[1])
   }
 
   const changeMinValue = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.currentTarget.value, 10)
-
-    setMinValue(isNaN(value) ? 0 : value)
-    debouncedUpdate(isNaN(value) ? 0 : value, maxValue)
+    changeValues(e, setMinValue, setCountMinDecks)
   }
 
   const changeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.currentTarget.value, 10)
-
-    setMaxValue(isNaN(value) ? 0 : value)
-    debouncedUpdate(minValue, isNaN(value) ? 0 : value)
+    changeValues(e, setMaxValue, setCountMaxDecks)
   }
 
   useEffect(() => {
-    debouncedUpdate(minValue, maxValue)
-  }, [minValue, maxValue, debouncedUpdate])
+    setMinValue(initialMin)
+  }, [initialMin])
+
+  useEffect(() => {
+    setMaxValue(initialMax)
+  }, [initialMax])
 
   return (
     <div className={s.container}>
