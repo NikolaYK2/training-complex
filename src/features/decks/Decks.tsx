@@ -50,6 +50,7 @@ export const Decks = () => {
 
   const setCountMinDecks = (countMin: number) => {
     updateSearchParam(searchParams, setSearchParams, 'minCardsCount', countMin)
+    setPage(1)
   }
 
   const setCountMaxDecks = (countMax: number) => {
@@ -73,17 +74,15 @@ export const Decks = () => {
     setPage(1)
   }
 
-  if (isLoading) {
-    return <Loading />
-  }
   if (isError) {
     console.error(error)
 
-    return <div>Error</div>
+    return <div>Error: {JSON.stringify(error)}</div>
   }
 
   return (
     <Page>
+      {isLoading && <Loading />}
       <div className={s.deck}>
         <TextFormat variant={'h1'}>Decks list</TextFormat>
         <CreateDeck />
