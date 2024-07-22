@@ -1,0 +1,85 @@
+.containerDeleteIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+  padding: 1px;
+
+  .svg {
+    max-width: 18px;
+    height: 18px;
+  }
+
+  &.animation .head {
+    animation: lidShake 1s ease;
+  }
+
+  &.animation .foot {
+    animation: binShake 1s ease;
+  }
+}
+
+.head,
+.foot {
+  fill: var(--color-light-100);
+}
+
+.foot {
+  fill: transparent;
+  stroke: var(--color-light-100);
+  stroke-width: 2px;
+}
+
+@keyframes lidShake {
+  0% {
+    transform: rotate(0deg) translateY(0);
+  }
+
+  20% {
+    transform: rotate(-10deg) translateY(-1px);
+  }
+
+  40% {
+    transform: rotate(10deg) translateY(2px);
+  }
+
+  60% {
+    transform: rotate(-5deg) translateY(-1px);
+  }
+
+  80% {
+    transform: rotate(5deg) translateY(1px);
+  }
+
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+}
+
+@keyframes binShake {
+  0% {
+    transform: translateY(0);
+  }
+
+  20% {
+    transform: translateY(-2px);
+  }
+
+  40% {
+    transform: translateY(2px);
+  }
+
+  60% {
+    transform: translateY(-1px);
+  }
+
+  80% {
+    transform: translateY(1px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
