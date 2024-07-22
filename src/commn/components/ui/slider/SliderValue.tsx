@@ -44,14 +44,8 @@ export const SliderValue = ({
   }, [debouncedMaxValue])
   // Обновляем состояния ползунков
   const changeSliderValues = (value: number[]) => {
-    if (value[0] !== minValue) {
-      setMinValue(value[0])
-    }
-    if (value[1] !== maxValue) {
-      setMaxValue(value[1])
-    }
-    setCountMinDecks(debouncedMinValue)
-    setCountMaxDecks(debouncedMaxValue)
+    setMinValue(value[0])
+    setMaxValue(value[1])
   }
   const changeMinValue = (e: ChangeEvent<HTMLInputElement>) => {
     changeValues(e, setMinValue, setCountMinDecks)
