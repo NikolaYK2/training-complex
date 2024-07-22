@@ -7,7 +7,7 @@ export const changeValues = (
 ) => {
   const value = parseInt(e.currentTarget.value, 10)
 
-  if (value >= 0) {
+  if (value >= 0 && value <= 100) {
     setState(value)
     setParam(value)
   }
