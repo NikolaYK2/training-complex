@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 
 import { changeValues } from '@/commn/components/ui/slider/lib/changeValues'
+import { useDebounce } from '@/commn/hooks/useDeb'
 import * as Slider from '@radix-ui/react-slider'
 
 import s from './SliderValue.module.scss'
@@ -22,21 +23,10 @@ export const SliderValue = ({
   const [maxValue, setMaxValue] = useState(initialMax)
 
   // Дебаунсинг для предотвращения частых обновлений
-  const changeSliderValues = (value: number[]) => {
-    setMinValue(value[0])
-    setMaxValue(value[1])
-    setCountMinDecks(value[0])
-    setCountMaxDecks(value[1])
-  }
+  const debouncedMinValue = useDebounce(minValue, 300)
+  const debouncedMaxValue = useDebounce(maxValue, 300)
 
-  const changeMinValue = (e: ChangeEvent<HTMLInputElement>) => {
-    changeValues(e, setMinValue, setCountMinDecks)
-  }
-
-  const changeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
-    changeValues(e, setMaxValue, setCountMaxDecks)
-  }
-
+  // Обновляем значения при изменении пропсов
   useEffect(() => {
     setMinValue(initialMin)
   }, [initialMin])
@@ -44,6 +34,32 @@ export const SliderValue = ({
   useEffect(() => {
     setMaxValue(initialMax)
   }, [initialMax])
+  // Обновляем значения в родительском компоненте при изменении дебаунсированных значений
+  useEffect(() => {
+    setCountMinDecks(debouncedMinValue)
+  }, [debouncedMinValue])
+
+  useEffect(() => {
+    setCountMaxDecks(debouncedMaxValue)
+  }, [debouncedMaxValue])
+  // Обновляем состояния ползунков
+  const changeSliderValues = (value: number[]) => {
+    if (value[0] !== minValue) {
+      setMinValue(value[0])
+    }
+    if (value[1] !== maxValue) {
+      setMaxValue(value[1])
+    }
+    setCountMinDecks(debouncedMinValue)
+    setCountMaxDecks(debouncedMaxValue)
+  }
+  const changeMinValue = (e: ChangeEvent<HTMLInputElement>) => {
+    changeValues(e, setMinValue, setCountMinDecks)
+  }
+
+  const changeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
+    changeValues(e, setMaxValue, setCountMaxDecks)
+  }
 
   return (
     <div className={s.container}>
