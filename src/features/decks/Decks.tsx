@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
+import { DeleteIcon } from '@/assets/image/delete/DeleteIcon'
 import { Button } from '@/commn/components/ui/button'
-import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { TextField } from '@/commn/components/ui/input/TextField'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Pagination } from '@/commn/components/ui/pagination/Pagination'
@@ -123,8 +123,8 @@ export const Decks = () => {
             setCountMinDecks={setCountMinDecks}
           />
         </div>
-        <Button onClick={handleClearFilter} variant={'secondary'}>
-          <IconSvg name={'delete'} />
+        <Button className={s.deleteBtn} onClick={handleClearFilter} variant={'secondary'}>
+          <DeleteIcon className={s.deleteIcon} />
           <TextFormat variant={'subtitle2'}>Clear Filter</TextFormat>
         </Button>
       </div>
