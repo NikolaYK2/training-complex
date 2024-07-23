@@ -9,6 +9,7 @@ import { Pagination } from '@/commn/components/ui/pagination/Pagination'
 import { SliderValue } from '@/commn/components/ui/slider/SliderValue'
 import { TabSwitcher } from '@/commn/components/ui/tabSwitcher/TabSwitcher'
 import { Table } from '@/commn/components/ui/tables/Table'
+import { Title } from '@/commn/components/ui/title/Title'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { CreateDeck } from '@/features/decks/createDeck/CreateDeck'
 import { Page } from '@/features/pages/Page'
@@ -86,10 +87,10 @@ export const Decks = () => {
   return (
     <Page>
       {isLoading && <Loading />}
-      <div className={s.deck}>
-        <TextFormat variant={'h1'}>Decks list</TextFormat>
+
+      <Title name={'Decks list'}>
         <CreateDeck />
-      </div>
+      </Title>
       <div className={s.filters}>
         <div className={s.search}>
           <TextField
@@ -147,7 +148,7 @@ export const Decks = () => {
           paragraphs={
             data?.items.map(deck => ({
               cells: [
-                { img: deck.cover, value: deck.name },
+                { idDeck: deck.id, img: deck.cover, value: deck.name },
                 { value: `${deck.cardsCount}` },
                 { value: new Date(deck.updated).toLocaleDateString() },
                 { value: deck.author.name },
