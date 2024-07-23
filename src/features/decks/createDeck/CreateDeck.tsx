@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form'
 
 import { ImageIcon } from '@/assets/image/image/ImageIcon'
 import { ControlledCheckbox } from '@/commn/components/ui/checkBox/ControlledCheckbox'
@@ -8,54 +7,44 @@ import { FIlePreview } from '@/commn/components/ui/filePreview/FIlePreview'
 import { ControlledTextField } from '@/commn/components/ui/input/ControlledTextField'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { DialogModal } from '@/commn/components/ui/modals/dialog/DialogModal'
+import { useCreateEntityForm } from '@/commn/hooks/useCreateEntityForm'
 import { useCreateDeckMutation } from '@/services/decks/decksService'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import s from './CreateDeck.module.scss'
 
 const createDeckSchema = z.object({
   cover: z.any().optional().nullable(),
-  isPrivate: z.boolean().default(false),
+  isPrivate: z.boolean(),
   name: z.string().trim().min(3, 'min 3 litters'),
 })
 
 type FormType = z.infer<typeof createDeckSchema>
 export const CreateDeck = () => {
-  const [filePreview, setFilePreview] = useState<null | string>(null) // Состояние для хранения URL изображения
-  const [filePreviewFullScreen, setFilePreviewFullScreen] = useState(false)
-  const [isOpenModal, setIsOpenModal] = useState(false)
   const [createDeck, { error, isError, isLoading: isLoadingCreatedDeck }] = useCreateDeckMutation()
-
   const {
     control,
-    formState: { errors },
+    errors,
+    filePreview,
+    filePreviewFullScreen,
+    handleCloseModal,
+    handleFormReset,
     handleSubmit,
-    reset,
-  } = useForm<FormType>({
+    isOpenModal,
+    setFilePreview,
+    setFilePreviewFullScreen,
+  } = useCreateEntityForm({
     defaultValues: {
       cover: null,
       isPrivate: false,
       name: '',
     },
-    resolver: zodResolver(createDeckSchema),
+    schema: createDeckSchema,
   })
-
-  // Очистка состояния при успешной отправке формы
-  const handleClose = () => {
-    setFilePreview(null)
-    setIsOpenModal(false)
-    setFilePreviewFullScreen(false)
-    reset() // Сброс формы
-  }
-  const handleCloseModal = () => {
-    setIsOpenModal(!isOpenModal) //закрытие модалки
-    setFilePreviewFullScreen(false)
-  }
   const onSubmit: SubmitHandler<FormType> = async data => {
     try {
       await createDeck({ cover: data.cover, isPrivate: data.isPrivate, name: data.name })
-      handleClose()
+      handleFormReset()
     } catch (e) {
       console.error('Error creating deck: ', e)
     }
@@ -71,7 +60,7 @@ export const CreateDeck = () => {
       onSubmit={handleSubmit(onSubmit)}
       setIsOpenModal={handleCloseModal}
       textH2={'add new deck'}
-      trigger={'add new card'}
+      trigger={'add new deck'}
     >
       {[
         <div key={'loading'}>{isLoadingCreatedDeck && <Loading />}</div>,
