@@ -7,9 +7,10 @@ type TabInfo = {
   callback: (value: string) => void
   description?: string
   trigger: string
-  value: 'default' | string | undefined
+  value: 'default' | string
 }
 type Props = {
+  activeTab: string
   tabInfo: TabInfo[]
 }
 /**
@@ -30,18 +31,15 @@ type Props = {
  *     },
  *   ]}
  * />
- */ export const TabSwitcher = ({ tabInfo }: Props) => {
-  // Determine the default value for Tabs.Root
-  const defaultValue = tabInfo.find(el => el.value === 'default')
-
+ */ export const TabSwitcher = ({ activeTab, tabInfo }: Props) => {
   return (
-    <Tabs.Root className={s.container} defaultValue={defaultValue?.value}>
+    <Tabs.Root className={s.container} value={activeTab}>
       <Tabs.List>
         {tabInfo.map(el => (
           <Tabs.Trigger
             className={s.blockTab}
             key={el.trigger}
-            onClick={() => el.callback(el.value === 'default' ? '' : el.value ?? '')}
+            onClick={() => el.callback(el.value === 'default' ? '' : el.value)}
             value={el.value ?? ''}
           >
             <TextFormat variant={'body1'}>{el.trigger}</TextFormat>
