@@ -1,8 +1,10 @@
 import { ReactElement, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
+import { CARDS_ROUTE } from '@/routes/Router'
 
 import s from './Table.module.scss'
 
@@ -13,6 +15,7 @@ type HeadersType = {
 
 type CellType = {
   element?: ReactElement[]
+  idDeck?: string
   img?: null | string
   value: string
 }
@@ -32,9 +35,20 @@ export const Table = ({ headers, paragraphs }: TableProps) => {
   const textErrors = 'Количество заголовков и колонок в строках должно совпадать'
   const ref = useRef<HTMLDivElement | null>(null)
   const isActiveSort = false
-
+  const navigate = useNavigate()
   // Проверяем, что количество заголовков совпадает с количеством колонок в каждом параграфе
   const isLengthMismatch = paragraphs.some(paragraph => paragraph.cells.length !== headers.length)
+
+  const handleImgClick = (img: null | string | undefined) => {
+    if (img) {
+      setActiveImg(img)
+    } else {
+      setActiveImg(null)
+    }
+  }
+  const handleGetCard = (idCards: string) => {
+    navigate(`${idCards}${CARDS_ROUTE}`)
+  }
 
   if (isLengthMismatch) {
     console.error(textErrors)
@@ -69,14 +83,16 @@ export const Table = ({ headers, paragraphs }: TableProps) => {
                   <div className={s.item}>
                     {cell.img && (
                       <div className={s.img}>
-                        <img
-                          alt={'img'}
-                          onClick={() => setActiveImg(cell.img ? cell.img : '')}
-                          src={cell.img}
-                        />
+                        <img alt={'img'} onClick={() => handleImgClick(cell.img)} src={cell.img} />
                       </div>
                     )}
-                    <TextFormat variant={'body2'}>{cell.value}</TextFormat>
+                    <TextFormat
+                      onClick={() => cell.idDeck && handleGetCard(cell.idDeck)}
+                      style={{ cursor: cell.idDeck ? 'pointer' : '' }}
+                      variant={'body2'}
+                    >
+                      {cell.value}
+                    </TextFormat>
                     <div className={s.elements}>
                       {cell.element?.map((el, k) => (
                         <div className={s.element} key={k}>
