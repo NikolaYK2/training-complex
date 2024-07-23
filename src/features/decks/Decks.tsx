@@ -100,6 +100,10 @@ export const Decks = () => {
           />
         </div>
         <div className={s.tab}>
+          <TextFormat style={{ marginBottom: '5px' }} variant={'body2'}>
+            Show decks cards
+          </TextFormat>
+
           <TabSwitcher
             tabInfo={[
               {
@@ -116,6 +120,10 @@ export const Decks = () => {
           />
         </div>
         <div className={s.slider}>
+          <TextFormat style={{ marginBottom: '5px' }} variant={'body2'}>
+            Number of cards
+          </TextFormat>
+
           <SliderValue
             maxValue={maxCards}
             minValue={minCards}
