@@ -100,7 +100,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
           </>
         )}
       </label>
-      <div className={s.errorText}>{typeInput !== 'search' && errorMessage}</div>
+      {typeInput !== 'search' && <div className={s.errorText}>{errorMessage}</div>}
     </div>
   )
 })
