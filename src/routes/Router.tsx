@@ -15,8 +15,7 @@ import { ErrorRoute } from '@/routes/errorRoute/ErrorRoute'
 
 export const HOME_ROUTE = '/'
 export const DECK_ROUTE = '/deck'
-// export const DECK_USER_ROUTE = ':id'
-export const CARDS_ROUTE = '/deck/cards'
+export const CARDS_ROUTE = '/cards'
 export const LOGIN_ROUTE = '/login'
 export const PROFILE_ROUTE = '/profile'
 export const REGISTER_ROUTE = '/register'
@@ -62,7 +61,7 @@ const privateRoutes: RouteObject[] = [
   },
   {
     element: <Cards />,
-    path: `${CARDS_ROUTE}`,
+    path: `${DECK_ROUTE}/:id${CARDS_ROUTE}`,
   },
   {
     element: <PersonalInformation />,
