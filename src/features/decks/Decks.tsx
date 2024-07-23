@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Outlet, useSearchParams } from 'react-router-dom'
 
 import { DeleteIcon } from '@/assets/image/delete/DeleteIcon'
 import { Button } from '@/commn/components/ui/button'
@@ -23,35 +23,28 @@ export const Decks = () => {
   const [itemPage, setItemPage] = useState(10)
 
   //rrm search params ------------
-  const [searchParams, setSearchParams] = useSearchParams({
-    authorId: '',
-    maxCardsCount: '100',
-    minCardsCount: '0',
-    name: '',
-    page: '',
-  })
+  const [searchParams, setSearchParams] = useSearchParams()
   const page = Number(searchParams.get('page')) || 1
   const name = searchParams.get('name') || ''
   const authorId = searchParams.get('authorId') || ''
   const minCards = Number(searchParams.get('minCardsCount')) || 0
   const maxCards = Number(searchParams.get('maxCardsCount')) || 100
+  const activeTab = authorId || 'default'
 
   const setPage = (page: number) => {
     updateSearchParam(searchParams, setSearchParams, 'page', page)
   }
 
   const setSearch = (name: string) => {
-    updateSearchParam(searchParams, setSearchParams, 'name', name)
-    setPage(1)
+    updateSearchParam(searchParams, setSearchParams, 'name', name, setPage)
   }
 
   const setAuthorDecks = (authorId: string) => {
-    updateSearchParam(searchParams, setSearchParams, 'authorId', authorId)
+    updateSearchParam(searchParams, setSearchParams, 'authorId', authorId, setPage)
   }
 
   const setCountMinDecks = (countMin: number) => {
-    updateSearchParam(searchParams, setSearchParams, 'minCardsCount', countMin)
-    setPage(1)
+    updateSearchParam(searchParams, setSearchParams, 'minCardsCount', countMin, setPage)
   }
 
   const setCountMaxDecks = (countMax: number) => {
@@ -59,12 +52,12 @@ export const Decks = () => {
   }
 
   const { data, error, isError, isLoading } = useGetDecksQuery({
-    authorId: authorId ?? undefined,
-    currentPage: page || 1, //было просто page если use useState
+    authorId: authorId || undefined,
+    currentPage: page, //было просто page если use useState
     itemsPerPage: itemPage,
     maxCardsCount: maxCards,
     minCardsCount: minCards,
-    name: name ?? undefined,
+    name: name || undefined,
   }) //из query возвращается обьект из mutation картэш(массив с заранее определенными элементами)
 
   const { data: dataUserData } = useGetCurrentUserDataQuery()
@@ -72,7 +65,7 @@ export const Decks = () => {
   const handleClearFilter = () => {
     setCountMaxDecks(100)
     setCountMinDecks(0)
-    setPage(1)
+    // setPage(1)
   }
 
   // if (isLoading) {
@@ -106,6 +99,7 @@ export const Decks = () => {
           </TextFormat>
 
           <TabSwitcher
+            activeTab={activeTab}
             tabInfo={[
               {
                 callback: setAuthorDecks,
@@ -166,6 +160,7 @@ export const Decks = () => {
         siblingCount={1}
         totalCount={data?.pagination?.totalPages ?? 1}
       />
+      <Outlet />
     </Page>
   )
 }
