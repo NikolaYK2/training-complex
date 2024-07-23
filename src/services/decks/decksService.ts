@@ -1,7 +1,7 @@
 import { CreateDeckArgs, Deck, DecksResponse, GetDecksArgs } from '@/services/decks/DecksTypes'
 import { flashcardsApi } from '@/services/flashcardsApi'
 
-export const DecksService = flashcardsApi.injectEndpoints({
+export const decksService = flashcardsApi.injectEndpoints({
   endpoints: builder => ({
     createDeck: builder.mutation<Deck, CreateDeckArgs>({
       invalidatesTags: ['Decks'],
@@ -42,4 +42,4 @@ export const DecksService = flashcardsApi.injectEndpoints({
   }),
 })
 
-export const { useCreateDeckMutation, useGetDecksQuery } = DecksService
+export const { useCreateDeckMutation, useGetDecksQuery } = decksService
