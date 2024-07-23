@@ -7,6 +7,7 @@ import { ForgotPassword } from '@/features/auth/forgotPassword/ForgotPassword'
 import { SignIn } from '@/features/auth/login/SignIn'
 import { PersonalInformation } from '@/features/auth/personalInformation/PersonalInformation'
 import { SignUp } from '@/features/auth/registration/SignUp'
+import { Cards } from '@/features/cards/Cards'
 import { Decks } from '@/features/decks/Decks'
 import { AppRoutes } from '@/routes/AppRoutes'
 import { PrivateRoutes } from '@/routes/PrivateRoutes'
@@ -14,6 +15,8 @@ import { ErrorRoute } from '@/routes/errorRoute/ErrorRoute'
 
 export const HOME_ROUTE = '/'
 export const DECK_ROUTE = '/deck'
+// export const DECK_USER_ROUTE = ':id'
+export const CARDS_ROUTE = '/deck/cards'
 export const LOGIN_ROUTE = '/login'
 export const PROFILE_ROUTE = '/profile'
 export const REGISTER_ROUTE = '/register'
@@ -56,6 +59,10 @@ const privateRoutes: RouteObject[] = [
   {
     element: <Decks />,
     path: `${DECK_ROUTE}`,
+  },
+  {
+    element: <Cards />,
+    path: `${CARDS_ROUTE}`,
   },
   {
     element: <PersonalInformation />,
