@@ -1,9 +1,16 @@
-import { CreateDeckArgs, Deck, DecksResponse, GetDecksArgs } from '@/services/decks/DecksTypes'
+import {
+  CardType,
+  CardsArgs,
+  CreateDeckArgs,
+  DeckType,
+  DecksResponse,
+  GetDecksArgs,
+} from '@/services/decks/DecksTypes'
 import { flashcardsApi } from '@/services/flashcardsApi'
 
 export const decksService = flashcardsApi.injectEndpoints({
   endpoints: builder => ({
-    createDeck: builder.mutation<Deck, CreateDeckArgs>({
+    createDeck: builder.mutation<DeckType, CreateDeckArgs>({
       invalidatesTags: ['Decks'],
       query: ({ cover, isPrivate, name }) => {
         const formData = new FormData()
@@ -21,15 +28,15 @@ export const decksService = flashcardsApi.injectEndpoints({
         }
       },
     }),
-    getDeckById: builder.query<DecksResponse, { id: string }>({
+    getDeckById: builder.query<DeckType, { id: string }>({
       //uri params
       query: ({ id }) => {
         return {
-          url: `v2/decks/${id}`,
+          url: `v1/decks/${id}`,
         }
       },
     }),
-    getDecks: builder.query<DecksResponse, GetDecksArgs | void>({
+    getDecks: builder.query<DecksResponse<DeckType[]>, GetDecksArgs | void>({
       providesTags: ['Decks'], //как бы обновляем кэш, так как новые данные
       //query param
       query: params => {
@@ -39,7 +46,28 @@ export const decksService = flashcardsApi.injectEndpoints({
         }
       },
     }),
+    retrieveCardsInDeck: builder.query<DecksResponse<CardType[]>, CardsArgs | void>({
+      query: ({ answer, currentPage, id, itemsPerPage, orderBy, question }: CardsArgs) => {
+        const params = {
+          ...(orderBy && { orderBy }),
+          ...(question && { question }),
+          ...(answer && { answer }),
+          ...(currentPage && { currentPage }),
+          ...(itemsPerPage && { itemsPerPage }),
+        }
+
+        return {
+          params: params ?? {},
+          url: `v1/decks/${id}/cards`,
+        }
+      },
+    }),
   }),
 })
 
-export const { useCreateDeckMutation, useGetDecksQuery } = decksService
+export const {
+  useCreateDeckMutation,
+  useGetDeckByIdQuery,
+  useGetDecksQuery,
+  useRetrieveCardsInDeckQuery,
+} = decksService

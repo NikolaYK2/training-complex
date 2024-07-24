@@ -2,7 +2,7 @@ export type Author = {
   id: string
   name: string
 }
-export type Deck = {
+export type DeckType = {
   author: Author
   cardsCount: number
   cover: null | string
@@ -20,8 +20,8 @@ export type Pagination = {
   totalItems: number
   totalPages: number
 }
-export type DecksResponse = {
-  items: Deck[]
+export type DecksResponse<T> = {
+  items: T
   pagination: Pagination
 }
 
@@ -39,4 +39,29 @@ export type CreateDeckArgs = {
   cover?: File
   isPrivate?: boolean
   name: string
+}
+
+export type CardsArgs = {
+  answer?: string
+  currentPage?: number
+  id: string
+  itemsPerPage?: number
+  orderBy?: string
+  question?: string
+}
+
+export type CardType = {
+  answer: string
+  answerImg: string
+  answerVideo: string
+  created: string
+  deckId: string
+  grade: number
+  id: string
+  question: string
+  questionImg: string
+  questionVideo: string
+  shots: number
+  updated: string
+  userId: string
 }
