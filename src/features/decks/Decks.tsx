@@ -1,54 +1,63 @@
 import { useState } from 'react'
-import { Outlet, useSearchParams } from 'react-router-dom'
 
 import { DeleteIcon } from '@/assets/image/delete/DeleteIcon'
 import { Button } from '@/commn/components/ui/button'
-import { TextField } from '@/commn/components/ui/input/TextField'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Pagination } from '@/commn/components/ui/pagination/Pagination'
+import { Search } from '@/commn/components/ui/search/Search'
 import { SliderValue } from '@/commn/components/ui/slider/SliderValue'
 import { TabSwitcher } from '@/commn/components/ui/tabSwitcher/TabSwitcher'
 import { Table } from '@/commn/components/ui/tables/Table'
 import { Title } from '@/commn/components/ui/title/Title'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
+import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
 import { CreateDeck } from '@/features/decks/createDeck/CreateDeck'
 import { Page } from '@/features/pages/Page'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
+import { DeckType } from '@/services/decks/DecksTypes'
 import { useGetDecksQuery } from '@/services/decks/decksService'
-import { updateSearchParam } from '@/services/decks/lib/updateSearchParam'
 
 import s from './Decks.module.scss'
 
+const DECKS_KEY_SEARCH_PARAMS = {
+  authorId: 'authorId',
+  default: 'default',
+  maxCardsCount: 'maxCardsCount',
+  minCardsCount: 'minCardsCount',
+  page: 'page',
+  pageDeckSaveHistory: 'page-deck',
+  searchName: 'name',
+}
+
 export const Decks = () => {
   const [itemPage, setItemPage] = useState(10)
-
+  const { searchParams, updateSearchParam } = useSearchUpdateParams()
   //rrm search params ------------
-  const [searchParams, setSearchParams] = useSearchParams()
-  const page = Number(searchParams.get('page')) || 1
-  const name = searchParams.get('name') || ''
-  const authorId = searchParams.get('authorId') || ''
-  const minCards = Number(searchParams.get('minCardsCount')) || 0
-  const maxCards = Number(searchParams.get('maxCardsCount')) || 100
-  const activeTab = authorId || 'default'
+  const page = Number(searchParams.get(DECKS_KEY_SEARCH_PARAMS.page)) || 1
+  const name = searchParams.get(DECKS_KEY_SEARCH_PARAMS.searchName) || ''
+  const authorId = searchParams.get(DECKS_KEY_SEARCH_PARAMS.authorId) || ''
+  const minCards = Number(searchParams.get(DECKS_KEY_SEARCH_PARAMS.minCardsCount)) || 0
+  const maxCards = Number(searchParams.get(DECKS_KEY_SEARCH_PARAMS.maxCardsCount)) || 100
+  const activeTab = authorId || DECKS_KEY_SEARCH_PARAMS.default
 
   const setPage = (page: number) => {
-    updateSearchParam(searchParams, setSearchParams, 'page', page)
+    updateSearchParam(DECKS_KEY_SEARCH_PARAMS.page, page)
   }
 
   const setSearch = (name: string) => {
-    updateSearchParam(searchParams, setSearchParams, 'name', name, setPage)
+    updateSearchParam(DECKS_KEY_SEARCH_PARAMS.searchName, name, setPage)
   }
 
   const setAuthorDecks = (authorId: string) => {
-    updateSearchParam(searchParams, setSearchParams, 'authorId', authorId, setPage)
+    updateSearchParam(DECKS_KEY_SEARCH_PARAMS.authorId, authorId, setPage)
   }
 
   const setCountMinDecks = (countMin: number) => {
-    updateSearchParam(searchParams, setSearchParams, 'minCardsCount', countMin, setPage)
+    updateSearchParam(DECKS_KEY_SEARCH_PARAMS.minCardsCount, countMin, setPage)
   }
 
   const setCountMaxDecks = (countMax: number) => {
-    updateSearchParam(searchParams, setSearchParams, 'maxCardsCount', countMax)
+    updateSearchParam(DECKS_KEY_SEARCH_PARAMS.maxCardsCount, countMax)
   }
 
   const { data, error, isError, isLoading } = useGetDecksQuery({
@@ -86,12 +95,7 @@ export const Decks = () => {
       </Title>
       <div className={s.filters}>
         <div className={s.search}>
-          <TextField
-            onValueChange={setSearch}
-            placeholder={'Search...'}
-            type={'search'}
-            value={name ?? ''}
-          />
+          <Search searchName={name} setSearch={setSearch} />
         </div>
         <div className={s.tab}>
           <TextFormat style={{ marginBottom: '5px' }} variant={'body2'}>
@@ -109,7 +113,7 @@ export const Decks = () => {
               {
                 callback: setAuthorDecks,
                 trigger: 'All Cards',
-                value: 'default',
+                value: DECKS_KEY_SEARCH_PARAMS.default,
               },
             ]}
           />
@@ -139,17 +143,16 @@ export const Decks = () => {
             { id: 3, title: 'Last Updated' },
             { id: 4, title: 'Created By' },
           ]}
-          paragraphs={
-            data?.items.map(deck => ({
-              cells: [
-                { idDeck: deck.id, img: deck.cover, value: deck.name },
-                { value: `${deck.cardsCount}` },
-                { value: new Date(deck.updated).toLocaleDateString() },
-                { value: deck.author.name },
-              ],
-              idCells: deck.id,
-            })) || []
-          }
+          pageHistorySave={page}
+          paragraphs={data?.items.map((deck: DeckType) => ({
+            cells: [
+              { idDeck: deck.id, img: deck.cover, value: deck.name },
+              { value: `${deck.cardsCount}` },
+              { value: new Date(deck.updated).toLocaleDateString() },
+              { value: deck.author.name },
+            ],
+            idCells: deck.id,
+          }))}
         />
       </div>
       <Pagination
@@ -160,7 +163,6 @@ export const Decks = () => {
         siblingCount={1}
         totalCount={data?.pagination?.totalPages ?? 1}
       />
-      <Outlet />
     </Page>
   )
 }
