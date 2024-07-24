@@ -18,6 +18,7 @@ type Props = {
  *
  * Usage:
  * <TabSwitcher
+ *   activeTab={activeTab} //active tab
  *   tabInfo={[
  *     {
  *       callback: setAuthorDecks,
