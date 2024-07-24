@@ -13,11 +13,11 @@ type HeadersType = {
   title: string
 }
 
-type CellType = {
+export type CellType = {
   element?: ReactElement[]
   idDeck?: string
   img?: null | string
-  value: string
+  value?: string
 }
 
 export type ParagraphType = {
@@ -27,17 +27,19 @@ export type ParagraphType = {
 
 type TableProps = {
   headers: HeadersType[]
-  paragraphs: ParagraphType[]
+  pageHistorySave?: number
+  paragraphs: ParagraphType[] | undefined
 }
 
-export const Table = ({ headers, paragraphs }: TableProps) => {
+export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
   const [activeImg, setActiveImg] = useState<null | string>(null)
   const textErrors = 'Количество заголовков и колонок в строках должно совпадать'
   const ref = useRef<HTMLDivElement | null>(null)
   const isActiveSort = false
   const navigate = useNavigate()
   // Проверяем, что количество заголовков совпадает с количеством колонок в каждом параграфе
-  const isLengthMismatch = paragraphs.some(paragraph => paragraph.cells.length !== headers.length)
+  const isLengthMismatch =
+    paragraphs && paragraphs.some(paragraph => paragraph.cells.length !== headers.length)
 
   const handleImgClick = (img: null | string | undefined) => {
     if (img) {
@@ -46,8 +48,9 @@ export const Table = ({ headers, paragraphs }: TableProps) => {
       setActiveImg(null)
     }
   }
+
   const handleGetCard = (idCards: string) => {
-    navigate(`${idCards}${CARDS_ROUTE}`)
+    navigate(`${idCards}${CARDS_ROUTE}`, { state: { page: pageHistorySave } })
   }
 
   if (isLengthMismatch) {
@@ -76,35 +79,41 @@ export const Table = ({ headers, paragraphs }: TableProps) => {
           </tr>
         </thead>
         <tbody>
-          {paragraphs.map(paragraph => (
-            <tr key={paragraph.idCells}>
-              {paragraph.cells.map((cell, idx) => (
-                <td className={s.row} key={idx}>
-                  <div className={s.item}>
-                    {cell.img && (
-                      <div className={s.img}>
-                        <img alt={'img'} onClick={() => handleImgClick(cell.img)} src={cell.img} />
-                      </div>
-                    )}
-                    <TextFormat
-                      onClick={() => cell.idDeck && handleGetCard(cell.idDeck)}
-                      style={{ cursor: cell.idDeck ? 'pointer' : '' }}
-                      variant={'body2'}
-                    >
-                      {cell.value}
-                    </TextFormat>
-                    <div className={s.elements}>
-                      {cell.element?.map((el, k) => (
-                        <div className={s.element} key={k}>
-                          {el}
+          {Array.isArray(paragraphs)
+            ? paragraphs.map(paragraph => (
+                <tr key={paragraph.idCells}>
+                  {paragraph.cells.map((cell, idx) => (
+                    <td className={s.row} key={idx}>
+                      <div className={s.item}>
+                        {cell.img && (
+                          <div className={s.img}>
+                            <img
+                              alt={'img'}
+                              onClick={() => handleImgClick(cell.img)}
+                              src={cell.img}
+                            />
+                          </div>
+                        )}
+                        <TextFormat
+                          onClick={() => cell.idDeck && handleGetCard(cell.idDeck)}
+                          style={{ cursor: cell.idDeck ? 'pointer' : '' }}
+                          variant={'body2'}
+                        >
+                          {cell.value}
+                        </TextFormat>
+                        <div className={s.elements}>
+                          {cell.element?.map((el, k) => (
+                            <div className={s.element} key={k}>
+                              {el}
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                </td>
-              )) || []}
-            </tr>
-          ))}
+                      </div>
+                    </td>
+                  )) || []}
+                </tr>
+              ))
+            : []}
         </tbody>
       </table>
       {activeImg && <FilePreviewPortal onClose={() => setActiveImg(null)} src={activeImg} />}
