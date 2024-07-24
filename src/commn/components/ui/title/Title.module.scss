@@ -1,6 +1,27 @@
 .containerTitle {
   display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.blockItem {
+  display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
+}
+
+.imageTitle {
+  cursor: pointer;
+
+  width: 100%;
+  max-width: 170px;
+  height: 107px;
+  margin: 15px 0 0;
+
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
