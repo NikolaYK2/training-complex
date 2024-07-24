@@ -9,6 +9,20 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+
+  .modName {
+    display: flex;
+    width: 100%;
+  }
+
+  .description {
+    margin: 6.846% 0 2.977%;
+    color: var(--color-dark-100);
+  }
+}
+
+.modBlock {
+  flex-direction: column;
 }
 
 .imageTitle {
