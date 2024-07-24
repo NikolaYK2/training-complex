@@ -60,7 +60,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
   }
 
   return (
-    <div className={s.container}>
+    <div className={`${s.container} ${typeInput !== 'search' ? s.modHeight : ''}`}>
       <label
         className={`${s.input} ${typeInput === 'search' ? s.search : ''} ${inputStyle} ${
           focus && s.focusInput
