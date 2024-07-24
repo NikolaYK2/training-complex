@@ -56,29 +56,40 @@ export const Cards = () => {
   return (
     <Page marginTop={'var(--margin-top-page-link'}>
       <BackTo nameLink={'Back to Decks List'} saveHistoryPage={pageDeck} />
-      <Title imageTitle={dataDeckBy?.cover} marginBot={'2.381%'} name={'Decks list'}>
+      <Title
+        imageTitle={dataDeckBy?.cover}
+        isNotItem={!dataCards?.items.length}
+        marginBot={'2.381%'}
+        name={dataDeckBy?.name}
+      >
         <CreateCard />
       </Title>
-      <Search className={s.search} searchName={searchName} setSearch={setSearch} />
-      <Table
-        headers={[
-          { id: 1, title: 'Question' },
-          { id: 2, title: 'Answer' },
-          { id: 3, title: 'Last Updated' },
-          { id: 4, title: 'Grade' },
-        ]}
-        paragraphs={dataCards?.items.map((card: CardType) => ({
-          cells: [
-            { img: card.answerImg, value: card.question },
-            { img: card.answerImg, value: card.answer },
-            { value: new Date(card.updated).toLocaleDateString() },
-            {
-              element: [<Rating hoveredStarValue={1} key={'rating'} ratingValue={1} stars={5} />],
-            },
-          ],
-          idCells: card.id,
-        }))}
-      />
+      {dataCards?.items.length !== 0 && (
+        <>
+          <Search className={s.search} searchName={searchName} setSearch={setSearch} />
+          <Table
+            headers={[
+              { id: 1, title: 'Question' },
+              { id: 2, title: 'Answer' },
+              { id: 3, title: 'Last Updated' },
+              { id: 4, title: 'Grade' },
+            ]}
+            paragraphs={dataCards?.items.map((card: CardType) => ({
+              cells: [
+                { img: card.answerImg, value: card.question },
+                { img: card.answerImg, value: card.answer },
+                { value: new Date(card.updated).toLocaleDateString() },
+                {
+                  element: [
+                    <Rating hoveredStarValue={1} key={'rating'} ratingValue={1} stars={5} />,
+                  ],
+                },
+              ],
+              idCells: card.id,
+            }))}
+          />
+        </>
+      )}
       <Pagination
         currentPage={page}
         onPageChange={setCurrentPage}
