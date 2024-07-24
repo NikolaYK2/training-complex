@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { KeyboardEvent, KeyboardEventHandler, useCallback } from 'react'
 
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { Select } from '@/commn/components/ui/select/Select'
@@ -33,11 +33,36 @@ export const Pagination = ({
     }
   }, [currentPage, onPageChange])
 
+  const handleKeyDownPrevious: KeyboardEventHandler<HTMLButtonElement> = e => {
+    // Проверка, что нажата клавиша Enter или пробел
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault() // Предотвращение действия по умолчанию, если необходимо
+      previousPage()
+    }
+  }
   const nextPage = useCallback(() => {
     if (currentPage < pagesCount) {
       onPageChange(currentPage + 1)
     }
   }, [currentPage, pagesCount, onPageChange])
+  const handleKeyDownNext: KeyboardEventHandler<HTMLButtonElement> = e => {
+    // Проверка, что нажата клавиша Enter или пробел
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault() // Предотвращение действия по умолчанию, если необходимо
+      nextPage()
+    }
+  }
+
+  const handleClickPage = (page: number | string) => {
+    if (typeof page === 'number') {
+      onPageChange(page)
+    }
+  }
+  const handleClickDownPage = (e: KeyboardEvent<HTMLLIElement>, page: number | string) => {
+    if (e.key === 'Enter') {
+      handleClickPage(page)
+    }
+  }
 
   if (currentPage === 0 || (paginationRange && paginationRange.length < 2)) {
     return null
@@ -48,6 +73,7 @@ export const Pagination = ({
       <button
         className={`${s.nextPage} ${currentPage > 1 && s.activeArrow}`}
         onClick={previousPage}
+        onKeyDown={handleKeyDownPrevious}
         type={'button'}
       >
         <IconSvg name={'pageTurn'} />
@@ -62,11 +88,8 @@ export const Pagination = ({
           return (
             <li
               key={pageNumber === DOTS ? `dots-${i}` : pageNumber}
-              onClick={() => {
-                if (typeof pageNumber === 'number') {
-                  onPageChange(pageNumber)
-                }
-              }}
+              onClick={() => handleClickPage(pageNumber)}
+              onKeyDown={e => handleClickDownPage(e, pageNumber)}
               tabIndex={i}
             >
               <a className={pageNumber === currentPage ? s.active : ''}>{pageNumber}</a>
@@ -78,6 +101,7 @@ export const Pagination = ({
       <button
         className={`${s.previousPag} ${currentPage < pagesCount && s.activeArrow}`}
         onClick={nextPage}
+        onKeyDown={handleKeyDownNext}
         type={'button'}
       >
         <IconSvg name={'pageTurn'} />
