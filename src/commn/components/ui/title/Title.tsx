@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useState } from 'react'
 
+import { DropDownMenu } from '@/commn/components/ui/dropDownMenu/DropDownMenu'
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 
@@ -27,9 +28,23 @@ export const Title = ({ children, imageTitle, isNotItem = false, marginBot, name
   return (
     <div className={s.containerTitle} style={styles}>
       <div className={`${s.blockItem} ${isNotItem ? s.modBlock : ''}`}>
-        <TextFormat className={`${isNotItem ? s.modName : ''}`} variant={'h1'}>
-          {name ?? 'not name'}
-        </TextFormat>
+        <div className={s.settingBlock}>
+          <TextFormat className={`${isNotItem ? s.modName : ''}`} variant={'h1'}>
+            {name ?? 'not name'}
+          </TextFormat>
+          <div className={s.settingItem}>
+            <DropDownMenu
+              menuConfig={{
+                content: [
+                  { buttonName: 'learn', className: 'learnAnimation', icon: 'learn' },
+                  { buttonName: 'edit', className: 'editAnimation', icon: 'edit' },
+                  { buttonName: 'delete', className: 'deleteAnimation', icon: 'delete' },
+                ],
+                trigger: { icon: 'setting' },
+              }}
+            />
+          </div>
+        </div>
         {isNotItem && (
           <TextFormat className={s.description} variant={'body1'}>
             This pack is empty. Click add new card to fill this pack
