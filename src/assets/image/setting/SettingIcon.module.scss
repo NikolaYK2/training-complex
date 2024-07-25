@@ -12,7 +12,7 @@
 
   &:hover .circle {
     transform-origin: center;
-    animation: springy 1s ease forwards;
+    animation: springy 0.5s ease forwards;
   }
 
   &:not(:hover) .circle {
