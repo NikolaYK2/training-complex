@@ -49,8 +49,16 @@ export type CardsArgs = {
   orderBy?: string
   question?: string
 }
-
-export type CardType = {
+export type CardArgs = {
+  answer: string
+  answerImg?: string
+  answerVideo?: string
+  id: string
+  question: string
+  questionImg?: string
+  questionVideo?: string
+}
+export type CardsType = {
   answer: string
   answerImg: string
   answerVideo: string
@@ -65,3 +73,4 @@ export type CardType = {
   updated: string
   userId: string
 }
+export type CardType = Omit<CardsType, 'grade'>

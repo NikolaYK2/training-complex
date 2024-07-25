@@ -1,6 +1,8 @@
 import {
+  CardArgs,
   CardType,
   CardsArgs,
+  CardsType,
   CreateDeckArgs,
   DeckType,
   DecksResponse,
@@ -10,6 +12,27 @@ import { flashcardsApi } from '@/services/flashcardsApi'
 
 export const decksService = flashcardsApi.injectEndpoints({
   endpoints: builder => ({
+    createCardInDeck: builder.mutation<CardType, CardArgs | void>({
+      invalidatesTags: ['Decks'],
+      query: ({ answer, answerImg, id, question, questionImg }: CardArgs) => {
+        const formData = new FormData()
+
+        if (questionImg) {
+          formData.append('questionImg', questionImg)
+        }
+        if (answerImg) {
+          formData.append('answerImg', answerImg)
+        }
+        formData.append('answer', answer)
+        formData.append('question', question)
+
+        return {
+          body: formData,
+          method: 'POST',
+          url: `v1/decks/${id}/cards`,
+        }
+      },
+    }),
     createDeck: builder.mutation<DeckType, CreateDeckArgs>({
       invalidatesTags: ['Decks'],
       query: ({ cover, isPrivate, name }) => {
@@ -28,14 +51,6 @@ export const decksService = flashcardsApi.injectEndpoints({
         }
       },
     }),
-    getDeckById: builder.query<DeckType, { id: string }>({
-      //uri params
-      query: ({ id }) => {
-        return {
-          url: `v1/decks/${id}`,
-        }
-      },
-    }),
     getDecks: builder.query<DecksResponse<DeckType[]>, GetDecksArgs | void>({
       providesTags: ['Decks'], //как бы обновляем кэш, так как новые данные
       //query param
@@ -46,7 +61,8 @@ export const decksService = flashcardsApi.injectEndpoints({
         }
       },
     }),
-    retrieveCardsInDeck: builder.query<DecksResponse<CardType[]>, CardsArgs | void>({
+    retrieveCardsInDeck: builder.query<DecksResponse<CardsType[]>, CardsArgs | void>({
+      providesTags: ['Decks'],
       query: ({ answer, currentPage, id, itemsPerPage, orderBy, question }: CardsArgs) => {
         const params = {
           ...(orderBy && { orderBy }),
@@ -62,12 +78,21 @@ export const decksService = flashcardsApi.injectEndpoints({
         }
       },
     }),
+    retrieveDeckById: builder.query<DeckType, { id: string }>({
+      //uri params
+      query: ({ id }) => {
+        return {
+          url: `v1/decks/${id}`,
+        }
+      },
+    }),
   }),
 })
 
 export const {
+  useCreateCardInDeckMutation,
   useCreateDeckMutation,
-  useGetDeckByIdQuery,
   useGetDecksQuery,
   useRetrieveCardsInDeckQuery,
+  useRetrieveDeckByIdQuery,
 } = decksService
