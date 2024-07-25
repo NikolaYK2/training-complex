@@ -20,7 +20,7 @@ type DialogModalProps = {
 /**
  * Example usage of children prop:
  *
- * const children = {[children
+ * const children = {[
  *   <Select
  *     key={1}
  *      options={[
