@@ -1,6 +1,8 @@
+import s from './LearnIcon.module.scss'
+
 export const LearnIcon = () => {
   return (
-    <div>
+    <div className={s.containerLearnIcon}>
       <svg
         fill={'none'}
         height={'100%'}
