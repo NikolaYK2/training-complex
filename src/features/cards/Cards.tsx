@@ -58,13 +58,13 @@ export const Cards = () => {
       <BackTo nameLink={'Back to Decks List'} saveHistoryPage={pageDeck} />
       <Title
         imageTitle={dataDeckBy?.cover}
-        isNotItem={!dataCards?.items.length}
+        isNotItem={!dataDeckBy?.cardsCount}
         marginBot={'2.381%'}
         name={dataDeckBy?.name}
       >
         <CreateCard />
       </Title>
-      {dataCards?.items.length !== 0 && (
+      {!!dataDeckBy?.cardsCount && (
         <>
           <Search className={s.search} searchName={searchName} setSearch={setSearch} />
           <Table
