@@ -42,6 +42,7 @@ export const Header = () => {
           </Button>
         ) : (
           <DropDownMenu
+            classNameMenuArrow={s.arrow}
             menuConfig={{
               content: [
                 {
@@ -63,11 +64,11 @@ export const Header = () => {
                 },
               ],
               trigger: {
-                icon: data?.avatar,
+                imag: data?.avatar,
                 title: data?.name ?? '',
               },
             }}
-          ></DropDownMenu>
+          />
         )}
       </div>
     </header>
