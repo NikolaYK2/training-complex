@@ -65,7 +65,7 @@ export const FileDownload = forwardRef<HTMLInputElement, FiledDownloadProps>((pr
         type={'file'}
         {...rest}
       />
-      {iconComponent}
+      {iconComponent && <div className={s.icon}>{iconComponent}</div>}
       {buttonName && (
         <TextFormat style={{ textTransform: 'capitalize' }} variant={'subtitle2'}>
           {buttonName}
