@@ -11,6 +11,7 @@ import { Title } from '@/commn/components/ui/title/Title'
 import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
 import { CreateCard } from '@/features/cards/createCard/CreateCard'
 import { Page } from '@/features/pages/Page'
+import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
 import { CardsType } from '@/services/decks/DecksTypes'
 import {
   useRetrieveCardsInDeckQuery,
@@ -26,7 +27,8 @@ const CARDS_KEY_SEARCH_PARAMS = {
 }
 
 export const Cards = () => {
-  const { id } = useParams<{ id: string }>()
+  const { id: idCard } = useParams<{ id: string }>()
+  const { data: dataUser } = useGetCurrentUserDataQuery()
   const location = useLocation()
   const { page: pageSaveDeck } = (location.state as { page: string }) || {}
 
@@ -41,7 +43,7 @@ export const Cards = () => {
 
   const { data: dataCards } = useRetrieveCardsInDeckQuery({
     currentPage: page,
-    id: id ? id : '',
+    id: idCard ? idCard : '',
     itemsPerPage: itemPage,
     question: searchName || undefined,
   })
@@ -51,7 +53,7 @@ export const Cards = () => {
     isError: isErrorRetrieveDeck,
     isLoading: isLoadingRetrieveDeck,
   } = useRetrieveDeckByIdQuery({
-    id: id ?? '',
+    id: idCard ?? '',
   })
 
   const setCurrentPage = (page: number) => {
@@ -76,10 +78,11 @@ export const Cards = () => {
       <Title
         imageTitle={dataDeckBy?.cover}
         isNotItem={!dataDeckBy?.cardsCount}
+        isUserId={dataDeckBy?.userId === dataUser?.id}
         marginBot={'2.381%'}
         name={dataDeckBy?.name}
       >
-        <CreateCard cardId={id} />
+        <CreateCard cardId={idCard} />
       </Title>
       {!!dataDeckBy?.cardsCount && (
         <>
