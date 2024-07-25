@@ -33,16 +33,16 @@ export const TextFormat = <T extends ElementType = 'p'>(props: Typography<T>) =>
 function getComponent(variant: VariantType) {
   switch (variant) {
     case 'h1': {
-      return 'h1'
-    }
-    case 'h2': {
       return 'h2'
     }
-    case 'h3': {
+    case 'h2': {
       return 'h3'
     }
-    case 'h4': {
+    case 'h3': {
       return 'h4'
+    }
+    case 'h4': {
+      return 'h5'
     }
     case 'caption1':
     case 'overline': {
