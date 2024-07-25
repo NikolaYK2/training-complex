@@ -113,12 +113,11 @@ button {
 
     &:hover .text {
       color: var(--color-primary-500);
-      transition: 0.5s ease 0.6s;
+      transition: 0.5s ease 0.3s;
     }
   }
 
   .menuArrow {
-    transform: translateX(-60px);
     filter: drop-shadow(0 1px 0 var(--color-dark-500));
     fill: var(--color-dark-700);
   }

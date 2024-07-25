@@ -8,7 +8,8 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import s from './DropDownMenu.module.scss'
 
 type TriggerType = {
-  icon?: string
+  icon?: 'setting'
+  imag?: string
   title?: string
 }
 export type MenuItem = {
@@ -24,6 +25,7 @@ type MenuType = {
   trigger: TriggerType
 }
 type Props = {
+  classNameMenuArrow?: string
   menuConfig: MenuType
 }
 /**
@@ -41,7 +43,7 @@ type Props = {
  *   ]
  * };
  */
-export const DropDownMenu = ({ menuConfig }: Props) => {
+export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -51,9 +53,14 @@ export const DropDownMenu = ({ menuConfig }: Props) => {
               <TextFormat variant={'subtitle1'}>{menuConfig.trigger.title}</TextFormat>
             </span>
           )}
-          {menuConfig.trigger.icon && (
+          {menuConfig.trigger.imag && (
             <div className={s.triggerAvatar}>
-              <img alt={'avatar'} src={menuConfig.trigger.icon} />
+              <img alt={'avatar'} src={menuConfig.trigger.imag} />
+            </div>
+          )}
+          {menuConfig.trigger.icon && (
+            <div className={s.triggerIcon}>
+              <IconSvg name={menuConfig.trigger.icon} />
             </div>
           )}
         </button>
@@ -86,7 +93,7 @@ export const DropDownMenu = ({ menuConfig }: Props) => {
               </Button>
             </DropdownMenu.Item>
           ))}
-          <DropdownMenu.Arrow className={s.menuArrow} />
+          <DropdownMenu.Arrow className={`${s.menuArrow} ${classNameMenuArrow || ''}`} />
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
