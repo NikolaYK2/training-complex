@@ -10,10 +10,18 @@ type Props = {
   children: ReactNode
   imageTitle?: null | string
   isNotItem?: boolean
+  isUserId?: boolean
   marginBot?: CSSProperties['marginBottom']
   name: string | undefined
 }
-export const Title = ({ children, imageTitle, isNotItem = false, marginBot, name }: Props) => {
+export const Title = ({
+  children,
+  imageTitle,
+  isNotItem = false,
+  isUserId = false,
+  marginBot,
+  name,
+}: Props) => {
   const styles: CSSProperties = { marginBottom: marginBot }
   const [isActivePreview, setActivePreview] = useState(false)
 
@@ -29,21 +37,23 @@ export const Title = ({ children, imageTitle, isNotItem = false, marginBot, name
     <div className={s.containerTitle} style={styles}>
       <div className={`${s.blockItem} ${isNotItem ? s.modBlock : ''}`}>
         <div className={s.settingBlock}>
-          <TextFormat className={`${isNotItem ? s.modName : ''}`} variant={'h1'}>
+          <TextFormat className={`${s.nameTitle}`} variant={'h1'}>
             {name ?? 'not name'}
           </TextFormat>
-          <div className={s.settingItem}>
-            <DropDownMenu
-              menuConfig={{
-                content: [
-                  { buttonName: 'learn', className: 'learnAnimation', icon: 'learn' },
-                  { buttonName: 'edit', className: 'editAnimation', icon: 'edit' },
-                  { buttonName: 'delete', className: 'deleteAnimation', icon: 'delete' },
-                ],
-                trigger: { icon: 'setting' },
-              }}
-            />
-          </div>
+          {isUserId && (
+            <div className={s.settingItem}>
+              <DropDownMenu
+                menuConfig={{
+                  content: [
+                    { buttonName: 'learn', className: 'learnAnimation', icon: 'learn' },
+                    { buttonName: 'edit', className: 'editAnimation', icon: 'edit' },
+                    { buttonName: 'delete', className: 'deleteAnimation', icon: 'delete' },
+                  ],
+                  trigger: { icon: 'setting' },
+                }}
+              />
+            </div>
+          )}
         </div>
         {isNotItem && (
           <TextFormat className={s.description} variant={'body1'}>
