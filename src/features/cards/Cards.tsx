@@ -10,8 +10,11 @@ import { Title } from '@/commn/components/ui/title/Title'
 import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
 import { CreateCard } from '@/features/cards/createCard/CreateCard'
 import { Page } from '@/features/pages/Page'
-import { CardType } from '@/services/decks/DecksTypes'
-import { useGetDeckByIdQuery, useRetrieveCardsInDeckQuery } from '@/services/decks/decksService'
+import { CardsType } from '@/services/decks/DecksTypes'
+import {
+  useRetrieveCardsInDeckQuery,
+  useRetrieveDeckByIdQuery,
+} from '@/services/decks/decksService'
 
 import s from './Cards.module.scss'
 
@@ -41,7 +44,7 @@ export const Cards = () => {
     itemsPerPage: itemPage,
     question: searchName || undefined,
   })
-  const { data: dataDeckBy } = useGetDeckByIdQuery({
+  const { data: dataDeckBy } = useRetrieveDeckByIdQuery({
     id: id ?? '',
   })
 
@@ -62,7 +65,7 @@ export const Cards = () => {
         marginBot={'2.381%'}
         name={dataDeckBy?.name}
       >
-        <CreateCard />
+        <CreateCard cardId={id} />
       </Title>
       {!!dataDeckBy?.cardsCount && (
         <>
@@ -74,9 +77,9 @@ export const Cards = () => {
               { id: 3, title: 'Last Updated' },
               { id: 4, title: 'Grade' },
             ]}
-            paragraphs={dataCards?.items.map((card: CardType) => ({
+            paragraphs={dataCards?.items.map((card: CardsType) => ({
               cells: [
-                { img: card.answerImg, value: card.question },
+                { img: card.questionImg, value: card.question },
                 { img: card.answerImg, value: card.answer },
                 { value: new Date(card.updated).toLocaleDateString() },
                 {
