@@ -11,6 +11,8 @@ import { useCreateEntityForm } from '@/commn/hooks/useCreateEntityForm'
 import { useCreateCardInDeckMutation } from '@/services/decks/decksService'
 import { z } from 'zod'
 
+import s from './CreateCard.module.scss'
+
 const createCardSchema = z.object({
   answer: z.string().trim().min(3, 'min 3 litters').max(500, 'max 500 litters'),
   answerImg: z.any().optional().nullable(),
@@ -118,7 +120,7 @@ export const CreateCard = ({ cardId }: Props) => {
         <ControlledFileDownload
           buttonName={'upload image'}
           control={control}
-          iconComponent={<ImageIcon />}
+          iconComponent={<ImageIcon className={s.imageIcon} />}
           key={'input-img-question'}
           name={'questionImg'}
           setFilePreview={questionImg => setFilePreview(prev => ({ ...prev, questionImg }))}
@@ -144,7 +146,7 @@ export const CreateCard = ({ cardId }: Props) => {
         <ControlledFileDownload
           buttonName={'upload image'}
           control={control}
-          iconComponent={<ImageIcon />}
+          iconComponent={<ImageIcon className={s.imageIcon} />}
           key={'input-img-answer'}
           name={'answerImg'}
           setFilePreview={answerImg => setFilePreview(prev => ({ ...prev, answerImg }))}

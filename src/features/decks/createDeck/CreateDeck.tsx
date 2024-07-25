@@ -85,7 +85,7 @@ export const CreateDeck = () => {
           buttonName={'upload image'}
           className={s.newDeck}
           control={control}
-          iconComponent={<ImageIcon />}
+          iconComponent={<ImageIcon className={s.imageIcon} />}
           key={'input-file'}
           name={'cover'}
           setFilePreview={cover => setFilePreview(prev => ({ ...prev, fileImg: cover }))}
