@@ -10,6 +10,8 @@ import {
 } from '@/services/decks/DecksTypes'
 import { flashcardsApi } from '@/services/flashcardsApi'
 
+const DECK = 'v1/decks/'
+
 export const decksService = flashcardsApi.injectEndpoints({
   endpoints: builder => ({
     createCardInDeck: builder.mutation<CardType, CardArgs | void>({
@@ -29,7 +31,7 @@ export const decksService = flashcardsApi.injectEndpoints({
         return {
           body: formData,
           method: 'POST',
-          url: `v1/decks/${id}/cards`,
+          url: `${DECK}${id}/cards`,
         }
       },
     }),
@@ -47,7 +49,7 @@ export const decksService = flashcardsApi.injectEndpoints({
         return {
           body: formData,
           method: 'POST',
-          url: `v1/decks`,
+          url: `${DECK}`,
         }
       },
     }),
@@ -74,7 +76,7 @@ export const decksService = flashcardsApi.injectEndpoints({
 
         return {
           params: params ?? {},
-          url: `v1/decks/${id}/cards`,
+          url: `${DECK}${id}/cards`,
         }
       },
     }),
@@ -82,7 +84,16 @@ export const decksService = flashcardsApi.injectEndpoints({
       //uri params
       query: ({ id }) => {
         return {
-          url: `v1/decks/${id}`,
+          url: `${DECK}${id}`,
+        }
+      },
+    }),
+    retrieveRandomCard: builder.query<DeckType, { id: string; previousCardId: string }>({
+      //uri params
+      query: ({ id, previousCardId }) => {
+        return {
+          params: { previousCardId },
+          url: `${DECK}${id}/learn`,
         }
       },
     }),
@@ -95,4 +106,5 @@ export const {
   useGetDecksQuery,
   useRetrieveCardsInDeckQuery,
   useRetrieveDeckByIdQuery,
+  useRetrieveRandomCardQuery,
 } = decksService

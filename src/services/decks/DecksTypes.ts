@@ -41,14 +41,6 @@ export type CreateDeckArgs = {
   name: string
 }
 
-export type CardsArgs = {
-  answer?: string
-  currentPage?: number
-  id: string
-  itemsPerPage?: number
-  orderBy?: string
-  question?: string
-}
 export type CardArgs = {
   answer: string
   answerImg?: string
@@ -58,6 +50,17 @@ export type CardArgs = {
   questionImg?: string
   questionVideo?: string
 }
+export type CardType = Omit<CardsType, 'grade'>
+
+export type CardsArgs = {
+  answer?: string
+  currentPage?: number
+  id: string
+  itemsPerPage?: number
+  orderBy?: string
+  question?: string
+}
+
 export type CardsType = {
   answer: string
   answerImg: string
@@ -73,4 +76,3 @@ export type CardsType = {
   updated: string
   userId: string
 }
-export type CardType = Omit<CardsType, 'grade'>
