@@ -74,10 +74,10 @@ export const CreateDeck = () => {
         />,
 
         <FIlePreview
-          filePreview={filePreview}
+          filePreview={filePreview.fileImg}
           filePreviewFullScreen={filePreviewFullScreen}
           key={'file-preview'}
-          setFilePreview={setFilePreview}
+          setFilePreview={cover => setFilePreview(prev => ({ ...prev, fileImg: cover }))}
           setFilePreviewFullScreen={setFilePreviewFullScreen}
         />,
 
@@ -88,7 +88,7 @@ export const CreateDeck = () => {
           iconComponent={<ImageIcon />}
           key={'input-file'}
           name={'cover'}
-          setFilePreview={setFilePreview}
+          setFilePreview={cover => setFilePreview(prev => ({ ...prev, fileImg: cover }))}
         />,
         <ControlledCheckbox
           control={control}

@@ -4,6 +4,7 @@ import { DefaultValues, FieldValues, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ZodSchema } from 'zod'
 
+type FilePreviewType = Record<string, null | string>
 type UseCreateEntityFormProps<T extends FieldValues> = {
   defaultValues: DefaultValues<T>
   schema: ZodSchema<T>
@@ -13,7 +14,7 @@ export const useCreateEntityForm = <T extends FieldValues>({
   schema,
 }: UseCreateEntityFormProps<T>) => {
   // State for storing the URL of the image
-  const [filePreview, setFilePreview] = useState<null | string>(null)
+  const [filePreview, setFilePreview] = useState<FilePreviewType>({})
   //state for previewing the picture
   const [filePreviewFullScreen, setFilePreviewFullScreen] = useState(false)
   // controlled modal window
@@ -30,7 +31,7 @@ export const useCreateEntityForm = <T extends FieldValues>({
   })
   // Reset the form
   const handleFormReset = () => {
-    setFilePreview(null)
+    setFilePreview({})
     setIsOpenModal(false)
     setFilePreviewFullScreen(false)
     reset()
