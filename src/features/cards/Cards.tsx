@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 
 import { BackTo } from '@/commn/components/ui/backTo/BackTo'
+import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Pagination } from '@/commn/components/ui/pagination/Pagination'
 import { Rating } from '@/commn/components/ui/rating/Rating'
 import { Search } from '@/commn/components/ui/search/Search'
@@ -44,7 +45,12 @@ export const Cards = () => {
     itemsPerPage: itemPage,
     question: searchName || undefined,
   })
-  const { data: dataDeckBy } = useRetrieveDeckByIdQuery({
+  const {
+    data: dataDeckBy,
+    error: errorRetrieveDeck,
+    isError: isErrorRetrieveDeck,
+    isLoading: isLoadingRetrieveDeck,
+  } = useRetrieveDeckByIdQuery({
     id: id ?? '',
   })
 
@@ -54,6 +60,14 @@ export const Cards = () => {
 
   const setSearch = (searchName: string) => {
     updateSearchParam(CARDS_KEY_SEARCH_PARAMS.searchName, searchName)
+  }
+
+  if (isLoadingRetrieveDeck) {
+    return <Loading />
+  }
+
+  if (isErrorRetrieveDeck) {
+    return <div>Error: {JSON.stringify(errorRetrieveDeck)}</div>
   }
 
   return (
