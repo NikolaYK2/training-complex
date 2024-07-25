@@ -10,6 +10,7 @@
     margin: 0 auto;
   }
 
+  //ANIMATION ---------------------------------------------------------------------
   .iconLogOut {
     &:hover div svg path:last-child {
       animation: active-logout 0.8s forwards 0s;
@@ -27,6 +28,40 @@
 
     &:not(:hover) div svg path:first-child {
       animation: inactive-profile 0.4s forwards;
+    }
+  }
+
+  .editAnimation {
+    &:hover div svg path:last-child {
+      animation: edit-setting-hover 0.6s ease forwards;
+    }
+
+    &:not(:hover) div svg path:last-child {
+      animation: edit-setting-unhover 0.5s forwards;
+    }
+  }
+
+  .deleteAnimation {
+    &:hover div svg path:last-child {
+      animation: delete-hover 0.6s ease forwards;
+    }
+
+    &:not(:hover) div svg path:last-child {
+      animation: delete-not-hover 0.3s forwards;
+    }
+  }
+
+  .learnAnimation {
+    &:hover div svg path:last-child {
+      transform-origin: center;
+
+      animation: learn-hover 0.5s ease forwards;
+    }
+
+    &:not(:hover) div svg path:last-child {
+      transform-origin: center;
+
+      animation: learn-hot-hover 1s forwards;
     }
   }
 }
@@ -83,5 +118,96 @@
 
   50% {
     transform: translateY(2px);
+  }
+}
+
+@keyframes edit-setting-hover {
+  0% {
+    transform: translate(0, 0) rotate(3deg);
+  }
+
+  50% {
+    transform: translate(4px, 0) rotate(-4deg);
+  }
+
+  100% {
+    transform: translate(0, 0) rotate(0);
+    fill: var(--color-primary-500);
+  }
+}
+
+@keyframes edit-setting-unhover {
+  0% {
+    transform: translate(0, 0) rotate(0);
+  }
+
+  50% {
+    transform: translate(4px, 0) rotate(-4deg);
+  }
+
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+@keyframes delete-hover {
+  0% {
+    transform: translateY(0);
+    fill: var(--color-light-100);
+  }
+  20% {
+    transform: translateY(-2px);
+  }
+  40% {
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(-1px);
+  }
+  80% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(0);
+    fill: var(--color-primary-500);
+  }
+}
+
+@keyframes delete-not-hover {
+  0% {
+    transform: translateY(-1px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes learn-hover {
+  0% {
+    transform: rotate(0);
+    fill: var(--color-light-100);
+  }
+  50% {
+    transform: rotate(0deg);
+    fill: var(--color-light-100);
+  }
+  100% {
+    transform: rotate(360deg);
+    fill: var(--color-primary-500);
+  }
+}
+
+@keyframes learn-hot-hover {
+  0% {
+    transform: rotate(-360deg);
+    //fill: var(--color-primary-500);
+  }
+  //50% {
+  //  transform: rotate(0deg);
+  //  fill: var(--color-light-100);
+  //}
+  100% {
+    transform: rotate(0deg);
+    fill: var(--color-light-100);
   }
 }
