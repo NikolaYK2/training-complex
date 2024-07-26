@@ -9,6 +9,7 @@ import { PersonalInformation } from '@/features/auth/personalInformation/Persona
 import { SignUp } from '@/features/auth/registration/SignUp'
 import { Cards } from '@/features/cards/Cards'
 import { Decks } from '@/features/decks/Decks'
+import { Learn } from '@/features/learn/Learn'
 import { AppRoutes } from '@/routes/AppRoutes'
 import { PrivateRoutes } from '@/routes/PrivateRoutes'
 import { ErrorRoute } from '@/routes/errorRoute/ErrorRoute'
@@ -16,6 +17,7 @@ import { ErrorRoute } from '@/routes/errorRoute/ErrorRoute'
 export const HOME_ROUTE = '/'
 export const DECK_ROUTE = '/deck'
 export const CARDS_ROUTE = '/cards'
+export const LEARN_ROUTE = '/learn'
 export const LOGIN_ROUTE = '/login'
 export const PROFILE_ROUTE = '/profile'
 export const REGISTER_ROUTE = '/register'
@@ -62,6 +64,10 @@ const privateRoutes: RouteObject[] = [
   {
     element: <Cards />,
     path: `${DECK_ROUTE}/:id${CARDS_ROUTE}`,
+  },
+  {
+    element: <Learn />,
+    path: `${DECK_ROUTE}/:id${LEARN_ROUTE}`,
   },
   {
     element: <PersonalInformation />,
