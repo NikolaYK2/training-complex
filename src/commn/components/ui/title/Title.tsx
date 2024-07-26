@@ -1,13 +1,16 @@
 import { CSSProperties, ReactNode, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { DropDownMenu } from '@/commn/components/ui/dropDownMenu/DropDownMenu'
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
+import { DECK_ROUTE, LEARN_ROUTE } from '@/routes/Router'
 
 import s from './Title.module.scss'
 
 type Props = {
   children: ReactNode
+  idCard?: string
   imageTitle?: null | string
   isNotItem?: boolean
   isUserId?: boolean
@@ -16,6 +19,7 @@ type Props = {
 }
 export const Title = ({
   children,
+  idCard,
   imageTitle,
   isNotItem = false,
   isUserId = false,
@@ -24,6 +28,13 @@ export const Title = ({
 }: Props) => {
   const styles: CSSProperties = { marginBottom: marginBot }
   const [isActivePreview, setActivePreview] = useState(false)
+  const navigate = useNavigate()
+
+  const handleRedirectLearnClick = () => {
+    if (idCard) {
+      navigate(`${DECK_ROUTE}/${idCard}${LEARN_ROUTE}`)
+    }
+  }
 
   const handleImageClick = () => {
     setActivePreview(true)
@@ -45,7 +56,12 @@ export const Title = ({
               <DropDownMenu
                 menuConfig={{
                   content: [
-                    { buttonName: 'learn', className: 'learnAnimation', icon: 'learn' },
+                    {
+                      buttonName: 'learn',
+                      callback: handleRedirectLearnClick,
+                      className: 'learnAnimation',
+                      icon: 'learn',
+                    },
                     { buttonName: 'edit', className: 'editAnimation', icon: 'edit' },
                     { buttonName: 'delete', className: 'deleteAnimation', icon: 'delete' },
                   ],
