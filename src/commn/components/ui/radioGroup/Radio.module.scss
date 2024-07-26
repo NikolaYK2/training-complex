@@ -3,6 +3,9 @@
   align-items: center;
   margin: 5px 0;
 
+  &:hover .blockItem {
+    background: var(--color-dark-500);
+  }
 
   .blockItem {
     display: flex;
@@ -11,14 +14,10 @@
 
     width: 36px;
     height: 36px;
+    margin: 0 0 0 -10px;
     padding: 0;
 
     border-radius: 50%;
-
-
-    &:hover {
-      background: var(--color-dark-500);
-    }
 
     &:active {
       background: var(--color-primary-900);
@@ -39,7 +38,6 @@
       &:disabled {
         border: 2px solid var(--color-primary-900);
       }
-
 
       .indicator {
         position: relative;
