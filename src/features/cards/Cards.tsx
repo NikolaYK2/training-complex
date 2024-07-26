@@ -3,6 +3,7 @@ import { useLocation, useParams } from 'react-router-dom'
 
 import { BackTo } from '@/commn/components/ui/backTo/BackTo'
 import { Loading } from '@/commn/components/ui/loading/Loading'
+import { Page } from '@/commn/components/ui/pages/Page'
 import { Pagination } from '@/commn/components/ui/pagination/Pagination'
 import { Rating } from '@/commn/components/ui/rating/Rating'
 import { Search } from '@/commn/components/ui/search/Search'
@@ -10,7 +11,7 @@ import { Table } from '@/commn/components/ui/tables/Table'
 import { Title } from '@/commn/components/ui/title/Title'
 import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
 import { CreateCard } from '@/features/cards/createCard/CreateCard'
-import { Page } from '@/features/pages/Page'
+import { DECK_ROUTE } from '@/routes/Router'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
 import { CardsType } from '@/services/decks/DecksTypes'
 import {
@@ -74,8 +75,9 @@ export const Cards = () => {
 
   return (
     <Page marginTop={'var(--margin-top-page-link'}>
-      <BackTo nameLink={'Back to Decks List'} saveHistoryPage={pageDeck} />
+      <BackTo nameLink={'Back to Decks List'} saveHistoryPage={`${DECK_ROUTE}?page=${pageDeck}`} />
       <Title
+        idCard={idCard}
         imageTitle={dataDeckBy?.cover}
         isNotItem={!dataDeckBy?.cardsCount}
         isUserId={dataDeckBy?.userId === dataUser?.id}
