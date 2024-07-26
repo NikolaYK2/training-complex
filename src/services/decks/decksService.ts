@@ -88,12 +88,23 @@ export const decksService = flashcardsApi.injectEndpoints({
         }
       },
     }),
-    retrieveRandomCard: builder.query<DeckType, { id: string; previousCardId: string }>({
-      //uri params
+    retrieveRandomCard: builder.query<CardsType, { id: string; previousCardId?: string }>({
+      providesTags: ['Decks'],
+
       query: ({ id, previousCardId }) => {
         return {
-          params: { previousCardId },
+          params: previousCardId ? { previousCardId } : {},
           url: `${DECK}${id}/learn`,
+        }
+      },
+    }),
+    saveGradeCard: builder.mutation<CardsType, { cardId: string; grade: number }>({
+      invalidatesTags: ['Decks'],
+      query: ({ cardId, grade }) => {
+        return {
+          body: { cardId, grade },
+          method: 'POST',
+          url: `${DECK}${cardId}/learn`,
         }
       },
     }),
@@ -107,4 +118,5 @@ export const {
   useRetrieveCardsInDeckQuery,
   useRetrieveDeckByIdQuery,
   useRetrieveRandomCardQuery,
+  useSaveGradeCardMutation,
 } = decksService
