@@ -1,8 +1,11 @@
 import s from './FullscreenIcon.module.scss'
 
-export const FullscreenIcon = () => {
+type Props = {
+  className?: string
+}
+export const FullscreenIcon = ({ className }: Props) => {
   return (
-    <div className={s.containerFullscreenIcon}>
+    <div className={`${s.containerFullscreenIcon} ${className || ''}`}>
       <svg
         height={'100%'}
         viewBox={'0 0 32 32'}
