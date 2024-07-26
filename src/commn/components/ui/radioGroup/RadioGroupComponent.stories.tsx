@@ -16,11 +16,12 @@ export const RadioGroupDefault: Story = {
   args: {
     children: (
       <>
-        <Radio id={'r1'} value={'Default'} />
-        <Radio id={'r2'} value={'RadioGroup'} />
+        <Radio id={'r1'} label={'Default'} value={'r1'} />
+        <Radio id={'r2'} label={'RadioGroup'} value={'r2'} />
       </>
     ),
-    defaultValue: 'Default',
+    name: 'r1',
+    value: 'r1',
   },
 }
 
@@ -28,11 +29,11 @@ export const RadioGroupDisabled: Story = {
   args: {
     children: (
       <>
-        <Radio disabled id={'r1'} value={'Default'} />
-        <Radio disabled id={'r2'} value={'RadioGroup'} />
+        <Radio disabled id={'r1'} label={'Default'} value={'r1'} />
+        <Radio disabled id={'r2'} label={'RadioGroup'} value={'r2'} />
       </>
     ),
-    defaultValue: 'Default',
-    disabled: true,
+    name: 'r1',
+    value: 'r1',
   },
 }

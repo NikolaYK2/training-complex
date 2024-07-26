@@ -1,17 +1,25 @@
-import * as RadioGroup from '@radix-ui/react-radio-group';
+import { ComponentPropsWithoutRef, forwardRef } from 'react'
+
+import * as RadioGroup from '@radix-ui/react-radio-group'
+import { RadioGroupProps } from '@radix-ui/react-radio-group'
+
 import s from './RadioGroupComponent.module.scss'
-import {FC, ReactNode} from "react";
 
-type Props = {
-  children:ReactNode,
-  disabled?: boolean
-  defaultValue?: string
-}
+export type RadioGroupPropsType = RadioGroupProps & {
+  name: string
+  onChange?: (value: string) => void
+  value: string
+} & ComponentPropsWithoutRef<'div'>
 
-export const RadioGroupComponent: FC<Props> = ({disabled, defaultValue, children}) => {
-  return (
-    <RadioGroup.Root className={s.root} disabled={disabled} defaultValue={defaultValue}>
-      {children}
-    </RadioGroup.Root>
-  );
-};
+export const RadioGroupComponent = forwardRef<HTMLDivElement, RadioGroupPropsType>(
+  ({ name, onChange, value, ...props }, ref) => (
+    <RadioGroup.Root
+      className={s.root}
+      name={name}
+      onValueChange={onChange}
+      ref={ref}
+      value={value}
+      {...props}
+    />
+  )
+)
