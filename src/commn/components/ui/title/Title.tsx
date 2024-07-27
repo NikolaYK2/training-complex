@@ -2,7 +2,7 @@ import { CSSProperties, ReactNode, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Button } from '@/commn/components/ui/button'
-import { DropDownMenu } from '@/commn/components/ui/dropDownMenu/DropDownMenu'
+import { DropDownMenu, MenuItem } from '@/commn/components/ui/dropDownMenu/DropDownMenu'
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { DECK_ROUTE, LEARN_ROUTE } from '@/routes/Router'
@@ -57,14 +57,14 @@ export const Title = ({
               <DropDownMenu
                 menuConfig={{
                   content: [
+                    createLearnMenuItem(isNotItem, handleRedirectLearnClick),
+                    { buttonName: 'edit', className: 'editAnimation', icon: 'edit', key: 'edit' },
                     {
-                      buttonName: 'learn',
-                      callback: handleRedirectLearnClick,
-                      className: 'learnAnimation',
-                      icon: 'learn',
+                      buttonName: 'delete',
+                      className: 'deleteAnimation',
+                      icon: 'delete',
+                      key: 'delete',
                     },
-                    { buttonName: 'edit', className: 'editAnimation', icon: 'edit' },
-                    { buttonName: 'delete', className: 'deleteAnimation', icon: 'delete' },
                   ],
                   trigger: { icon: 'setting' },
                 }}
@@ -93,4 +93,23 @@ export const Title = ({
       {isActivePreview && <FilePreviewPortal onClose={handlePreviewClose} src={imageTitle ?? ''} />}
     </div>
   )
+}
+
+const createLearnMenuItem = (isNotItem: boolean, callBack: () => void): MenuItem => {
+  if (isNotItem) {
+    return {
+      buttonName: 'not card',
+      className: 'notFileAnimation',
+      icon: 'notFile',
+      key: 'learn',
+    } as MenuItem
+  }
+
+  return {
+    buttonName: 'learn',
+    callback: callBack,
+    className: 'learnAnimation',
+    icon: 'learn',
+    key: 'learn',
+  }
 }
