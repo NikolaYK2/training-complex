@@ -4,6 +4,7 @@ import { ClearIcon } from '@/assets/image/clear/ClearIcon'
 import { ErrorRouteIcon } from '@/assets/image/errorRote/ErrorRouteIcon'
 import { LearnIcon } from '@/assets/image/learn/LearnIcon'
 import { LogoIcon } from '@/assets/image/logo/LogoIcon'
+import { NotFileIcon } from '@/assets/image/notFIle/NotFileIcon'
 import { ProfileIcon } from '@/assets/image/profile/ProfileIcon'
 import { SettingIcon } from '@/assets/image/setting/SettingIcon'
 import { ShowPassIcon } from '@/assets/image/showPass/ShowPassIcon'
@@ -125,6 +126,7 @@ const icons = {
     </svg>
   ),
   logo: <LogoIcon />,
+  notFile: <NotFileIcon />,
   okEmail: <SuccessfullyEmail />,
   pageTurn: (
     <svg

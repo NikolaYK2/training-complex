@@ -64,6 +64,19 @@
       animation: learn-hot-hover 1s forwards;
     }
   }
+
+  .notFileAnimation {
+    &:hover div svg path {
+      transform-origin: center;
+
+      animation: notFile-hover 0.5s ease forwards;
+    }
+
+    &:not(:hover) div svg path:last-child {
+      transform-origin: center;
+      animation: learn-hot-hover 1s forwards;
+    }
+  }
 }
 
 @keyframes active-logout {
@@ -200,14 +213,27 @@
 @keyframes learn-hot-hover {
   0% {
     transform: rotate(-360deg);
-    //fill: var(--color-primary-500);
   }
-  //50% {
-  //  transform: rotate(0deg);
-  //  fill: var(--color-light-100);
-  //}
   100% {
     transform: rotate(0deg);
     fill: var(--color-light-100);
+  }
+}
+
+@keyframes notFile-hover {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.8);
+  }
+
+  70% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
   }
 }
