@@ -7,7 +7,7 @@ import { Page } from '@/commn/components/ui/pages/Page'
 import { Pagination } from '@/commn/components/ui/pagination/Pagination'
 import { Rating } from '@/commn/components/ui/rating/Rating'
 import { Search } from '@/commn/components/ui/search/Search'
-import { Table } from '@/commn/components/ui/tables/Table'
+import { PageHistorySaveType, Table } from '@/commn/components/ui/tables/Table'
 import { Title } from '@/commn/components/ui/title/Title'
 import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
 import { CreateCard } from '@/features/cards/createCard/CreateCard'
@@ -22,7 +22,8 @@ import {
 import s from './Cards.module.scss'
 
 const CARDS_KEY_SEARCH_PARAMS = {
-  authorId: 'authorId',
+  authorIdSaveHistory: 'authorId',
+  minCardsCountSaveHistory: 'minCardsCount',
   page: 'page',
   pageDeckSaveHistory: 'pageDeck',
   searchName: 'question',
@@ -32,17 +33,23 @@ export const Cards = () => {
   const { id: idCard } = useParams<{ id: string }>()
   const { data: dataUser } = useGetCurrentUserDataQuery()
   const location = useLocation()
-  const { authorId: myCardsId, pageDeckSave } =
-    (location.state as { authorId: string; pageDeckSave: string }) || {}
+  const { authorIdSave, minCardsSave, pageDeckSave } =
+    (location.state as {
+      authorIdSave: string
+      minCardsSave: number
+      pageDeckSave: number
+    } as PageHistorySaveType) || {}
 
   const { searchParams, updateSearchParam } = useSearchUpdateParams({
-    authorId: myCardsId ?? '',
+    authorId: authorIdSave ?? '',
+    minCardsCount: String(minCardsSave) ?? '',
     pageDeck: String(pageDeckSave) ?? '',
   })
 
   const [itemPage, setItemPage] = useState(10)
   const pageDeck = searchParams.get(CARDS_KEY_SEARCH_PARAMS.pageDeckSaveHistory)
-  const authorId = searchParams.get(CARDS_KEY_SEARCH_PARAMS.authorId)
+  const authorId = searchParams.get(CARDS_KEY_SEARCH_PARAMS.authorIdSaveHistory)
+  const minCardsCount = searchParams.get(CARDS_KEY_SEARCH_PARAMS.minCardsCountSaveHistory)
 
   const page = Number(searchParams.get(CARDS_KEY_SEARCH_PARAMS.page)) || 1
   const searchName = searchParams.get(CARDS_KEY_SEARCH_PARAMS.searchName) || ''
@@ -82,7 +89,7 @@ export const Cards = () => {
     <Page marginTop={'var(--margin-top-page-link'}>
       <BackTo
         nameLink={'Back to Decks List'}
-        saveHistoryPage={`${DECK_ROUTE}?page=${pageDeck}&authorId=${authorId}`}
+        saveHistoryPage={`${DECK_ROUTE}?page=${pageDeck}&authorId=${authorId}&minCardsCount=${minCardsCount}`}
       />
       <Title
         idCard={idCard}

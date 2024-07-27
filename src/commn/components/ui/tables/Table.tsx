@@ -9,8 +9,9 @@ import { CARDS_ROUTE } from '@/routes/Router'
 import s from './Table.module.scss'
 
 export type PageHistorySaveType = {
-  authorId?: string
-  pageDeck?: number
+  authorIdSave?: string
+  minCardsSave?: number
+  pageDeckSave?: number
 }
 type HeadersType = {
   id: number
@@ -56,8 +57,9 @@ export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
   const handleGetCard = (idCards: string) => {
     navigate(`${idCards}${CARDS_ROUTE}`, {
       state: {
-        authorId: pageHistorySave?.authorId,
-        pageDeckSave: pageHistorySave?.pageDeck,
+        authorIdSave: pageHistorySave?.authorIdSave,
+        minCardsSave: pageHistorySave?.minCardsSave,
+        pageDeckSave: pageHistorySave?.pageDeckSave,
       },
     })
   }

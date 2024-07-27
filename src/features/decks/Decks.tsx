@@ -143,7 +143,7 @@ export const Decks = () => {
             { id: 3, title: 'Last Updated' },
             { id: 4, title: 'Created By' },
           ]}
-          pageHistorySave={{ authorId: authorId, pageDeck: page }}
+          pageHistorySave={{ authorIdSave: authorId, minCardsSave: minCards, pageDeckSave: page }}
           paragraphs={data?.items.map((deck: DeckType) => ({
             cells: [
               { idDeck: deck.id, img: deck.cover, value: deck.name },
