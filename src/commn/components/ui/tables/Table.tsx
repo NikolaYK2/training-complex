@@ -8,6 +8,10 @@ import { CARDS_ROUTE } from '@/routes/Router'
 
 import s from './Table.module.scss'
 
+export type PageHistorySaveType = {
+  authorId?: string
+  pageDeck?: number
+}
 type HeadersType = {
   id: number
   title: string
@@ -27,7 +31,7 @@ export type ParagraphType = {
 
 type TableProps = {
   headers: HeadersType[]
-  pageHistorySave?: number
+  pageHistorySave?: PageHistorySaveType
   paragraphs: ParagraphType[] | undefined
 }
 
@@ -50,7 +54,12 @@ export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
   }
 
   const handleGetCard = (idCards: string) => {
-    navigate(`${idCards}${CARDS_ROUTE}`, { state: { page: pageHistorySave } })
+    navigate(`${idCards}${CARDS_ROUTE}`, {
+      state: {
+        authorId: pageHistorySave?.authorId,
+        pageDeckSave: pageHistorySave?.pageDeck,
+      },
+    })
   }
 
   if (isLengthMismatch) {

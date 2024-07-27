@@ -22,6 +22,7 @@ import {
 import s from './Cards.module.scss'
 
 const CARDS_KEY_SEARCH_PARAMS = {
+  authorId: 'authorId',
   page: 'page',
   pageDeckSaveHistory: 'pageDeck',
   searchName: 'question',
@@ -31,13 +32,17 @@ export const Cards = () => {
   const { id: idCard } = useParams<{ id: string }>()
   const { data: dataUser } = useGetCurrentUserDataQuery()
   const location = useLocation()
-  const { page: pageSaveDeck } = (location.state as { page: string }) || {}
+  const { authorId: myCardsId, pageDeckSave } =
+    (location.state as { authorId: string; pageDeckSave: string }) || {}
 
   const { searchParams, updateSearchParam } = useSearchUpdateParams({
-    pageDeck: pageSaveDeck,
+    authorId: myCardsId ?? '',
+    pageDeck: String(pageDeckSave) ?? '',
   })
+
   const [itemPage, setItemPage] = useState(10)
-  const pageDeck = searchParams?.get(CARDS_KEY_SEARCH_PARAMS.pageDeckSaveHistory)
+  const pageDeck = searchParams.get(CARDS_KEY_SEARCH_PARAMS.pageDeckSaveHistory)
+  const authorId = searchParams.get(CARDS_KEY_SEARCH_PARAMS.authorId)
 
   const page = Number(searchParams.get(CARDS_KEY_SEARCH_PARAMS.page)) || 1
   const searchName = searchParams.get(CARDS_KEY_SEARCH_PARAMS.searchName) || ''
@@ -75,7 +80,10 @@ export const Cards = () => {
 
   return (
     <Page marginTop={'var(--margin-top-page-link'}>
-      <BackTo nameLink={'Back to Decks List'} saveHistoryPage={`${DECK_ROUTE}?page=${pageDeck}`} />
+      <BackTo
+        nameLink={'Back to Decks List'}
+        saveHistoryPage={`${DECK_ROUTE}?page=${pageDeck}&authorId=${authorId}`}
+      />
       <Title
         idCard={idCard}
         imageTitle={dataDeckBy?.cover}
