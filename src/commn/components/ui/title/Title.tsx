@@ -1,6 +1,7 @@
 import { CSSProperties, ReactNode, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { Button } from '@/commn/components/ui/button'
 import { DropDownMenu } from '@/commn/components/ui/dropDownMenu/DropDownMenu'
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
@@ -76,7 +77,13 @@ export const Title = ({
             This pack is empty. Click add new card to fill this pack
           </TextFormat>
         )}
-        {children}
+        {isUserId ? (
+          children
+        ) : (
+          <Button onClick={handleRedirectLearnClick} variant={'primary'}>
+            <TextFormat variant={'subtitle2'}>Learn to Pack</TextFormat>
+          </Button>
+        )}
       </div>
       {imageTitle && !isNotItem && (
         <div className={s.imageTitle} onClick={handleImageClick}>
