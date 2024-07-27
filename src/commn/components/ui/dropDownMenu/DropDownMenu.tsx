@@ -17,7 +17,8 @@ export type MenuItem = {
   callback?: () => void
   className?: string
   email?: string
-  icon: 'avatar' | 'delete' | 'edit' | 'learn' | 'logOut' | 'profile' | string
+  icon: 'avatar' | 'delete' | 'edit' | 'learn' | 'logOut' | 'notFile' | 'profile' | string
+  key: string
   route?: string
 }
 type MenuType = {
