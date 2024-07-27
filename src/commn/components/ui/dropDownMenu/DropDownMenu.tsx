@@ -18,7 +18,7 @@ export type MenuItem = {
   className?: string
   email?: string
   icon: 'avatar' | 'delete' | 'edit' | 'learn' | 'logOut' | 'notFile' | 'profile' | string
-  key: string
+  key?: string
   route?: string
 }
 type MenuType = {

@@ -74,12 +74,13 @@ export const Title = ({
         </div>
         {isNotItem && (
           <TextFormat className={s.description} variant={'body1'}>
-            This pack is empty. Click add new card to fill this pack
+            {isUserId
+              ? 'This pack is empty. Click add new card to fill this pack'
+              : 'This pack is empty. Come back later or explore other packs'}
           </TextFormat>
         )}
-        {isUserId ? (
-          children
-        ) : (
+        {isUserId && children}
+        {!isUserId && !isNotItem && (
           <Button onClick={handleRedirectLearnClick} variant={'primary'}>
             <TextFormat variant={'subtitle2'}>Learn to Pack</TextFormat>
           </Button>
