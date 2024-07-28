@@ -52,14 +52,14 @@ export const Header = () => {
                 },
                 {
                   buttonName: 'My profile',
-                  className: 'iconProfile',
+                  classNameButton: 'iconProfile',
                   icon: 'profile',
                   route: PROFILE_ROUTE,
                 },
                 {
                   buttonName: 'sign out',
                   callback: logout,
-                  className: 'iconLogOut',
+                  classNameButton: 'iconLogOut',
                   icon: 'logOut',
                 },
               ],
