@@ -1,7 +1,8 @@
+import { MouseEvent, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Button } from '@/commn/components/ui/button'
-import { IconName, IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
+import { IconNameType, IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 
@@ -13,9 +14,10 @@ type TriggerType = {
   title?: string
 }
 export type MenuItem = {
-  buttonName: string
+  buttonName?: string
   callback?: () => void
-  className?: string
+  classNameButton?: string
+  element?: ReactNode
   email?: string
   icon: 'avatar' | 'delete' | 'edit' | 'learn' | 'logOut' | 'notFile' | 'profile' | string
   key?: string
@@ -45,6 +47,21 @@ type Props = {
  * };
  */
 export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
+  const handleSelect = (event: MouseEvent<HTMLDivElement>) => {
+    event.preventDefault() // Останавливает автоматическое закрытие
+  }
+
+  const getComponentType = (el: MenuItem) => {
+    if (el.element) {
+      return 'div'
+    }
+    if (el.route) {
+      return Link
+    }
+
+    return 'button'
+  }
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -71,11 +88,13 @@ export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
         <DropdownMenu.Content className={s.content} sideOffset={5}>
           {menuConfig.content.map(el => (
             <DropdownMenu.Item
-              className={`${s.item} ${el.className ? el.className : ''}`}
+              className={`${s.item} ${el.classNameButton ? el.classNameButton : ''}`}
               key={el.icon}
+              onClick={handleSelect}
             >
               <Button
-                as={el.route ? Link : 'button'}
+                as={getComponentType(el)}
+                // as={el.route ? Link : 'button'}
                 className={s.block}
                 onClick={el.callback}
                 to={el.route ?? ''}
@@ -84,12 +103,17 @@ export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
                   {el.email ? (
                     <img alt={'avatar'} src={el.icon} />
                   ) : (
-                    <IconSvg name={el.email ? 'avatar' : (el.icon as IconName)} />
+                    <IconSvg name={el.email ? 'avatar' : (el.icon as IconNameType)} />
                   )}
                 </div>
-                <div className={`${s.text}`}>
-                  <span>{el.buttonName}</span>
-                  <span>{el.email}</span>
+                <div className={`${s.textBlock}`}>
+                  <TextFormat className={s.text} variant={'caption'}>
+                    {el.buttonName}
+                  </TextFormat>
+                  <TextFormat className={s.text} variant={'caption'}>
+                    {el.email}
+                  </TextFormat>
+                  {el.element && <div className={s.element}>{el.element}</div>}
                 </div>
               </Button>
             </DropdownMenu.Item>
