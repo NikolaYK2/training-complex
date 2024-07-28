@@ -232,10 +232,10 @@ const icons = {
   tick: <TickIcon />,
 }
 
-export type IconName = keyof typeof icons
+export type IconNameType = keyof typeof icons
 
 type IconSvgType = {
-  name: IconName
+  name: IconNameType
 }
 
 export const IconSvg = (props: IconSvgType) => {
