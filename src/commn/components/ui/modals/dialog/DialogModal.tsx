@@ -1,7 +1,7 @@
 import { FormEventHandler, ReactElement, ReactNode } from 'react'
 
-import { Button } from '@/commn/components/ui/button'
-import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
+import { Button, ButtonVariantType } from '@/commn/components/ui/button'
+import { IconNameType, IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import * as Dialog from '@radix-ui/react-dialog'
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
@@ -15,7 +15,9 @@ type DialogModalProps = {
   setIsOpenModal: (open: boolean) => void
   textH2?: string
   textP?: string
-  trigger: string
+  trigger?: string
+  triggerIcon?: IconNameType
+  triggerVariant?: ButtonVariantType
 }
 /**
  * Example usage of children prop:
@@ -47,12 +49,15 @@ export const DialogModal = ({
   textH2,
   textP,
   trigger,
+  triggerIcon,
+  triggerVariant,
 }: DialogModalProps) => {
   return (
     <Dialog.Root onOpenChange={setIsOpenModal} open={isOpenModal}>
       <Dialog.Trigger asChild>
-        <Button variant={'primary'}>
-          <TextFormat variant={'subtitle2'}>{trigger}</TextFormat>{' '}
+        <Button variant={triggerVariant}>
+          {triggerIcon && <IconSvg name={triggerIcon as IconNameType} />}
+          <TextFormat variant={'subtitle2'}>{trigger}</TextFormat>
         </Button>
       </Dialog.Trigger>
 
