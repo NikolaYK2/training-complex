@@ -26,7 +26,7 @@ export const TypographyH4: Story = {
   render: () => <TextFormat variant={'h4'}>{text}</TextFormat>,
 }
 export const TypographyCaption1: Story = {
-  render: () => <TextFormat variant={'caption1'}>{text}</TextFormat>,
+  render: () => <TextFormat variant={'caption'}>{text}</TextFormat>,
 }
 export const TypographyOverline: Story = {
   render: () => <TextFormat variant={'overline'}>{text}</TextFormat>,

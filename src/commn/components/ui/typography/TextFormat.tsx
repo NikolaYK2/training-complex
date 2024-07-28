@@ -5,7 +5,7 @@ import s from './TextFormat.module.scss'
 type VariantType =
   | 'body1'
   | 'body2'
-  | 'caption1'
+  | 'caption'
   | 'h1'
   | 'h2'
   | 'h3'
@@ -44,7 +44,7 @@ function getComponent(variant: VariantType) {
     case 'h4': {
       return 'h5'
     }
-    case 'caption1':
+    case 'caption':
     case 'overline': {
       return 'small'
     }
