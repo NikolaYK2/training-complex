@@ -1,6 +1,7 @@
 import { SubmitHandler } from 'react-hook-form'
 
 import { ImageIcon } from '@/assets/image/image/ImageIcon'
+import { ButtonVariantType } from '@/commn/components/ui/button'
 import { ControlledCheckbox } from '@/commn/components/ui/checkBox/ControlledCheckbox'
 import { ControlledFileDownload } from '@/commn/components/ui/fileDonwold/ControlledFileDownload'
 import { FIlePreview } from '@/commn/components/ui/filePreview/FIlePreview'
@@ -8,10 +9,12 @@ import { ControlledTextField } from '@/commn/components/ui/input/ControlledTextF
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { DialogModal } from '@/commn/components/ui/modals/dialog/DialogModal'
 import { useCreateEntityForm } from '@/commn/hooks/useCreateEntityForm'
-import { useCreateDeckMutation } from '@/services/decks/decksService'
+import { useCreateUpdateDeckMutation } from '@/services/decks/decksService'
+import { SerializedError } from '@reduxjs/toolkit'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { z } from 'zod'
 
-import s from './CreateDeck.module.scss'
+import s from './CreateUpdateDeck.module.scss'
 
 const createDeckSchema = z.object({
   cover: z.any().optional().nullable(),
@@ -20,8 +23,26 @@ const createDeckSchema = z.object({
 })
 
 type FormType = z.infer<typeof createDeckSchema>
-export const CreateDeck = () => {
-  const [createDeck, { error, isError, isLoading: isLoadingCreatedDeck }] = useCreateDeckMutation()
+type CreateUpdateDeckMutationTrigger = ReturnType<typeof useCreateUpdateDeckMutation>[0]
+type Props = {
+  className?: string
+  error: FetchBaseQueryError | SerializedError | undefined
+  isError: boolean
+  isLoading: boolean
+  method: 'PATCH' | 'POST'
+  mutationFunction: CreateUpdateDeckMutationTrigger
+  nameTrigger?: string
+  triggerVariant?: ButtonVariantType
+}
+export const CreateUpdateDeck = ({
+  error,
+  isError,
+  isLoading,
+  method,
+  mutationFunction,
+  nameTrigger,
+  triggerVariant,
+}: Props) => {
   const {
     control,
     errors,
@@ -43,7 +64,12 @@ export const CreateDeck = () => {
   })
   const onSubmit: SubmitHandler<FormType> = async data => {
     try {
-      await createDeck({ cover: data.cover, isPrivate: data.isPrivate, name: data.name })
+      await mutationFunction({
+        cover: data.cover,
+        isPrivate: data.isPrivate,
+        method,
+        name: data.name,
+      })
       handleFormReset()
     } catch (e) {
       console.error('Error creating deck: ', e)
@@ -60,10 +86,11 @@ export const CreateDeck = () => {
       onSubmit={handleSubmit(onSubmit)}
       setIsOpenModal={handleCloseModal}
       textH2={'add new deck'}
-      trigger={'add new deck'}
+      trigger={nameTrigger}
+      triggerVariant={triggerVariant}
     >
       {[
-        <div key={'loading'}>{isLoadingCreatedDeck && <Loading />}</div>,
+        <div key={'loading'}>{isLoading && <Loading />}</div>,
         <ControlledTextField
           control={control}
           errorMessage={errors.name?.message}
