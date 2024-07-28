@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { DeleteIcon } from '@/assets/image/delete/DeleteIcon'
 import { Button } from '@/commn/components/ui/button'
+import { CreateUpdateDeck } from '@/commn/components/ui/createUpdateDeck/CreateUpdateDeck'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
 import { Pagination } from '@/commn/components/ui/pagination/Pagination'
@@ -12,10 +13,9 @@ import { Table } from '@/commn/components/ui/tables/Table'
 import { Title } from '@/commn/components/ui/title/Title'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
-import { CreateDeck } from '@/features/decks/createDeck/CreateDeck'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
 import { DeckType } from '@/services/decks/DecksTypes'
-import { useGetDecksQuery } from '@/services/decks/decksService'
+import { useCreateUpdateDeckMutation, useGetDecksQuery } from '@/services/decks/decksService'
 
 import s from './Decks.module.scss'
 
@@ -32,6 +32,8 @@ const DECKS_KEY_SEARCH_PARAMS = {
 export const Decks = () => {
   const [itemPage, setItemPage] = useState(10)
   const { searchParams, updateSearchParam } = useSearchUpdateParams()
+  const { data: dataUserData } = useGetCurrentUserDataQuery()
+
   //rrm search params ------------
   const page = Number(searchParams.get(DECKS_KEY_SEARCH_PARAMS.page)) || 1
   const name = searchParams.get(DECKS_KEY_SEARCH_PARAMS.searchName) || ''
@@ -59,6 +61,10 @@ export const Decks = () => {
   const setCountMaxDecks = (countMax: number) => {
     updateSearchParam(DECKS_KEY_SEARCH_PARAMS.maxCardsCount, countMax)
   }
+  const [
+    createDeck,
+    { error: errorCreateDeck, isError: isErrorCreateDeck, isLoading: isLoadingCreateDeck },
+  ] = useCreateUpdateDeckMutation()
 
   const { data, error, isError, isLoading } = useGetDecksQuery({
     authorId: authorId || undefined,
@@ -68,8 +74,6 @@ export const Decks = () => {
     minCardsCount: minCards,
     name: name || undefined,
   }) //из query возвращается обьект из mutation картэш(массив с заранее определенными элементами)
-
-  const { data: dataUserData } = useGetCurrentUserDataQuery()
 
   const handleClearFilter = () => {
     setCountMaxDecks(100)
@@ -90,8 +94,15 @@ export const Decks = () => {
     <Page>
       {isLoading && <Loading />}
 
-      <Title name={'Decks list'}>
-        <CreateDeck />
+      <Title isDeck name={'Decks list'}>
+        <CreateUpdateDeck
+          error={errorCreateDeck}
+          isError={isErrorCreateDeck}
+          isLoading={isLoadingCreateDeck}
+          method={'POST'}
+          mutationFunction={createDeck}
+          nameTrigger={'Add New Deck'}
+        />
       </Title>
       <div className={s.filters}>
         <div className={s.search}>
