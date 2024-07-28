@@ -2,11 +2,12 @@ import { ComponentPropsWithoutRef, ElementType, forwardRef } from 'react'
 
 import s from './Button.module.scss'
 
+export type ButtonVariantType = 'link' | 'primary' | 'secondary' | 'tertiary'
 export type ButtonProps<T extends ElementType = 'button'> = {
   as?: T
   className?: string
   fullWidth?: boolean
-  variant?: 'link' | 'primary' | 'secondary' | 'tertiary'
+  variant?: ButtonVariantType
 } & ComponentPropsWithoutRef<T>
 
 export const Button = forwardRef<any, ButtonProps<ElementType>>(
