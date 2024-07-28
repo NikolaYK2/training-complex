@@ -5,14 +5,16 @@ import { Button } from '@/commn/components/ui/button'
 import { DropDownMenu, MenuItem } from '@/commn/components/ui/dropDownMenu/DropDownMenu'
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
+import { EditCard } from '@/features/cards/editCard/EditCard'
 import { DECK_ROUTE, LEARN_ROUTE } from '@/routes/Router'
 
 import s from './Title.module.scss'
 
-type Props = {
+export type TitleProps = {
   children: ReactNode
   idCard?: string
   imageTitle?: null | string
+  isDeck?: boolean
   isNotItem?: boolean
   isUserId?: boolean
   marginBot?: CSSProperties['marginBottom']
@@ -22,11 +24,12 @@ export const Title = ({
   children,
   idCard,
   imageTitle,
+  isDeck = false,
   isNotItem = false,
   isUserId = false,
   marginBot,
   name,
-}: Props) => {
+}: TitleProps) => {
   const styles: CSSProperties = { marginBottom: marginBot }
   const [isActivePreview, setActivePreview] = useState(false)
   const navigate = useNavigate()
@@ -36,7 +39,6 @@ export const Title = ({
       navigate(`${DECK_ROUTE}/${idCard}${LEARN_ROUTE}`)
     }
   }
-
   const handleImageClick = () => {
     setActivePreview(true)
   }
@@ -58,10 +60,16 @@ export const Title = ({
                 menuConfig={{
                   content: [
                     createLearnMenuItem(isNotItem, handleRedirectLearnClick),
-                    { buttonName: 'edit', className: 'editAnimation', icon: 'edit', key: 'edit' },
+                    {
+                      buttonName: 'edit',
+                      classNameButton: 'editAnimation',
+                      element: <EditCard />,
+                      icon: 'edit',
+                      key: 'edit',
+                    },
                     {
                       buttonName: 'delete',
-                      className: 'deleteAnimation',
+                      classNameButton: 'deleteAnimation',
                       icon: 'delete',
                       key: 'delete',
                     },
@@ -79,8 +87,8 @@ export const Title = ({
               : 'This pack is empty. Come back later or explore other packs'}
           </TextFormat>
         )}
-        {isUserId && children}
-        {!isUserId && !isNotItem && (
+        {(isUserId || isDeck) && children}
+        {!isUserId && !isNotItem && !isDeck && (
           <Button onClick={handleRedirectLearnClick} variant={'primary'}>
             <TextFormat variant={'subtitle2'}>Learn to Pack</TextFormat>
           </Button>
@@ -100,7 +108,7 @@ const createLearnMenuItem = (isNotItem: boolean, callBack: () => void): MenuItem
   if (isNotItem) {
     return {
       buttonName: 'not card',
-      className: 'notFileAnimation',
+      classNameButton: 'notFileAnimation',
       icon: 'notFile',
       key: 'learn',
     } as MenuItem
@@ -109,7 +117,7 @@ const createLearnMenuItem = (isNotItem: boolean, callBack: () => void): MenuItem
   return {
     buttonName: 'learn',
     callback: callBack,
-    className: 'learnAnimation',
+    classNameButton: 'learnAnimation',
     icon: 'learn',
     key: 'learn',
   }
