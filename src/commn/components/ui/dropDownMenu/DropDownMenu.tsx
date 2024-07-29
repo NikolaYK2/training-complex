@@ -1,4 +1,4 @@
-import { MouseEvent, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Button } from '@/commn/components/ui/button'
@@ -48,10 +48,6 @@ type Props = {
  * };
  */
 export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
-  const handleSelect = (event: MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation()
-  }
-
   const getComponentType = (el: MenuItem) => {
     if (el.element) {
       return 'div'
@@ -66,7 +62,7 @@ export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button aria-label={'Customise options'} className={s.triggerBlock} type={'submit'}>
+        <button aria-label={'Customise options'} className={s.triggerBlock} type={'button'}>
           {menuConfig.trigger.title && (
             <span className={s.titleTrigger}>
               <TextFormat variant={'subtitle1'}>{menuConfig.trigger.title}</TextFormat>
@@ -86,13 +82,9 @@ export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
-        <DropdownMenu.Content
-          className={s.content}
-          onFocusOutside={e => e.preventDefault()}
-          sideOffset={5}
-        >
+        <DropdownMenu.Content className={s.content} sideOffset={5}>
           {menuConfig.content.map(el => (
-            <DropdownMenu.Item
+            <DropdownMenu.Label
               className={`${s.item} ${el.classNameButton ? el.classNameButton : ''}`}
               key={el.icon}
             >
@@ -116,14 +108,10 @@ export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
                   <TextFormat className={s.text} variant={'caption'}>
                     {el.email}
                   </TextFormat>
-                  {el.element && (
-                    <div className={s.element} onClick={handleSelect}>
-                      {el.element}
-                    </div>
-                  )}
+                  {el.element && <div className={s.element}>{el.element}</div>}
                 </div>
               </Button>
-            </DropdownMenu.Item>
+            </DropdownMenu.Label>
           ))}
           <DropdownMenu.Arrow className={`${s.menuArrow} ${classNameMenuArrow || ''}`} />
         </DropdownMenu.Content>
