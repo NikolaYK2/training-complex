@@ -2,6 +2,7 @@ import { ReactElement, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
+import { HoverIconImage } from '@/commn/components/ui/hoverIconImage/HoverIconImage'
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { CARDS_ROUTE } from '@/routes/Router'
@@ -97,13 +98,11 @@ export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
                     <td className={s.row} key={idx}>
                       <div className={s.item}>
                         {cell.img && (
-                          <div className={s.img}>
-                            <img
-                              alt={'img'}
-                              onClick={() => handleImgClick(cell.img)}
-                              src={cell.img}
-                            />
-                          </div>
+                          <HoverIconImage
+                            callback={() => handleImgClick(cell.img)}
+                            className={s.img}
+                            imgSrc={cell.img}
+                          />
                         )}
                         <TextFormat
                           onClick={() => cell.idDeck && handleGetCard(cell.idDeck)}
