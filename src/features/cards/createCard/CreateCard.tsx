@@ -95,7 +95,7 @@ export const CreateCard = ({ cardId }: Props) => {
       isOpenModal={isOpenModal}
       onSubmit={handleSubmit(onSubmit)}
       setIsOpenModal={handleCloseModal}
-      textH2={'add new card'}
+      titleContent={'add new card'}
       trigger={'add new card'}
     >
       {[
