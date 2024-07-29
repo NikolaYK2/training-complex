@@ -10,11 +10,11 @@ import s from './DialogModal.module.scss'
 
 type DialogModalProps = {
   children?: ReactElement[]
-  isOpenModal: boolean
+  isOpenModal?: boolean
   onSubmit?: FormEventHandler<HTMLFormElement>
-  setIsOpenModal: (open: boolean) => void
-  textH2?: string
-  textP?: string
+  setIsOpenModal?: (open: boolean) => void
+  textDescription?: string
+  titleContent?: string
   trigger?: string
   triggerIcon?: IconNameType
   triggerVariant?: ButtonVariantType
@@ -46,8 +46,8 @@ export const DialogModal = ({
   isOpenModal, //указываем условия при котором закрываетя модалка
   onSubmit,
   setIsOpenModal, //управление открытия закрытия модал окна
-  textH2,
-  textP,
+  textDescription,
+  titleContent,
   trigger,
   triggerIcon,
   triggerVariant,
@@ -64,9 +64,9 @@ export const DialogModal = ({
       <Dialog.Portal>
         <Dialog.Overlay className={s.overlayBackground} />
         <Dialog.Content className={s.content}>
-          <VisibilityToggle isHidden={!textH2}>
+          <VisibilityToggle isHidden={!titleContent}>
             <Dialog.Title className={`${s.titleH2Block}`}>
-              <span className={s.titleH2}>{textH2}</span>
+              <span className={s.titleH2}>{titleContent}</span>
               <Dialog.Close asChild>
                 <button className={s.buttonClose} type={'button'}>
                   <IconSvg name={'close'} />
@@ -75,8 +75,10 @@ export const DialogModal = ({
             </Dialog.Title>
           </VisibilityToggle>
 
-          <VisibilityToggle isHidden={!textP}>
-            <Dialog.Description className={`${s.descriptionP}`}>{textP}</Dialog.Description>
+          <VisibilityToggle isHidden={!textDescription}>
+            <Dialog.Description className={`${s.descriptionP}`}>
+              {textDescription}
+            </Dialog.Description>
           </VisibilityToggle>
 
           <VisibilityToggle isHidden={!children}>
@@ -86,7 +88,7 @@ export const DialogModal = ({
                   <label>{child}</label>
                 </fieldset>
               )) ||
-                (!textH2 && !textP && <div className={s.background} />)}
+                (!titleContent && !textDescription && <div className={s.background} />)}
               {onSubmit && (
                 <div className={s.buttonsBlock}>
                   <Dialog.Close asChild>

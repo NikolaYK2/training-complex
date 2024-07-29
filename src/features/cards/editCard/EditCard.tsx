@@ -24,6 +24,7 @@ export const EditCard = ({ cover, idCard, isPrivateCard, name }: Props) => {
       method={'PATCH'}
       mutationFunction={updateDeck}
       nameDeckBy={name}
+      titleContent={'edit pack'}
       triggerVariant={'link'}
     />
   )

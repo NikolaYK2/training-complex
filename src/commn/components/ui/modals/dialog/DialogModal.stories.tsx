@@ -76,7 +76,7 @@ export const modalAddDeck: Story = {
       isOpenModal
       onSubmit={() => {}}
       setIsOpenModal={() => {}}
-      textH2={'add new deck'}
+      titleContent={'add new deck'}
       trigger={'add new card'}
     >
       {[

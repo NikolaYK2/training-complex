@@ -5,42 +5,37 @@ import { Button } from '@/commn/components/ui/button'
 import { DropDownMenu, MenuItem } from '@/commn/components/ui/dropDownMenu/DropDownMenu'
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
 import { HoverIconImage } from '@/commn/components/ui/hoverIconImage/HoverIconImage'
-import { Loading } from '@/commn/components/ui/loading/Loading'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
+import { DeleteCard } from '@/features/cards/deleteCard/DeleteCard'
 import { EditCard } from '@/features/cards/editCard/EditCard'
 import { DECK_ROUTE, LEARN_ROUTE } from '@/routes/Router'
-import { useDeleteDeckMutation } from '@/services/decks/decksService'
 
 import s from './Title.module.scss'
 
 export type TitleProps = {
   children: ReactNode
   idCard?: string
-  imageTitle?: null | string
+  imageDeck?: null | string
   isDeck?: boolean
   isNotItem?: boolean
   isPrivateCard?: boolean
   isUserId?: boolean
   marginBot?: CSSProperties['marginBottom']
-  nameTitle: string | undefined
+  nameDeck: string | undefined
 }
 export const Title = ({
   children,
   idCard,
-  imageTitle,
+  imageDeck,
   isDeck = false,
   isNotItem = false,
   isPrivateCard,
   isUserId = false,
   marginBot,
-  nameTitle,
+  nameDeck,
 }: TitleProps) => {
   const styles: CSSProperties = { marginBottom: marginBot }
   const [isActivePreview, setActivePreview] = useState(false)
-  const [
-    deleteDeck,
-    { error: errorDeleteDeck, isError: isErrorDeleteDeck, isLoading: isLoadingDeleteDeck },
-  ] = useDeleteDeckMutation()
 
   const navigate = useNavigate()
 
@@ -50,12 +45,6 @@ export const Title = ({
     }
   }
 
-  const handleDeleteDeck = async () => {
-    if (idCard) {
-      await deleteDeck({ id: idCard })
-      navigate(`${DECK_ROUTE}`)
-    }
-  }
   const handleImageClick = () => {
     setActivePreview(true)
   }
@@ -64,19 +53,12 @@ export const Title = ({
     setActivePreview(false)
   }
 
-  if (isErrorDeleteDeck) {
-    return <div>Error: {JSON.stringify(errorDeleteDeck)}</div>
-  }
-  if (isLoadingDeleteDeck) {
-    return <Loading />
-  }
-
   return (
     <div className={s.containerTitle} style={styles}>
       <div className={`${s.blockItem} ${isNotItem ? s.modBlock : ''}`}>
         <div className={s.settingBlock}>
           <TextFormat className={`${s.nameTitle}`} variant={'h1'}>
-            {nameTitle ?? 'not name'}
+            {nameDeck ?? 'not name'}
           </TextFormat>
           {isUserId && (
             <div className={s.settingItem}>
@@ -86,14 +68,13 @@ export const Title = ({
                     createLearnMenuItem(isNotItem, handleRedirectLearnClick),
                     {
                       buttonName: 'edit',
-                      callback: () => {},
                       classNameButton: 'editAnimation',
                       element: (
                         <EditCard
-                          cover={imageTitle}
+                          cover={imageDeck}
                           idCard={idCard}
                           isPrivateCard={isPrivateCard}
-                          name={nameTitle}
+                          name={nameDeck}
                         />
                       ),
 
@@ -103,8 +84,8 @@ export const Title = ({
                     },
                     {
                       buttonName: 'delete',
-                      callback: handleDeleteDeck,
                       classNameButton: 'deleteAnimation',
+                      element: <DeleteCard idCard={idCard} nameDeck={nameDeck} />,
                       icon: 'delete',
                       key: 'delete',
                     },
@@ -129,10 +110,10 @@ export const Title = ({
           </Button>
         )}
       </div>
-      {imageTitle && !isNotItem && (
-        <HoverIconImage callback={handleImageClick} className={s.imageTitle} imgSrc={imageTitle} />
+      {imageDeck && !isNotItem && (
+        <HoverIconImage callback={handleImageClick} className={s.imageTitle} imgSrc={imageDeck} />
       )}
-      {isActivePreview && <FilePreviewPortal onClose={handlePreviewClose} src={imageTitle ?? ''} />}
+      {isActivePreview && <FilePreviewPortal onClose={handlePreviewClose} src={imageDeck ?? ''} />}
     </div>
   )
 }
