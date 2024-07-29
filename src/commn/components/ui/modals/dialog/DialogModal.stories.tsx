@@ -7,8 +7,6 @@ import { TextField } from '@/commn/components/ui/input/TextField'
 import { DialogModal } from '@/commn/components/ui/modals/dialog/DialogModal'
 import { Select } from '@/commn/components/ui/select/Select'
 
-import s from '@/features/decks/createDeck/CreateDeck.module.scss'
-
 const meta = {
   argTypes: {},
   component: DialogModal,
@@ -85,7 +83,6 @@ export const modalAddDeck: Story = {
         <TextField key={'Input1'} label={'name pack'} type={'text'} value={'name'} />,
         <FileDownload
           buttonName={'upload image'}
-          className={s.newDeck}
           iconComponent={<ImageIcon />}
           key={'input2'}
           name={'cover'}
