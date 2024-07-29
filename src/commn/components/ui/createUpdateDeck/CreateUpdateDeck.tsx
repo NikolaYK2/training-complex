@@ -37,6 +37,7 @@ type Props = {
   mutationFunction: CreateUpdateDeckMutationTrigger
   nameDeckBy?: string
   nameTrigger?: string
+  titleContent?: string
   triggerVariant?: ButtonVariantType
 }
 export const CreateUpdateDeck = ({
@@ -50,6 +51,7 @@ export const CreateUpdateDeck = ({
   mutationFunction,
   nameDeckBy,
   nameTrigger,
+  titleContent,
   triggerVariant,
 }: Props) => {
   const {
@@ -108,7 +110,7 @@ export const CreateUpdateDeck = ({
       isOpenModal={isOpenModal}
       onSubmit={handleSubmit(onSubmit)}
       setIsOpenModal={handleCloseModal}
-      textH2={'add new deck'}
+      titleContent={titleContent}
       trigger={nameTrigger}
       triggerVariant={triggerVariant}
     >
