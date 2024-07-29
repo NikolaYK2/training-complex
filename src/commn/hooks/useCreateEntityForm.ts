@@ -4,7 +4,7 @@ import { DefaultValues, FieldValues, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ZodSchema } from 'zod'
 
-type FilePreviewType = Record<string, null | string>
+export type FilePreviewType = Record<string, null | string>
 type UseCreateEntityFormProps<T extends FieldValues> = {
   defaultValues: DefaultValues<T>
   schema: ZodSchema<T>
@@ -25,6 +25,7 @@ export const useCreateEntityForm = <T extends FieldValues>({
     formState: { errors },
     handleSubmit,
     reset,
+    setValue,
   } = useForm<T>({
     defaultValues,
     resolver: zodResolver(schema),
@@ -53,5 +54,6 @@ export const useCreateEntityForm = <T extends FieldValues>({
     isOpenModal,
     setFilePreview,
     setFilePreviewFullScreen,
+    setValue,
   }
 }
