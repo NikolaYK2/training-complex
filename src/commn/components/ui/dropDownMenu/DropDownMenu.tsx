@@ -49,9 +49,8 @@ type Props = {
  */
 export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
   const handleSelect = (event: MouseEvent<HTMLDivElement>) => {
-    event.preventDefault() // Останавливает автоматическое закрытие
+    event.stopPropagation()
   }
-  const handleSelectClose = () => {}
 
   const getComponentType = (el: MenuItem) => {
     if (el.element) {
@@ -87,12 +86,15 @@ export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
-        <DropdownMenu.Content className={s.content} sideOffset={5}>
+        <DropdownMenu.Content
+          className={s.content}
+          onFocusOutside={e => e.preventDefault()}
+          sideOffset={5}
+        >
           {menuConfig.content.map(el => (
             <DropdownMenu.Item
               className={`${s.item} ${el.classNameButton ? el.classNameButton : ''}`}
               key={el.icon}
-              onClick={el.isSelect ? handleSelect : handleSelectClose}
             >
               <Button
                 as={getComponentType(el)}
@@ -114,7 +116,11 @@ export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
                   <TextFormat className={s.text} variant={'caption'}>
                     {el.email}
                   </TextFormat>
-                  {el.element && <div className={s.element}>{el.element}</div>}
+                  {el.element && (
+                    <div className={s.element} onClick={handleSelect}>
+                      {el.element}
+                    </div>
+                  )}
                 </div>
               </Button>
             </DropdownMenu.Item>
