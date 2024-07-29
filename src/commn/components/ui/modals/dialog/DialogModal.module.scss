@@ -13,8 +13,11 @@ input {
 
 .overlayBackground {
   position: fixed;
+  z-index: 10;
   inset: 0;
+
   background-color: var(--color-dark-transparent);
+
   animation: overlay-show 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
