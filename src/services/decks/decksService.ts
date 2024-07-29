@@ -37,7 +37,7 @@ export const decksService = flashcardsApi.injectEndpoints({
     }),
     createUpdateDeck: builder.mutation<DeckType, CreateDeckArgs>({
       invalidatesTags: ['Decks'],
-      query: ({ cover, isPrivate, method, name }) => {
+      query: ({ cover, id, isPrivate, method, name }) => {
         const formData = new FormData()
 
         if (cover) {
@@ -49,7 +49,7 @@ export const decksService = flashcardsApi.injectEndpoints({
         return {
           body: formData,
           method: method,
-          url: `${DECK}`,
+          url: `${DECK}${id ? id : ''}`,
         }
       },
     }),
@@ -115,6 +115,7 @@ export const {
   useCreateCardInDeckMutation,
   useCreateUpdateDeckMutation,
   useGetDecksQuery,
+  useLazyRetrieveDeckByIdQuery,
   useRetrieveCardsInDeckQuery,
   useRetrieveDeckByIdQuery,
   useRetrieveRandomCardQuery,
