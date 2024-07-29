@@ -94,7 +94,7 @@ export const Decks = () => {
     <Page>
       {isLoading && <Loading />}
 
-      <Title isDeck name={'Decks list'}>
+      <Title isDeck nameTitle={'Decks list'}>
         <CreateUpdateDeck
           error={errorCreateDeck}
           isError={isErrorCreateDeck}
