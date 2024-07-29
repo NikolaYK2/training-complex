@@ -37,6 +37,7 @@ export type GetDecksArgs = {
 
 export type CreateDeckArgs = {
   cover?: File
+  id?: string
   isPrivate?: boolean
   method?: 'PATCH' | 'POST'
   name: string
