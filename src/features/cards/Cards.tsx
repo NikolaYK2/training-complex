@@ -95,6 +95,7 @@ export const Cards = () => {
         idCard={idCard}
         imageTitle={dataDeckBy?.cover}
         isNotItem={!dataDeckBy?.cardsCount}
+        isPrivateCard={dataDeckBy?.isPrivate}
         isUserId={dataDeckBy?.userId === dataUser?.id}
         marginBot={'2.381%'}
         nameTitle={dataDeckBy?.name}
