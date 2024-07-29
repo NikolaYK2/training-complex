@@ -18,7 +18,7 @@ export type TitleProps = {
   isNotItem?: boolean
   isUserId?: boolean
   marginBot?: CSSProperties['marginBottom']
-  name: string | undefined
+  nameTitle: string | undefined
 }
 export const Title = ({
   children,
@@ -28,7 +28,7 @@ export const Title = ({
   isNotItem = false,
   isUserId = false,
   marginBot,
-  name,
+  nameTitle,
 }: TitleProps) => {
   const styles: CSSProperties = { marginBottom: marginBot }
   const [isActivePreview, setActivePreview] = useState(false)
@@ -52,7 +52,7 @@ export const Title = ({
       <div className={`${s.blockItem} ${isNotItem ? s.modBlock : ''}`}>
         <div className={s.settingBlock}>
           <TextFormat className={`${s.nameTitle}`} variant={'h1'}>
-            {name ?? 'not name'}
+            {nameTitle ?? 'not name'}
           </TextFormat>
           {isUserId && (
             <div className={s.settingItem}>
@@ -63,7 +63,7 @@ export const Title = ({
                     {
                       buttonName: 'edit',
                       classNameButton: 'editAnimation',
-                      element: <EditCard />,
+                      element: <EditCard cover={imageTitle} idCard={idCard} name={nameTitle} />,
                       icon: 'edit',
                       isSelect: true,
                       key: 'edit',
