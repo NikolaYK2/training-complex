@@ -16,6 +16,7 @@ export type TitleProps = {
   imageTitle?: null | string
   isDeck?: boolean
   isNotItem?: boolean
+  isPrivateCard?: boolean
   isUserId?: boolean
   marginBot?: CSSProperties['marginBottom']
   nameTitle: string | undefined
@@ -26,6 +27,7 @@ export const Title = ({
   imageTitle,
   isDeck = false,
   isNotItem = false,
+  isPrivateCard,
   isUserId = false,
   marginBot,
   nameTitle,
@@ -62,8 +64,17 @@ export const Title = ({
                     createLearnMenuItem(isNotItem, handleRedirectLearnClick),
                     {
                       buttonName: 'edit',
+                      callback: () => {},
                       classNameButton: 'editAnimation',
-                      element: <EditCard cover={imageTitle} idCard={idCard} name={nameTitle} />,
+                      element: (
+                        <EditCard
+                          cover={imageTitle}
+                          idCard={idCard}
+                          isPrivateCard={isPrivateCard}
+                          name={nameTitle}
+                        />
+                      ),
+
                       icon: 'edit',
                       isSelect: true,
                       key: 'edit',
