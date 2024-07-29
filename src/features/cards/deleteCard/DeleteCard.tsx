@@ -5,7 +5,6 @@ import { Loading } from '@/commn/components/ui/loading/Loading'
 import { DialogModal } from '@/commn/components/ui/modals/dialog/DialogModal'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { useCreateEntityForm } from '@/commn/hooks/useCreateEntityForm'
-import { DECK_ROUTE } from '@/routes/Router'
 import { useDeleteDeckMutation } from '@/services/decks/decksService'
 import { z } from 'zod'
 
@@ -35,7 +34,7 @@ export const DeleteCard = ({ idCard, nameDeck }: Props) => {
   const onSubmit: SubmitHandler<FormType> = async data => {
     if (data.id) {
       await deleteDeck({ id: data.id })
-      navigate(`${DECK_ROUTE}`)
+      navigate(-1)
     }
   }
 
