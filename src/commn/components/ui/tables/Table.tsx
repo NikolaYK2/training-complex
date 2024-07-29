@@ -54,15 +54,19 @@ export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
       setActiveImg(null)
     }
   }
-
-  const handleGetCard = (idCards: string) => {
-    navigate(`${idCards}${CARDS_ROUTE}`, {
-      state: {
-        authorIdSave: pageHistorySave?.authorIdSave,
-        minCardsSave: pageHistorySave?.minCardsSave,
-        pageDeckSave: pageHistorySave?.pageDeckSave,
-      },
-    })
+  const handleClosePreview = () => {
+    setActiveImg(null)
+  }
+  const handleGetCard = (idCards: string | undefined) => {
+    if (idCards) {
+      navigate(`${idCards}${CARDS_ROUTE}`, {
+        state: {
+          authorIdSave: pageHistorySave?.authorIdSave,
+          minCardsSave: pageHistorySave?.minCardsSave,
+          pageDeckSave: pageHistorySave?.pageDeckSave,
+        },
+      })
+    }
   }
 
   if (isLengthMismatch) {
@@ -105,7 +109,8 @@ export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
                           />
                         )}
                         <TextFormat
-                          onClick={() => cell.idDeck && handleGetCard(cell.idDeck)}
+                          className={s.textCells}
+                          onClick={() => handleGetCard(cell.idDeck)}
                           style={{ cursor: cell.idDeck ? 'pointer' : '' }}
                           variant={'body2'}
                         >
@@ -126,7 +131,7 @@ export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
             : []}
         </tbody>
       </table>
-      {activeImg && <FilePreviewPortal onClose={() => setActiveImg(null)} src={activeImg} />}
+      {activeImg && <FilePreviewPortal onClose={handleClosePreview} src={activeImg} />}
     </>
   )
 }
