@@ -97,7 +97,7 @@ export const Cards = () => {
         isNotItem={!dataDeckBy?.cardsCount}
         isUserId={dataDeckBy?.userId === dataUser?.id}
         marginBot={'2.381%'}
-        name={dataDeckBy?.name}
+        nameTitle={dataDeckBy?.name}
       >
         <CreateCard cardId={idCard} />
       </Title>
