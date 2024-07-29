@@ -93,12 +93,12 @@ export const Cards = () => {
       />
       <Title
         idCard={idCard}
-        imageTitle={dataDeckBy?.cover}
+        imageDeck={dataDeckBy?.cover}
         isNotItem={!dataDeckBy?.cardsCount}
         isPrivateCard={dataDeckBy?.isPrivate}
         isUserId={dataDeckBy?.userId === dataUser?.id}
         marginBot={'2.381%'}
-        nameTitle={dataDeckBy?.name}
+        nameDeck={dataDeckBy?.name}
       >
         <CreateCard cardId={idCard} />
       </Title>
