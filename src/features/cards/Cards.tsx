@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 
+import { DeleteIcon } from '@/assets/image/delete/DeleteIcon'
+import { EditIcon } from '@/assets/image/edit/EditIcon'
 import { BackTo } from '@/commn/components/ui/backTo/BackTo'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
@@ -111,6 +113,7 @@ export const Cards = () => {
               { id: 2, title: 'Answer' },
               { id: 3, title: 'Last Updated' },
               { id: 4, title: 'Grade' },
+              { id: 5, title: '' },
             ]}
             paragraphs={dataCards?.items.map((card: CardsType) => ({
               cells: [
@@ -120,6 +123,12 @@ export const Cards = () => {
                 {
                   element: [
                     <Rating hoveredStarValue={1} key={'rating'} ratingValue={1} stars={5} />,
+                  ],
+                },
+                {
+                  element: [
+                    <EditIcon className={s.iconParagraphs} key={'icon-edit'} />,
+                    <DeleteIcon className={s.iconParagraphs} key={'icon-delete'} />,
                   ],
                 },
               ],
