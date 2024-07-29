@@ -4,7 +4,7 @@ import { TickBox, TickBoxProps } from '@/commn/components/ui/checkBox/TickBox'
 import { UseControllerProps } from '@/commn/typs/UseControllerProps'
 
 export type ControlledCheckboxProps<TFieldValues extends FieldValues> =
-  UseControllerProps<TFieldValues> & Omit<TickBoxProps, 'id' | 'onChange' | 'value'>
+  UseControllerProps<TFieldValues> & Omit<TickBoxProps, 'id' | 'onChange'>
 
 export const ControlledCheckbox = <TFieldValues extends FieldValues>({
   control,

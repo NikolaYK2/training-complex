@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
 import { ImageIcon } from '@/assets/image/image/ImageIcon'
@@ -26,20 +27,28 @@ type FormType = z.infer<typeof createDeckSchema>
 type CreateUpdateDeckMutationTrigger = ReturnType<typeof useCreateUpdateDeckMutation>[0]
 type Props = {
   className?: string
+  coverDeckBy?: null | string | undefined
   error: FetchBaseQueryError | SerializedError | undefined
+  idCard?: string | undefined
   isError: boolean
   isLoading: boolean
+  isPrivateCard?: boolean
   method: 'PATCH' | 'POST'
   mutationFunction: CreateUpdateDeckMutationTrigger
+  nameDeckBy?: string
   nameTrigger?: string
   triggerVariant?: ButtonVariantType
 }
 export const CreateUpdateDeck = ({
+  coverDeckBy,
   error,
+  idCard,
   isError,
   isLoading,
+  isPrivateCard = false,
   method,
   mutationFunction,
+  nameDeckBy,
   nameTrigger,
   triggerVariant,
 }: Props) => {
@@ -54,11 +63,12 @@ export const CreateUpdateDeck = ({
     isOpenModal,
     setFilePreview,
     setFilePreviewFullScreen,
+    setValue,
   } = useCreateEntityForm({
     defaultValues: {
-      cover: null,
-      isPrivate: false,
-      name: '',
+      cover: coverDeckBy ?? null,
+      isPrivate: isPrivateCard,
+      name: nameDeckBy ?? '',
     },
     schema: createDeckSchema,
   })
@@ -66,6 +76,7 @@ export const CreateUpdateDeck = ({
     try {
       await mutationFunction({
         cover: data.cover,
+        id: idCard,
         isPrivate: data.isPrivate,
         method,
         name: data.name,
@@ -75,6 +86,18 @@ export const CreateUpdateDeck = ({
       console.error('Error creating deck: ', e)
     }
   }
+
+  useEffect(() => {
+    if (coverDeckBy) {
+      setFilePreview(prev => ({ ...prev, fileImage: coverDeckBy }))
+    }
+    if (nameDeckBy) {
+      setValue('name', nameDeckBy)
+    }
+    if (isPrivateCard) {
+      setValue('isPrivate', isPrivateCard)
+    }
+  }, [coverDeckBy, nameDeckBy, setFilePreview, setValue, isPrivateCard])
 
   if (isError) {
     return <div>Error: {JSON.stringify(error)}</div>
@@ -101,11 +124,12 @@ export const CreateUpdateDeck = ({
         />,
 
         <FIlePreview
-          filePreview={filePreview.fileImg}
+          filePreview={filePreview.fileImage}
           filePreviewFullScreen={filePreviewFullScreen}
           key={'file-preview'}
-          setFilePreview={cover => setFilePreview(prev => ({ ...prev, fileImg: cover }))}
+          setFilePreview={cover => setFilePreview(prev => ({ ...prev, fileImage: cover }))}
           setFilePreviewFullScreen={setFilePreviewFullScreen}
+          setValue={setValue}
         />,
 
         <ControlledFileDownload
@@ -115,7 +139,7 @@ export const CreateUpdateDeck = ({
           iconComponent={<ImageIcon className={s.imageIcon} />}
           key={'input-file'}
           name={'cover'}
-          setFilePreview={cover => setFilePreview(prev => ({ ...prev, fileImg: cover }))}
+          setFilePreview={cover => setFilePreview(prev => ({ ...prev, fileImage: cover }))}
         />,
         <ControlledCheckbox
           control={control}
