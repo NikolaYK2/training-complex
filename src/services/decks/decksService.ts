@@ -40,11 +40,20 @@ export const decksService = flashcardsApi.injectEndpoints({
       query: ({ cover, id, isPrivate, method, name }) => {
         const formData = new FormData()
 
+        // Добавляем cover только если он задан
         if (cover) {
           formData.append('cover', cover)
         }
+        if (cover === null) {
+          formData.append('cover', '')
+        }
         formData.append('name', name)
         formData.append('isPrivate', isPrivate?.toString() || 'false')
+        // Логируем данные для проверки
+        // console.log('FormData entries:')
+        // for (const pair of formData.entries()) {
+        //   console.log(pair[0] + ': ' + pair[1])
+        // }
 
         return {
           body: formData,
@@ -81,7 +90,7 @@ export const decksService = flashcardsApi.injectEndpoints({
       },
     }),
     retrieveDeckById: builder.query<DeckType, { id: string }>({
-      //uri params
+      providesTags: ['Decks'],
       query: ({ id }) => {
         return {
           url: `${DECK}${id}`,
