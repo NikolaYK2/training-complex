@@ -20,6 +20,7 @@ export type MenuItem = {
   element?: ReactNode
   email?: string
   icon: 'avatar' | 'delete' | 'edit' | 'learn' | 'logOut' | 'notFile' | 'profile' | string
+  isSelect?: boolean
   key?: string
   route?: string
 }
@@ -50,6 +51,7 @@ export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
   const handleSelect = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault() // Останавливает автоматическое закрытие
   }
+  const handleSelectClose = () => {}
 
   const getComponentType = (el: MenuItem) => {
     if (el.element) {
@@ -90,11 +92,10 @@ export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
             <DropdownMenu.Item
               className={`${s.item} ${el.classNameButton ? el.classNameButton : ''}`}
               key={el.icon}
-              onClick={handleSelect}
+              onClick={el.isSelect ? handleSelect : handleSelectClose}
             >
               <Button
                 as={getComponentType(el)}
-                // as={el.route ? Link : 'button'}
                 className={s.block}
                 onClick={el.callback}
                 to={el.route ?? ''}

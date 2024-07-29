@@ -65,6 +65,7 @@ export const Title = ({
                       classNameButton: 'editAnimation',
                       element: <EditCard />,
                       icon: 'edit',
+                      isSelect: true,
                       key: 'edit',
                     },
                     {
