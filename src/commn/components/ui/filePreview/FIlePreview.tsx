@@ -1,3 +1,5 @@
+import { UseFormSetValue } from 'react-hook-form'
+
 import { FullscreenIcon } from '@/assets/image/fuuscreen/FullscreenIcon'
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
 
@@ -8,13 +10,19 @@ type Props = {
   filePreviewFullScreen: boolean
   setFilePreview: (filePreview: null | string) => void
   setFilePreviewFullScreen: (isOpen: boolean) => void
+  setValue?: UseFormSetValue<{ cover?: File | null; isPrivate: boolean; name: string }>
 }
 export const FIlePreview = ({
   filePreview,
   filePreviewFullScreen,
   setFilePreview,
   setFilePreviewFullScreen,
+  setValue,
 }: Props) => {
+  const handleOpenFullscreen = () => {
+    setFilePreviewFullScreen(true)
+  }
+
   return (
     <div className={s.containerFilePreview}>
       {filePreview && (
@@ -25,11 +33,12 @@ export const FIlePreview = ({
             onClick={e => {
               e.stopPropagation()
               setFilePreview(null)
+              setValue?.('cover', null)
             }}
           >
             ❌
           </div>
-          <div className={s.open} onClick={() => setFilePreviewFullScreen(true)}>
+          <div className={s.open} onClick={handleOpenFullscreen}>
             <FullscreenIcon />
           </div>
         </div>
