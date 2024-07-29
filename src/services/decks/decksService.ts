@@ -10,7 +10,7 @@ import {
 } from '@/services/decks/DecksTypes'
 import { flashcardsApi } from '@/services/flashcardsApi'
 
-const DECK = 'v1/decks/'
+const DECKS = 'v1/decks/'
 
 export const decksService = flashcardsApi.injectEndpoints({
   endpoints: builder => ({
@@ -31,7 +31,7 @@ export const decksService = flashcardsApi.injectEndpoints({
         return {
           body: formData,
           method: 'POST',
-          url: `${DECK}${id}/cards`,
+          url: `${DECKS}${id}/cards`,
         }
       },
     }),
@@ -58,7 +58,16 @@ export const decksService = flashcardsApi.injectEndpoints({
         return {
           body: formData,
           method: method,
-          url: `${DECK}${id ? id : ''}`,
+          url: `${DECKS}${id ? id : ''}`,
+        }
+      },
+    }),
+    deleteDeck: builder.mutation<DeckType, { id: string }>({
+      invalidatesTags: ['Decks'],
+      query: ({ id }) => {
+        return {
+          method: 'DELETE',
+          url: `${DECKS}${id}`,
         }
       },
     }),
@@ -85,7 +94,7 @@ export const decksService = flashcardsApi.injectEndpoints({
 
         return {
           params: params ?? {},
-          url: `${DECK}${id}/cards`,
+          url: `${DECKS}${id}/cards`,
         }
       },
     }),
@@ -93,7 +102,7 @@ export const decksService = flashcardsApi.injectEndpoints({
       providesTags: ['Decks'],
       query: ({ id }) => {
         return {
-          url: `${DECK}${id}`,
+          url: `${DECKS}${id}`,
         }
       },
     }),
@@ -103,7 +112,7 @@ export const decksService = flashcardsApi.injectEndpoints({
       query: ({ id, previousCardId }) => {
         return {
           params: previousCardId ? { previousCardId } : {},
-          url: `${DECK}${id}/learn`,
+          url: `${DECKS}${id}/learn`,
         }
       },
     }),
@@ -113,7 +122,7 @@ export const decksService = flashcardsApi.injectEndpoints({
         return {
           body: { cardId, grade },
           method: 'POST',
-          url: `${DECK}${cardId}/learn`,
+          url: `${DECKS}${cardId}/learn`,
         }
       },
     }),
@@ -123,8 +132,8 @@ export const decksService = flashcardsApi.injectEndpoints({
 export const {
   useCreateCardInDeckMutation,
   useCreateUpdateDeckMutation,
+  useDeleteDeckMutation,
   useGetDecksQuery,
-  useLazyRetrieveDeckByIdQuery,
   useRetrieveCardsInDeckQuery,
   useRetrieveDeckByIdQuery,
   useRetrieveRandomCardQuery,
