@@ -4,9 +4,10 @@ import { useCreateUpdateDeckMutation } from '@/services/decks/decksService'
 type Props = {
   cover: null | string | undefined
   idCard: string | undefined
+  isPrivateCard: boolean | undefined
   name: string | undefined
 }
-export const EditCard = ({ cover, idCard, name }: Props) => {
+export const EditCard = ({ cover, idCard, isPrivateCard, name }: Props) => {
   const [
     updateDeck,
     { error: errUpdateDeck, isError: isErrUpdateDeck, isLoading: isLoadUpdateDeck },
@@ -19,6 +20,7 @@ export const EditCard = ({ cover, idCard, name }: Props) => {
       idCard={idCard}
       isError={isErrUpdateDeck}
       isLoading={isLoadUpdateDeck}
+      isPrivateCard={isPrivateCard}
       method={'PATCH'}
       mutationFunction={updateDeck}
       nameDeckBy={name}
