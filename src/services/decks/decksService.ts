@@ -62,7 +62,7 @@ export const decksService = flashcardsApi.injectEndpoints({
         }
       },
     }),
-    deleteDeck: builder.mutation<DeckType, { id: string }>({
+    deleteDeck: builder.mutation<void, { id: string }>({
       invalidatesTags: ['Decks'],
       query: ({ id }) => {
         return {

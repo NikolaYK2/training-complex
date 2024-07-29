@@ -4,9 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@/commn/components/ui/button'
 import { DropDownMenu, MenuItem } from '@/commn/components/ui/dropDownMenu/DropDownMenu'
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
+import { HoverIconImage } from '@/commn/components/ui/hoverIconImage/HoverIconImage'
+import { Loading } from '@/commn/components/ui/loading/Loading'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { EditCard } from '@/features/cards/editCard/EditCard'
 import { DECK_ROUTE, LEARN_ROUTE } from '@/routes/Router'
+import { useDeleteDeckMutation } from '@/services/decks/decksService'
 
 import s from './Title.module.scss'
 
@@ -34,11 +37,23 @@ export const Title = ({
 }: TitleProps) => {
   const styles: CSSProperties = { marginBottom: marginBot }
   const [isActivePreview, setActivePreview] = useState(false)
+  const [
+    deleteDeck,
+    { error: errorDeleteDeck, isError: isErrorDeleteDeck, isLoading: isLoadingDeleteDeck },
+  ] = useDeleteDeckMutation()
+
   const navigate = useNavigate()
 
   const handleRedirectLearnClick = () => {
     if (idCard) {
       navigate(`${DECK_ROUTE}/${idCard}${LEARN_ROUTE}`)
+    }
+  }
+
+  const handleDeleteDeck = async () => {
+    if (idCard) {
+      await deleteDeck({ id: idCard })
+      navigate(`${DECK_ROUTE}`)
     }
   }
   const handleImageClick = () => {
@@ -47,6 +62,13 @@ export const Title = ({
 
   const handlePreviewClose = () => {
     setActivePreview(false)
+  }
+
+  if (isErrorDeleteDeck) {
+    return <div>Error: {JSON.stringify(errorDeleteDeck)}</div>
+  }
+  if (isLoadingDeleteDeck) {
+    return <Loading />
   }
 
   return (
@@ -81,6 +103,7 @@ export const Title = ({
                     },
                     {
                       buttonName: 'delete',
+                      callback: handleDeleteDeck,
                       classNameButton: 'deleteAnimation',
                       icon: 'delete',
                       key: 'delete',
@@ -107,9 +130,7 @@ export const Title = ({
         )}
       </div>
       {imageTitle && !isNotItem && (
-        <div className={s.imageTitle} onClick={handleImageClick}>
-          <img alt={'image'} src={imageTitle} />
-        </div>
+        <HoverIconImage callback={handleImageClick} className={s.imageTitle} imgSrc={imageTitle} />
       )}
       {isActivePreview && <FilePreviewPortal onClose={handlePreviewClose} src={imageTitle ?? ''} />}
     </div>
