@@ -1,6 +1,8 @@
+import { useEffect } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
 import { ImageIcon } from '@/assets/image/image/ImageIcon'
+import { ButtonVariantType } from '@/commn/components/ui/button'
 import { ControlledFileDownload } from '@/commn/components/ui/fileDonwold/ControlledFileDownload'
 import { FIlePreview } from '@/commn/components/ui/filePreview/FIlePreview'
 import { ControlledTextField } from '@/commn/components/ui/input/ControlledTextField'
@@ -8,12 +10,16 @@ import { Loading } from '@/commn/components/ui/loading/Loading'
 import { DialogModal } from '@/commn/components/ui/modals/dialog/DialogModal'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { useCreateEntityForm } from '@/commn/hooks/useCreateEntityForm'
+import { deepNotEqual } from '@/commn/utils/deepNotEqual'
+import { useUpdateCardMutation } from '@/services/cards/cardsService'
 import { useCreateCardInDeckMutation } from '@/services/decks/decksService'
+import { SerializedError } from '@reduxjs/toolkit'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { z } from 'zod'
 
-import s from './CreateCard.module.scss'
+import s from './CreateUpdateCard.module.scss'
 
-const createCardSchema = z.object({
+const createUpdateCardSchema = z.object({
   answer: z.string().trim().min(3, 'min 3 litters').max(500, 'max 500 litters'),
   answerImg: z.any().optional().nullable(),
   answerVideo: z
@@ -35,70 +41,125 @@ const createCardSchema = z.object({
     .or(z.literal('')),
 })
 
-type FormType = z.infer<typeof createCardSchema>
+export type FormTypeCreateUpdateCard = z.infer<typeof createUpdateCardSchema>
 
+type MutationFunctionType =
+  | ReturnType<typeof useCreateCardInDeckMutation>[0]
+  | ReturnType<typeof useUpdateCardMutation>[0]
 type Props = {
+  answer?: string
+  answerImg?: string
+  buttonName?: string
   cardId: string | undefined
+  className?: string
+  error: FetchBaseQueryError | SerializedError | undefined
+  isError: boolean
+  isLoading: boolean
+  mutationFunction: MutationFunctionType
+  question?: string
+  questionImg?: string
+  titleContent: string
+  trigger?: string
+  triggerVariant?: ButtonVariantType
 }
-export const CreateCard = ({ cardId }: Props) => {
+export const CreateUpdateCard = ({
+  answer,
+  answerImg,
+  buttonName,
+  cardId,
+  className,
+  error,
+  isError,
+  isLoading,
+  mutationFunction,
+  question,
+  questionImg,
+  titleContent,
+  trigger,
+  triggerVariant,
+}: Props) => {
   const {
     control,
     errors,
     filePreview,
     filePreviewFullScreen,
     handleCloseModal,
-    handleFormReset,
     handleSubmit,
     isOpenModal,
     setFilePreview,
     setFilePreviewFullScreen,
+    setValue,
   } = useCreateEntityForm({
     defaultValues: {
-      answer: '',
-      answerImg: null,
+      answer: answer ?? '',
+      answerImg: answerImg ?? null,
       answerVideo: '',
-      id: cardId ?? '',
-      question: '',
-      questionImg: null,
+      id: cardId,
+      question: question ?? '',
+      questionImg: questionImg ?? null,
       questionVideo: '',
     },
-    schema: createCardSchema,
+    schema: createUpdateCardSchema,
   })
-  const [
-    createCardInDeck,
-    { error: errorCreateCard, isError: isErrorCreatedCard, isLoading: isLoadingCreateCard },
-  ] = useCreateCardInDeckMutation()
-  const onSubmit: SubmitHandler<FormType> = async data => {
-    try {
-      await createCardInDeck({
-        answer: data.answer,
-        answerImg: data.answerImg,
-        id: data.id,
-        question: data.question,
-        questionImg: data.questionImg,
-      })
-      handleFormReset()
-    } catch (e) {
-      console.error('Error creating deck: ', e)
+
+  const param = { answer, answerImg, id: cardId, question, questionImg }
+
+  const onSubmit: SubmitHandler<FormTypeCreateUpdateCard> = async data => {
+    const dataParam = {
+      answer: data.answer,
+      answerImg: data.answerImg,
+      id: data.id,
+      question: data.question,
+      questionImg: data.questionImg,
+    }
+
+    if (deepNotEqual(param, dataParam)) {
+      try {
+        await mutationFunction(dataParam)
+
+        handleCloseModal()
+      } catch (e) {
+        console.error('Error creating deck: ', e)
+      }
+    } else {
+      handleCloseModal()
     }
   }
 
-  if (isLoadingCreateCard) {
-    return <Loading />
-  }
-  if (isErrorCreatedCard) {
-    return <div>Error: {JSON.stringify(errorCreateCard)}</div>
+  useEffect(() => {
+    if (answerImg) {
+      setFilePreview(prev => ({ ...prev, answerImg: answerImg }))
+    }
+    if (questionImg) {
+      setFilePreview(prev => ({ ...prev, questionImg: questionImg }))
+    }
+    if (answer) {
+      setValue('answer', answer)
+    }
+    if (question) {
+      setValue('question', question)
+    }
+  }, [answerImg, setFilePreview, questionImg, answer, question, setValue])
+
+  if (isError) {
+    if (error) {
+      return <div>Error: {JSON.stringify(error)}</div>
+    }
   }
 
   return (
     <DialogModal
+      buttonName={buttonName}
+      className={className}
       isOpenModal={isOpenModal}
       onSubmit={handleSubmit(onSubmit)}
       setIsOpenModal={handleCloseModal}
-      titleContent={'add new card'}
-      trigger={'add new card'}
+      titleContent={titleContent}
+      trigger={trigger}
+      triggerVariant={triggerVariant}
     >
       {[
+        <Loading isLoading={isLoading} key={'loafing'} />,
         <TextFormat key={'Question'} variant={'subtitle2'}>
           Question:
         </TextFormat>,
@@ -116,6 +177,8 @@ export const CreateCard = ({ cardId }: Props) => {
           key={'input-file-question'}
           setFilePreview={questionImg => setFilePreview(prev => ({ ...prev, questionImg }))}
           setFilePreviewFullScreen={setFilePreviewFullScreen}
+          setValue={setValue}
+          valueKey={'questionImg'}
         />,
         <ControlledFileDownload
           buttonName={'upload image'}
@@ -125,6 +188,7 @@ export const CreateCard = ({ cardId }: Props) => {
           name={'questionImg'}
           setFilePreview={questionImg => setFilePreview(prev => ({ ...prev, questionImg }))}
         />,
+
         <TextFormat key={'Answer'} style={{ marginTop: '4.979%' }} variant={'subtitle2'}>
           Answer:
         </TextFormat>,
@@ -142,6 +206,8 @@ export const CreateCard = ({ cardId }: Props) => {
           key={'input-file-answer'}
           setFilePreview={answerImg => setFilePreview(prev => ({ ...prev, answerImg }))}
           setFilePreviewFullScreen={setFilePreviewFullScreen}
+          setValue={setValue}
+          valueKey={'answerImg'}
         />,
         <ControlledFileDownload
           buttonName={'upload image'}
