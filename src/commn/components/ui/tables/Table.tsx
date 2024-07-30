@@ -98,34 +98,38 @@ export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
           {Array.isArray(paragraphs)
             ? paragraphs.map(paragraph => (
                 <tr key={paragraph.idCells}>
-                  {paragraph.cells.map((cell, idx) => (
-                    <td className={s.row} key={idx}>
-                      <div className={s.item}>
-                        {cell.img && (
-                          <HoverIconImage
-                            callback={() => handleImgClick(cell.img)}
-                            className={s.img}
-                            imgSrc={cell.img}
-                          />
-                        )}
-                        <TextFormat
-                          className={s.textCells}
-                          onClick={() => handleGetCard(cell.idDeck)}
-                          style={{ cursor: cell.idDeck ? 'pointer' : '' }}
-                          variant={'body2'}
-                        >
-                          {cell.value}
-                        </TextFormat>
-                        <div className={s.elements}>
-                          {cell.element?.map((el, k) => (
-                            <div className={s.element} key={k}>
-                              {el}
+                  {paragraph.cells.map((cell, idx) => {
+                    return (
+                      <td className={s.row} key={idx}>
+                        <div className={s.item}>
+                          {cell.img && (
+                            <HoverIconImage
+                              callback={() => handleImgClick(cell.img)}
+                              className={s.img}
+                              imgSrc={cell.img}
+                            />
+                          )}
+                          <TextFormat
+                            className={s.textCells}
+                            onClick={() => handleGetCard(cell.idDeck)}
+                            style={{ cursor: cell.idDeck ? 'pointer' : '' }}
+                            variant={'body2'}
+                          >
+                            {cell.value}
+                          </TextFormat>
+                          {cell.element && (
+                            <div className={s.elements}>
+                              {cell.element?.map((el, k) => (
+                                <div className={s.element} key={k}>
+                                  {el}
+                                </div>
+                              ))}
                             </div>
-                          ))}
+                          )}
                         </div>
-                      </div>
-                    </td>
-                  )) || []}
+                      </td>
+                    )
+                  }) || []}
                 </tr>
               ))
             : []}
