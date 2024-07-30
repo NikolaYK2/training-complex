@@ -17,7 +17,7 @@ type Props = {
   idCard: string | undefined
   nameDeck: string | undefined
 }
-export const DeleteCard = ({ idCard, nameDeck }: Props) => {
+export const DeleteCards = ({ idCard, nameDeck }: Props) => {
   const navigate = useNavigate()
 
   const { handleSubmit } = useCreateEntityForm({
@@ -47,6 +47,7 @@ export const DeleteCard = ({ idCard, nameDeck }: Props) => {
 
   return (
     <DialogModal
+      buttonName={'delete card'}
       onSubmit={handleSubmit(onSubmit)}
       titleContent={'delete pack'}
       triggerVariant={'link'}
