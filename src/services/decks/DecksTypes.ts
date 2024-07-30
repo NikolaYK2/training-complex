@@ -52,7 +52,7 @@ export type CardArgs = {
   questionImg?: string
   questionVideo?: string
 }
-export type CardType = Omit<CardsType, 'grade'>
+export type CardType = Omit<CardsResponse, 'grade'>
 
 export type CardsArgs = {
   answer?: string
@@ -63,7 +63,7 @@ export type CardsArgs = {
   question?: string
 }
 
-export type CardsType = {
+export type CardsResponse = {
   answer: string
   answerImg: string
   answerVideo: string

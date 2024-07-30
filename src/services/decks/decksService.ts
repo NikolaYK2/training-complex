@@ -2,13 +2,14 @@ import {
   CardArgs,
   CardType,
   CardsArgs,
-  CardsType,
+  CardsResponse,
   CreateDeckArgs,
   DeckType,
   DecksResponse,
   GetDecksArgs,
 } from '@/services/decks/DecksTypes'
 import { flashcardsApi } from '@/services/flashcardsApi'
+import { prepareFormData } from '@/services/lib/prepareFormData'
 
 const DECKS = 'v1/decks/'
 
@@ -17,16 +18,12 @@ export const decksService = flashcardsApi.injectEndpoints({
     createCardInDeck: builder.mutation<CardType, CardArgs | void>({
       invalidatesTags: ['Decks'],
       query: ({ answer, answerImg, id, question, questionImg }: CardArgs) => {
-        const formData = new FormData()
-
-        if (questionImg) {
-          formData.append('questionImg', questionImg)
-        }
-        if (answerImg) {
-          formData.append('answerImg', answerImg)
-        }
-        formData.append('answer', answer)
-        formData.append('question', question)
+        const formData = prepareFormData({
+          answer,
+          answerImg,
+          question,
+          questionImg,
+        })
 
         return {
           body: formData,
@@ -38,22 +35,7 @@ export const decksService = flashcardsApi.injectEndpoints({
     createUpdateDeck: builder.mutation<DeckType, CreateDeckArgs>({
       invalidatesTags: ['Decks'],
       query: ({ cover, id, isPrivate, method, name }) => {
-        const formData = new FormData()
-
-        // Добавляем cover только если он задан
-        if (cover) {
-          formData.append('cover', cover)
-        }
-        if (cover === null) {
-          formData.append('cover', '')
-        }
-        formData.append('name', name)
-        formData.append('isPrivate', isPrivate?.toString() || 'false')
-        // Логируем данные для проверки
-        // console.log('FormData entries:')
-        // for (const pair of formData.entries()) {
-        //   console.log(pair[0] + ': ' + pair[1])
-        // }
+        const formData = prepareFormData({ cover, isPrivate, name })
 
         return {
           body: formData,
@@ -81,8 +63,8 @@ export const decksService = flashcardsApi.injectEndpoints({
         }
       },
     }),
-    retrieveCardsInDeck: builder.query<DecksResponse<CardsType[]>, CardsArgs | void>({
-      providesTags: ['Decks'],
+    retrieveCardsInDeck: builder.query<DecksResponse<CardsResponse[]>, CardsArgs | void>({
+      providesTags: ['Decks', 'Cards'],
       query: ({ answer, currentPage, id, itemsPerPage, orderBy, question }: CardsArgs) => {
         const params = {
           ...(orderBy && { orderBy }),
@@ -106,7 +88,7 @@ export const decksService = flashcardsApi.injectEndpoints({
         }
       },
     }),
-    retrieveRandomCard: builder.query<CardsType, { id: string; previousCardId?: string }>({
+    retrieveRandomCard: builder.query<CardsResponse, { id: string; previousCardId?: string }>({
       providesTags: ['Decks'],
 
       query: ({ id, previousCardId }) => {
@@ -116,7 +98,7 @@ export const decksService = flashcardsApi.injectEndpoints({
         }
       },
     }),
-    saveGradeCard: builder.mutation<CardsType, { cardId: string; grade: number }>({
+    saveGradeCard: builder.mutation<CardsResponse, { cardId: string; grade: number }>({
       invalidatesTags: ['Decks'],
       query: ({ cardId, grade }) => {
         return {
