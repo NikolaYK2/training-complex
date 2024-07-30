@@ -78,7 +78,7 @@ export const Decks = () => {
   const handleClearFilter = () => {
     setCountMaxDecks(100)
     setCountMinDecks(0)
-    // setPage(1)
+    setPage(1)
   }
 
   // if (isLoading) {
@@ -96,12 +96,14 @@ export const Decks = () => {
 
       <Title isDeck nameDeck={'Decks list'}>
         <CreateUpdateDeck
+          buttonName={'Add New Deck'}
           error={errorCreateDeck}
           isError={isErrorCreateDeck}
           isLoading={isLoadingCreateDeck}
           method={'POST'}
           mutationFunction={createDeck}
           nameTrigger={'Add New Deck'}
+          titleContent={'Add New Deck'}
         />
       </Title>
       <div className={s.filters}>
