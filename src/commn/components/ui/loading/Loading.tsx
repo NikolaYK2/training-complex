@@ -1,9 +1,16 @@
 import s from './Loading.module.scss'
 
-export const Loading = () => {
+type Props = {
+  isLoading?: boolean
+}
+export const Loading = ({ isLoading = true }: Props) => {
   return (
-    <div className={s.containerLoading}>
-      <div className={s.loading} />
-    </div>
+    <>
+      {isLoading && (
+        <div className={s.containerLoading}>
+          <div className={s.loading} />
+        </div>
+      )}
+    </>
   )
 }
