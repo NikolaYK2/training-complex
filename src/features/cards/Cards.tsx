@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 
 import { DeleteIcon } from '@/assets/image/delete/DeleteIcon'
-import { EditIcon } from '@/assets/image/edit/EditIcon'
 import { BackTo } from '@/commn/components/ui/backTo/BackTo'
+import { CreateUpdateCard } from '@/commn/components/ui/createUpdateCard/CreateUpdateCard'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
 import { Pagination } from '@/commn/components/ui/pagination/Pagination'
@@ -12,11 +12,12 @@ import { Search } from '@/commn/components/ui/search/Search'
 import { PageHistorySaveType, Table } from '@/commn/components/ui/tables/Table'
 import { Title } from '@/commn/components/ui/title/Title'
 import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
-import { CreateCard } from '@/features/cards/createCard/CreateCard'
+import { EditCard } from '@/features/cards/editCard/EditCard'
 import { DECK_ROUTE } from '@/routes/Router'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
-import { CardsType } from '@/services/decks/DecksTypes'
+import { CardsResponse } from '@/services/decks/DecksTypes'
 import {
+  useCreateCardInDeckMutation,
   useRetrieveCardsInDeckQuery,
   useRetrieveDeckByIdQuery,
 } from '@/services/decks/decksService'
@@ -71,6 +72,11 @@ export const Cards = () => {
     id: idCard ?? '',
   })
 
+  const [
+    createCardInDeck,
+    { error: errorCreateCard, isError: isErrorCreatedCard, isLoading: isLoadingCreateCard },
+  ] = useCreateCardInDeckMutation()
+
   const setCurrentPage = (page: number) => {
     updateSearchParam(CARDS_KEY_SEARCH_PARAMS.page, page)
   }
@@ -102,7 +108,16 @@ export const Cards = () => {
         marginBot={'2.381%'}
         nameDeck={dataDeckBy?.name}
       >
-        <CreateCard cardId={idCard} />
+        <CreateUpdateCard
+          buttonName={'Add New Card'}
+          cardId={idCard}
+          error={errorCreateCard}
+          isError={isErrorCreatedCard}
+          isLoading={isLoadingCreateCard}
+          mutationFunction={createCardInDeck}
+          titleContent={'Add New Card'}
+          trigger={'Add New Card'}
+        />
       </Title>
       {!!dataDeckBy?.cardsCount && (
         <>
@@ -115,7 +130,7 @@ export const Cards = () => {
               { id: 4, title: 'Grade' },
               { id: 5, title: '' },
             ]}
-            paragraphs={dataCards?.items.map((card: CardsType) => ({
+            paragraphs={dataCards?.items.map((card: CardsResponse) => ({
               cells: [
                 { img: card.questionImg, value: card.question },
                 { img: card.answerImg, value: card.answer },
@@ -127,8 +142,16 @@ export const Cards = () => {
                 },
                 {
                   element: [
-                    <EditIcon className={s.iconParagraphs} key={'icon-edit'} />,
-                    <DeleteIcon className={s.iconParagraphs} key={'icon-delete'} />,
+                    <EditCard
+                      answer={card.answer}
+                      answerImg={card.answerImg}
+                      className={s.iconEdit}
+                      idCard={card.id}
+                      key={'icon-edit'}
+                      question={card.question}
+                      questionImg={card.questionImg}
+                    />,
+                    <DeleteIcon className={s.iconDelete} key={'icon-delete'} />,
                   ],
                 },
               ],
