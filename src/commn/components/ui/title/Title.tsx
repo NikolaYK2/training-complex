@@ -6,8 +6,8 @@ import { DropDownMenu, MenuItem } from '@/commn/components/ui/dropDownMenu/DropD
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
 import { HoverIconImage } from '@/commn/components/ui/hoverIconImage/HoverIconImage'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
-import { DeleteCard } from '@/features/cards/deleteCard/DeleteCard'
-import { EditCard } from '@/features/cards/editCard/EditCard'
+import { DeleteCards } from '@/features/cards/deleteCards/DeleteCards'
+import { EditCards } from '@/features/cards/editCards/EditCards'
 import { DECK_ROUTE, LEARN_ROUTE } from '@/routes/Router'
 
 import s from './Title.module.scss'
@@ -70,7 +70,7 @@ export const Title = ({
                       buttonName: 'edit',
                       classNameButton: 'editAnimation',
                       element: (
-                        <EditCard
+                        <EditCards
                           cover={imageDeck}
                           idCard={idCard}
                           isPrivateCard={isPrivateCard}
@@ -85,7 +85,7 @@ export const Title = ({
                     {
                       buttonName: 'delete',
                       classNameButton: 'deleteAnimation',
-                      element: <DeleteCard idCard={idCard} nameDeck={nameDeck} />,
+                      element: <DeleteCards idCard={idCard} nameDeck={nameDeck} />,
                       icon: 'delete',
                       key: 'delete',
                     },
