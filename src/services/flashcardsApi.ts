@@ -13,5 +13,5 @@ export const flashcardsApi = createApi({
   //можно эндпоинты разделять как бы на сущности
   endpoints: () => ({}), //нужно указат ьпустой эндпооинт обязательно
   reducerPath: 'flashcardsApi',
-  tagTypes: ['Decks', 'Auth'], //инвалидируем
+  tagTypes: ['Decks', 'Auth', 'Cards'], //инвалидируем
 })
