@@ -9,7 +9,9 @@ import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 import s from './DialogModal.module.scss'
 
 type DialogModalProps = {
+  buttonName?: string
   children?: ReactElement[]
+  className?: string
   isOpenModal?: boolean
   onSubmit?: FormEventHandler<HTMLFormElement>
   setIsOpenModal?: (open: boolean) => void
@@ -42,7 +44,9 @@ type DialogModalProps = {
  * </DialogModal>
  */
 export const DialogModal = ({
+  buttonName,
   children,
+  className = '',
   isOpenModal, //указываем условия при котором закрываетя модалка
   onSubmit,
   setIsOpenModal, //управление открытия закрытия модал окна
@@ -50,11 +54,11 @@ export const DialogModal = ({
   titleContent,
   trigger,
   triggerIcon,
-  triggerVariant,
+  triggerVariant = 'primary',
 }: DialogModalProps) => {
   return (
     <Dialog.Root onOpenChange={setIsOpenModal} open={isOpenModal}>
-      <Dialog.Trigger asChild>
+      <Dialog.Trigger asChild className={className}>
         <Button variant={triggerVariant}>
           {triggerIcon && <IconSvg name={triggerIcon as IconNameType} />}
           <TextFormat variant={'subtitle2'}>{trigger}</TextFormat>
@@ -98,7 +102,7 @@ export const DialogModal = ({
                   </Dialog.Close>
 
                   <Button>
-                    <TextFormat variant={'subtitle2'}>add new pack</TextFormat>
+                    <TextFormat variant={'subtitle2'}>{buttonName}</TextFormat>
                   </Button>
                 </div>
               )}
