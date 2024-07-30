@@ -23,9 +23,10 @@ const createDeckSchema = z.object({
   name: z.string().trim().min(3, 'min 3 litters'),
 })
 
-type FormType = z.infer<typeof createDeckSchema>
+export type FormTypeCreateUpdateDeck = z.infer<typeof createDeckSchema>
 type CreateUpdateDeckMutationTrigger = ReturnType<typeof useCreateUpdateDeckMutation>[0]
 type Props = {
+  buttonName?: string
   className?: string
   coverDeckBy?: null | string | undefined
   error: FetchBaseQueryError | SerializedError | undefined
@@ -41,6 +42,7 @@ type Props = {
   triggerVariant?: ButtonVariantType
 }
 export const CreateUpdateDeck = ({
+  buttonName,
   coverDeckBy,
   error,
   idCard,
@@ -74,7 +76,8 @@ export const CreateUpdateDeck = ({
     },
     schema: createDeckSchema,
   })
-  const onSubmit: SubmitHandler<FormType> = async data => {
+
+  const onSubmit: SubmitHandler<FormTypeCreateUpdateDeck> = async data => {
     try {
       await mutationFunction({
         cover: data.cover,
@@ -107,6 +110,7 @@ export const CreateUpdateDeck = ({
 
   return (
     <DialogModal
+      buttonName={buttonName}
       isOpenModal={isOpenModal}
       onSubmit={handleSubmit(onSubmit)}
       setIsOpenModal={handleCloseModal}
@@ -132,6 +136,7 @@ export const CreateUpdateDeck = ({
           setFilePreview={cover => setFilePreview(prev => ({ ...prev, fileImage: cover }))}
           setFilePreviewFullScreen={setFilePreviewFullScreen}
           setValue={setValue}
+          valueKey={'cover'}
         />,
 
         <ControlledFileDownload
