@@ -42,6 +42,10 @@
   .isCaption {
     cursor: pointer;
   }
+
+  &:nth-child(3) {
+    min-width: 137px;
+  }
 }
 
 .tr:hover {

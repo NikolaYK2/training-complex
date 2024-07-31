@@ -1,4 +1,4 @@
-import { MouseEvent, ReactElement, useRef, useState } from 'react'
+import { Fragment, MouseEvent, ReactElement, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
@@ -90,15 +90,15 @@ export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
               const { isEditable = true } = header
 
               return (
-                <>
+                <Fragment key={header.id}>
                   {isEditable && (
-                    <th className={s.header} key={header.id}>
+                    <th className={s.header}>
                       <div className={`${s.caption} ${s.isCaption}`}>
                         <TextFormat variant={'subtitle2'}>{header.title}</TextFormat>
                       </div>
                     </th>
                   )}
-                </>
+                </Fragment>
               )
             })}
           </tr>
@@ -116,9 +116,9 @@ export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
                     const { isEditable = true } = cell
 
                     return (
-                      <>
+                      <Fragment key={idx}>
                         {isEditable && (
-                          <td className={s.row} key={idx}>
+                          <td className={s.row}>
                             <div className={s.item}>
                               {cell.img && (
                                 <HoverIconImage
@@ -146,7 +146,7 @@ export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
                             </div>
                           </td>
                         )}
-                      </>
+                      </Fragment>
                     )
                   }) || []}
                 </tr>
