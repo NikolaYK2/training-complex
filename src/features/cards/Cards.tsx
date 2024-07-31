@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 
-import { DeleteIcon } from '@/assets/image/delete/DeleteIcon'
 import { BackTo } from '@/commn/components/ui/backTo/BackTo'
+import { CardRemover } from '@/commn/components/ui/cardRemover/CardRemover'
 import { CreateUpdateCard } from '@/commn/components/ui/createUpdateCard/CreateUpdateCard'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
@@ -15,6 +15,7 @@ import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
 import { EditCard } from '@/features/cards/editCard/EditCard'
 import { DECK_ROUTE } from '@/routes/Router'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
+import { useDeleteCardMutation } from '@/services/cards/cardsService'
 import { CardsResponse } from '@/services/decks/DecksTypes'
 import {
   useCreateCardInDeckMutation,
@@ -76,6 +77,11 @@ export const Cards = () => {
     createCardInDeck,
     { error: errorCreateCard, isError: isErrorCreatedCard, isLoading: isLoadingCreateCard },
   ] = useCreateCardInDeckMutation()
+
+  const [
+    deleteCard,
+    { error: errDeleteCard, isError: isErrDeleteCard, isLoading: isLoadDeleteCard },
+  ] = useDeleteCardMutation()
 
   const setCurrentPage = (page: number) => {
     updateSearchParam(CARDS_KEY_SEARCH_PARAMS.page, page)
@@ -151,7 +157,20 @@ export const Cards = () => {
                       question={card.question}
                       questionImg={card.questionImg}
                     />,
-                    <DeleteIcon className={s.iconDelete} key={'icon-delete'} />,
+                    <CardRemover
+                      buttonName={'delete card'}
+                      className={s.iconDelete}
+                      error={errDeleteCard}
+                      idCard={card.id}
+                      isError={isErrDeleteCard}
+                      isIcon
+                      isLoading={isLoadDeleteCard}
+                      key={'icon-delete'}
+                      mutationDeck={deleteCard}
+                      text={'Are you sure you want to delete this card? The card will be deleted.'}
+                      titleName={'delete card'}
+                    />,
+                    // <DeleteIcon className={s.iconDelete} key={'icon-delete'} />,
                   ],
                 },
               ],
