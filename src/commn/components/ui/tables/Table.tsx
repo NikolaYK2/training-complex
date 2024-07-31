@@ -1,9 +1,8 @@
-import { ReactElement, useRef, useState } from 'react'
+import { MouseEvent, ReactElement, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
 import { HoverIconImage } from '@/commn/components/ui/hoverIconImage/HoverIconImage'
-import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { CARDS_ROUTE } from '@/routes/Router'
 
@@ -16,6 +15,7 @@ export type PageHistorySaveType = {
 }
 type HeadersType = {
   id: number
+  isEditable?: boolean
   title: string
 }
 
@@ -23,12 +23,14 @@ export type CellType = {
   element?: ReactElement[]
   idDeck?: string
   img?: null | string
+  isEditable?: boolean
   value?: string
 }
 
 export type ParagraphType = {
   cells: CellType[]
   idCells: string
+  isRowClickable?: boolean
 }
 
 type TableProps = {
@@ -47,7 +49,11 @@ export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
   const isLengthMismatch =
     paragraphs && paragraphs.some(paragraph => paragraph.cells.length !== headers.length)
 
-  const handleImgClick = (img: null | string | undefined) => {
+  const handleImgClick = (
+    img: null | string | undefined,
+    e: MouseEvent<HTMLDivElement> | undefined
+  ) => {
+    e?.stopPropagation && e?.stopPropagation()
     if (img) {
       setActiveImg(img)
     } else {
@@ -57,8 +63,8 @@ export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
   const handleClosePreview = () => {
     setActiveImg(null)
   }
-  const handleGetCard = (idCards: string | undefined) => {
-    if (idCards) {
+  const handleGetCard = (idCards: string | undefined, isRowClickable = false) => {
+    if (idCards && isRowClickable) {
       navigate(`${idCards}${CARDS_ROUTE}`, {
         state: {
           authorIdSave: pageHistorySave?.authorIdSave,
@@ -80,54 +86,67 @@ export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
       <table className={s.container}>
         <thead>
           <tr>
-            {headers.map(header => (
-              <th className={s.header} key={header.id}>
-                <div className={`${s.caption} ${s.isCaption}`}>
-                  <TextFormat variant={'subtitle2'}>{header.title}</TextFormat>
-                  {isActiveSort && (
-                    <div className={s.sort} ref={ref}>
-                      <IconSvg name={'arrow'} />
-                    </div>
+            {headers.map(header => {
+              const { isEditable = true } = header
+
+              return (
+                <>
+                  {isEditable && (
+                    <th className={s.header} key={header.id}>
+                      <div className={`${s.caption} ${s.isCaption}`}>
+                        <TextFormat variant={'subtitle2'}>{header.title}</TextFormat>
+                      </div>
+                    </th>
                   )}
-                </div>
-              </th>
-            ))}
+                </>
+              )
+            })}
           </tr>
         </thead>
         <tbody>
           {Array.isArray(paragraphs)
             ? paragraphs.map(paragraph => (
-                <tr key={paragraph.idCells}>
+                <tr
+                  className={s.tr}
+                  key={paragraph.idCells}
+                  onClick={() => handleGetCard(paragraph.idCells, paragraph.isRowClickable)}
+                  style={{ cursor: 'pointer' }}
+                >
                   {paragraph.cells.map((cell, idx) => {
+                    const { isEditable = true } = cell
+
                     return (
-                      <td className={s.row} key={idx}>
-                        <div className={s.item}>
-                          {cell.img && (
-                            <HoverIconImage
-                              callback={() => handleImgClick(cell.img)}
-                              className={s.img}
-                              imgSrc={cell.img}
-                            />
-                          )}
-                          <TextFormat
-                            className={s.textCells}
-                            onClick={() => handleGetCard(cell.idDeck)}
-                            style={{ cursor: cell.idDeck ? 'pointer' : '' }}
-                            variant={'body2'}
-                          >
-                            {cell.value}
-                          </TextFormat>
-                          {cell.element && (
-                            <div className={s.elements}>
-                              {cell.element?.map((el, k) => (
-                                <div className={s.element} key={k}>
-                                  {el}
+                      <>
+                        {isEditable && (
+                          <td className={s.row} key={idx}>
+                            <div className={s.item}>
+                              {cell.img && (
+                                <HoverIconImage
+                                  callback={e => handleImgClick(cell.img, e)}
+                                  className={s.img}
+                                  imgSrc={cell.img}
+                                />
+                              )}
+                              <TextFormat
+                                className={s.textCells}
+                                style={{ cursor: cell.idDeck ? 'pointer' : '' }}
+                                variant={'body2'}
+                              >
+                                {cell.value}
+                              </TextFormat>
+                              {cell.element && (
+                                <div className={s.elements}>
+                                  {cell.element?.map((el, k) => (
+                                    <div className={s.element} key={k}>
+                                      {el}
+                                    </div>
+                                  ))}
                                 </div>
-                              ))}
+                              )}
                             </div>
-                          )}
-                        </div>
-                      </td>
+                          </td>
+                        )}
+                      </>
                     )
                   }) || []}
                 </tr>

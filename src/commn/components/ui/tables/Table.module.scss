@@ -44,6 +44,10 @@
   }
 }
 
+.tr:hover {
+  background: var(--color-dark-700);
+}
+
 .header,
 .row {
   //min-width: 137px;

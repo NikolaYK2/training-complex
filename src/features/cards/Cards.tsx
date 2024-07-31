@@ -134,7 +134,11 @@ export const Cards = () => {
               { id: 2, title: 'Answer' },
               { id: 3, title: 'Last Updated' },
               { id: 4, title: 'Grade' },
-              { id: 5, title: '' },
+              {
+                id: 5,
+                isEditable: dataDeckBy?.userId === dataUser?.id,
+                title: '',
+              },
             ]}
             paragraphs={dataCards?.items.map((card: CardsResponse) => ({
               cells: [
@@ -170,8 +174,8 @@ export const Cards = () => {
                       text={'Are you sure you want to delete this card? The card will be deleted.'}
                       titleName={'delete card'}
                     />,
-                    // <DeleteIcon className={s.iconDelete} key={'icon-delete'} />,
                   ],
+                  isEditable: dataDeckBy?.userId === dataUser?.id,
                 },
               ],
               idCells: card.id,
