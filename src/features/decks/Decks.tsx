@@ -159,12 +159,13 @@ export const Decks = () => {
           pageHistorySave={{ authorIdSave: authorId, minCardsSave: minCards, pageDeckSave: page }}
           paragraphs={data?.items.map((deck: DeckType) => ({
             cells: [
-              { idDeck: deck.id, img: deck.cover, value: deck.name },
+              { img: deck.cover, value: deck.name },
               { value: `${deck.cardsCount}` },
               { value: new Date(deck.updated).toLocaleDateString() },
               { value: deck.author.name },
             ],
             idCells: deck.id,
+            isRowClickable: true,
           }))}
         />
       </div>
