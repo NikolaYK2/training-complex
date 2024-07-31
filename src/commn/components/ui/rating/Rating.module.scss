@@ -4,18 +4,30 @@ button {
 
 .stars {
   display: flex;
-margin: 0 -5px;
+  margin: 0 -5px;
 
   .star {
     display: flex;
     width: 16px;
     height: 16px;
     margin: 0 5px;
+
+    > svg > path {
+      fill: var(--color-warning-300);
+      transition: fill 0.5s ease;
+    }
   }
 
   .isActive {
     > svg > path {
       fill: var(--color-warning-100);
+    }
+  }
+
+  .disabled {
+    > svg > path {
+      fill: var(--color-warning-700);
+      transition: fill 0.5s ease;
     }
   }
 }
