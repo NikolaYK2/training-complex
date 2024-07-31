@@ -2,13 +2,14 @@ import { CSSProperties, ReactNode, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Button } from '@/commn/components/ui/button'
+import { CardRemover } from '@/commn/components/ui/cardRemover/CardRemover'
 import { DropDownMenu, MenuItem } from '@/commn/components/ui/dropDownMenu/DropDownMenu'
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
 import { HoverIconImage } from '@/commn/components/ui/hoverIconImage/HoverIconImage'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
-import { DeleteCards } from '@/features/cards/deleteCards/DeleteCards'
 import { EditCards } from '@/features/cards/editCards/EditCards'
 import { DECK_ROUTE, LEARN_ROUTE } from '@/routes/Router'
+import { useDeleteDeckMutation } from '@/services/decks/decksService'
 
 import s from './Title.module.scss'
 
@@ -36,6 +37,10 @@ export const Title = ({
 }: TitleProps) => {
   const styles: CSSProperties = { marginBottom: marginBot }
   const [isActivePreview, setActivePreview] = useState(false)
+  const [
+    deleteDeck,
+    { error: errorDeleteDeck, isError: isErrorDeleteDeck, isLoading: isLoadingDeleteDeck },
+  ] = useDeleteDeckMutation()
 
   const navigate = useNavigate()
 
@@ -79,13 +84,25 @@ export const Title = ({
                       ),
 
                       icon: 'edit',
-                      isSelect: true,
                       key: 'edit',
                     },
                     {
                       buttonName: 'delete',
                       classNameButton: 'deleteAnimation',
-                      element: <DeleteCards idCard={idCard} nameDeck={nameDeck} />,
+                      element: (
+                        <CardRemover
+                          buttonName={'delete pack'}
+                          className={s.cardRemover}
+                          error={errorDeleteDeck}
+                          idCard={idCard ?? ''}
+                          isError={isErrorDeleteDeck}
+                          isLoading={isLoadingDeleteDeck}
+                          mutationDeck={deleteDeck}
+                          navigate={navigate}
+                          text={`Do you really want to remove /${nameDeck}? All cards will be deleted.`}
+                          titleName={'delete pack'}
+                        />
+                      ),
                       icon: 'delete',
                       key: 'delete',
                     },
