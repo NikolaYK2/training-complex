@@ -22,7 +22,7 @@ type Typography<T extends ElementType = 'p'> = {
   variant?: VariantType
 } & ComponentPropsWithoutRef<T>
 
-export const TextFormat = <T extends ElementType = 'p'>(props: Typography<T>) => {
+export const TextFormat = <T extends ElementType = 'span'>(props: Typography<T>) => {
   const { className, colorText = 'light', variant = 'p', ...rest } = props
 
   const Component: ElementType = variant && getComponent(variant as VariantType)
