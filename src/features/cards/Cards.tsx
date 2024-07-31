@@ -7,12 +7,12 @@ import { CreateUpdateCard } from '@/commn/components/ui/createUpdateCard/CreateU
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
 import { Pagination } from '@/commn/components/ui/pagination/Pagination'
-import { Rating } from '@/commn/components/ui/rating/Rating'
 import { Search } from '@/commn/components/ui/search/Search'
 import { PageHistorySaveType, Table } from '@/commn/components/ui/tables/Table'
 import { Title } from '@/commn/components/ui/title/Title'
 import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
 import { EditCard } from '@/features/cards/editCard/EditCard'
+import { GradeCard } from '@/features/cards/gradeCard/GradeCard'
 import { DECK_ROUTE } from '@/routes/Router'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
 import { useDeleteCardMutation } from '@/services/cards/cardsService'
@@ -145,11 +145,7 @@ export const Cards = () => {
                 { img: card.questionImg, value: card.question },
                 { img: card.answerImg, value: card.answer },
                 { value: new Date(card.updated).toLocaleDateString() },
-                {
-                  element: [
-                    <Rating hoveredStarValue={1} key={'rating'} ratingValue={1} stars={5} />,
-                  ],
-                },
+                { element: [<GradeCard cardId={card.id} grade={card.grade} key={'grade'} />] },
                 {
                   element: [
                     <EditCard
