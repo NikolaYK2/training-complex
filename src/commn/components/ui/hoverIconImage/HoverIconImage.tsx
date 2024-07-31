@@ -1,9 +1,11 @@
+import { MouseEvent } from 'react'
+
 import { FullscreenIcon } from '@/assets/image/fuuscreen/FullscreenIcon'
 
 import s from './HoverIconImage.module.scss'
 
 type Props = {
-  callback: () => void
+  callback: (e?: MouseEvent<HTMLDivElement>) => void
   className?: string
   imgSrc: string | undefined
 }
