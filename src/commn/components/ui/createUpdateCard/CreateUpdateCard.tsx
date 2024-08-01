@@ -49,7 +49,7 @@ type MutationFunctionType =
 type Props = {
   answer?: string
   answerImg?: string
-  buttonName?: string
+  buttonName?: 'add new card' | 'save change'
   cardId: string | undefined
   className?: string
   error: FetchBaseQueryError | SerializedError | undefined
@@ -84,6 +84,7 @@ export const CreateUpdateCard = ({
     filePreview,
     filePreviewFullScreen,
     handleCloseModal,
+    handleFormReset,
     handleSubmit,
     isOpenModal,
     setFilePreview,
@@ -116,8 +117,8 @@ export const CreateUpdateCard = ({
     if (deepNotEqual(param, dataParam)) {
       try {
         await mutationFunction(dataParam)
-
         handleCloseModal()
+        buttonName === 'add new card' && handleFormReset()
       } catch (e) {
         console.error('Error creating deck: ', e)
       }
