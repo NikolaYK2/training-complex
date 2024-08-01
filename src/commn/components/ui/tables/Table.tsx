@@ -7,7 +7,7 @@ import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { useSortTable } from '@/commn/components/ui/tables/lib/useSortTable'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { CARDS_ROUTE } from '@/routes/Router'
-import { OrderByType } from '@/services/decks/DecksTypes'
+import { CardOrderByType } from '@/services/decks/DecksTypes'
 
 import s from './Table.module.scss'
 
@@ -19,7 +19,7 @@ export type PageHistorySaveType = {
 type HeadersType = {
   id: number
   isEditable?: boolean
-  orderBy?: OrderByType
+  orderBy?: CardOrderByType
   title: string
 }
 

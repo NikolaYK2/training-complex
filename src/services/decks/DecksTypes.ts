@@ -95,31 +95,31 @@ export const OrderBy = {
 
 export type OrderByType = (typeof OrderBy)[keyof typeof OrderBy]
 
-type QUESTIONType = {
+export type CardOrderByType = {
   [key: string]: OrderByType
 }
 
-export const QUESTION_ORDER_BY: QUESTIONType = {
+export const QUESTION_ORDER_BY: CardOrderByType = {
   '1': 'question-asc',
   '2': 'question-desc',
   '3': null,
 }
-export const ANSWER_ORDER_BY: QUESTIONType = {
+export const ANSWER_ORDER_BY: CardOrderByType = {
   '1': 'answer-asc',
   '2': 'answer-desc',
   '3': null,
 }
-export const CREATED_ORDER_BY: QUESTIONType = {
+export const CREATED_ORDER_BY: CardOrderByType = {
   '1': 'created-asc',
   '2': 'created-desc',
   '3': null,
 }
-export const GRADE_ORDER_BY: QUESTIONType = {
+export const GRADE_ORDER_BY: CardOrderByType = {
   '1': 'grade-asc',
   '2': 'grade-desc',
   '3': null,
 }
-export const UPDATED_ORDER_BY: QUESTIONType = {
+export const UPDATED_ORDER_BY: CardOrderByType = {
   '1': 'updated-asc',
   '2': 'updated-desc',
   '3': null,
