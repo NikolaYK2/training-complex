@@ -16,7 +16,14 @@ import { GradeCard } from '@/features/cards/gradeCard/GradeCard'
 import { DECK_ROUTE } from '@/routes/Router'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
 import { useDeleteCardMutation } from '@/services/cards/cardsService'
-import { CardsResponse } from '@/services/decks/DecksTypes'
+import {
+  ANSWER_ORDER_BY,
+  CardsResponse,
+  GRADE_ORDER_BY,
+  OrderByType,
+  QUESTION_ORDER_BY,
+  UPDATED_ORDER_BY,
+} from '@/services/decks/DecksTypes'
 import {
   useCreateCardInDeckMutation,
   useRetrieveCardsInDeckQuery,
@@ -28,6 +35,7 @@ import s from './Cards.module.scss'
 const CARDS_KEY_SEARCH_PARAMS = {
   authorIdSaveHistory: 'authorId',
   minCardsCountSaveHistory: 'minCardsCount',
+  orderBy: 'orderBy',
   page: 'page',
   pageDeckSaveHistory: 'pageDeck',
   searchName: 'question',
@@ -54,14 +62,27 @@ export const Cards = () => {
   const pageDeck = searchParams.get(CARDS_KEY_SEARCH_PARAMS.pageDeckSaveHistory)
   const authorId = searchParams.get(CARDS_KEY_SEARCH_PARAMS.authorIdSaveHistory)
   const minCardsCount = searchParams.get(CARDS_KEY_SEARCH_PARAMS.minCardsCountSaveHistory)
-
   const page = Number(searchParams.get(CARDS_KEY_SEARCH_PARAMS.page)) || 1
   const searchName = searchParams.get(CARDS_KEY_SEARCH_PARAMS.searchName) || ''
+  const orderBy = searchParams.get(CARDS_KEY_SEARCH_PARAMS.orderBy) || null
+
+  const setCurrentPage = (page: number) => {
+    updateSearchParam(CARDS_KEY_SEARCH_PARAMS.page, page)
+  }
+
+  const setSearch = (searchName: string) => {
+    updateSearchParam(CARDS_KEY_SEARCH_PARAMS.searchName, searchName)
+  }
+
+  const setOrderBy = (orderBy: string) => {
+    updateSearchParam(CARDS_KEY_SEARCH_PARAMS.orderBy, orderBy)
+  }
 
   const { data: dataCards } = useRetrieveCardsInDeckQuery({
     currentPage: page,
     id: idCard ? idCard : '',
     itemsPerPage: itemPage,
+    orderBy: orderBy as OrderByType,
     question: searchName || undefined,
   })
   const {
@@ -82,14 +103,6 @@ export const Cards = () => {
     deleteCard,
     { error: errDeleteCard, isError: isErrDeleteCard, isLoading: isLoadDeleteCard },
   ] = useDeleteCardMutation()
-
-  const setCurrentPage = (page: number) => {
-    updateSearchParam(CARDS_KEY_SEARCH_PARAMS.page, page)
-  }
-
-  const setSearch = (searchName: string) => {
-    updateSearchParam(CARDS_KEY_SEARCH_PARAMS.searchName, searchName)
-  }
 
   if (isLoadingRetrieveDeck) {
     return <Loading />
@@ -115,7 +128,7 @@ export const Cards = () => {
         nameDeck={dataDeckBy?.name}
       >
         <CreateUpdateCard
-          buttonName={'Add New Card'}
+          buttonName={'add new card'}
           cardId={idCard}
           error={errorCreateCard}
           isError={isErrorCreatedCard}
@@ -130,10 +143,10 @@ export const Cards = () => {
           <Search className={s.search} searchName={searchName} setSearch={setSearch} />
           <Table
             headers={[
-              { id: 1, title: 'Question' },
-              { id: 2, title: 'Answer' },
-              { id: 3, title: 'Last Updated' },
-              { id: 4, title: 'Grade' },
+              { id: 1, orderBy: QUESTION_ORDER_BY, title: 'Question' },
+              { id: 2, orderBy: ANSWER_ORDER_BY, title: 'Answer' },
+              { id: 3, orderBy: UPDATED_ORDER_BY, title: 'Last Updated' },
+              { id: 4, orderBy: GRADE_ORDER_BY, title: 'Grade' },
               {
                 id: 5,
                 isEditable: dataDeckBy?.userId === dataUser?.id,
@@ -176,6 +189,7 @@ export const Cards = () => {
               ],
               idCells: card.id,
             }))}
+            setOrderBy={setOrderBy}
           />
         </>
       )}
