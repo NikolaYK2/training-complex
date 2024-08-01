@@ -6,10 +6,10 @@ export const useSearchUpdateParams = <T extends SearchParamsInit>(props?: T) => 
 
   const updateSearchParam = (
     key: string,
-    value: number | string,
+    value: null | number | string,
     callBack?: (value: number) => void
   ) => {
-    if (value === '' || value === 0) {
+    if (value === '' || value === 0 || value === null) {
       searchParams.delete(key)
     } else {
       searchParams.set(key, value.toString())

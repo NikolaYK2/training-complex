@@ -14,37 +14,41 @@
 }
 
 .header {
+  cursor: pointer;
   text-align: left;
   background-color: var(--color-dark-500);
+
+  &:nth-child(3) {
+    min-width: 158px;
+  }
 
   .caption {
     display: flex;
     align-items: center;
 
-    .sort {
-      cursor: pointer;
-
-      transform: translateY(0);
-
-      width: 12px;
-      height: 12px;
+    > svg {
+      transform: rotateX(0);
       margin: 0 4px;
-
-      transition: transform 0.3s ease-in-out 0s;
-    }
-
-    .isSort {
-      transform: rotateX(180deg) translateY(-2px);
-      transition: transform 0.3s ease-in-out 0s;
+      opacity: 0;
+      transition: transform 0.4s ease;
     }
   }
 
-  .isCaption {
-    cursor: pointer;
+  .sortAsc > svg {
+    opacity: 1;
   }
 
-  &:nth-child(3) {
-    min-width: 137px;
+  .sortDesc > svg {
+    transform-origin: center;
+    transform: rotateX(180deg);
+    opacity: 1;
+    transition: transform 0.4s ease;
+  }
+}
+
+.headerHover {
+  &:hover {
+    background: var(--color-dark-300);
   }
 }
 
@@ -54,7 +58,6 @@
 
 .header,
 .row {
-  //min-width: 137px;
   padding: 6px 24px;
 }
 

@@ -1,10 +1,13 @@
-import { Fragment, MouseEvent, ReactElement, useRef, useState } from 'react'
+import { Fragment, MouseEvent, ReactElement, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
 import { HoverIconImage } from '@/commn/components/ui/hoverIconImage/HoverIconImage'
+import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
+import { useSortTable } from '@/commn/components/ui/tables/lib/useSortTable'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { CARDS_ROUTE } from '@/routes/Router'
+import { OrderByType } from '@/services/decks/DecksTypes'
 
 import s from './Table.module.scss'
 
@@ -16,6 +19,7 @@ export type PageHistorySaveType = {
 type HeadersType = {
   id: number
   isEditable?: boolean
+  orderBy?: OrderByType
   title: string
 }
 
@@ -37,13 +41,17 @@ type TableProps = {
   headers: HeadersType[]
   pageHistorySave?: PageHistorySaveType
   paragraphs: ParagraphType[] | undefined
+  setOrderBy?: (sortValue: string) => void
 }
 
-export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
+export const Table = ({ headers, pageHistorySave, paragraphs, setOrderBy }: TableProps) => {
   const [activeImg, setActiveImg] = useState<null | string>(null)
+  const { handleSetSortStyle, handleSort } = useSortTable({
+    setOrderBy: setOrderBy,
+    styleAsc: s.sortAsc,
+    styleDesc: s.sortDesc,
+  })
   const textErrors = 'Количество заголовков и колонок в строках должно совпадать'
-  const ref = useRef<HTMLDivElement | null>(null)
-  const isActiveSort = false
   const navigate = useNavigate()
   // Проверяем, что количество заголовков совпадает с количеством колонок в каждом параграфе
   const isLengthMismatch =
@@ -92,9 +100,17 @@ export const Table = ({ headers, pageHistorySave, paragraphs }: TableProps) => {
               return (
                 <Fragment key={header.id}>
                   {isEditable && (
-                    <th className={s.header}>
-                      <div className={`${s.caption} ${s.isCaption}`}>
+                    <th
+                      className={`${s.header} ${header.orderBy && s.headerHover}`}
+                      onClick={() => handleSort(header.orderBy, header.id)}
+                    >
+                      <div
+                        className={`${s.caption} ${
+                          header.orderBy && handleSetSortStyle(header.id)
+                        }`}
+                      >
                         <TextFormat variant={'subtitle2'}>{header.title}</TextFormat>
+                        <IconSvg name={'arrow'} />
                       </div>
                     </th>
                   )}
