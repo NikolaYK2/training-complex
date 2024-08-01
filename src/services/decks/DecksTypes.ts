@@ -59,7 +59,7 @@ export type CardsArgs = {
   currentPage?: number
   id: string
   itemsPerPage?: number
-  orderBy?: string
+  orderBy?: OrderByType
   question?: string
 }
 
@@ -77,4 +77,50 @@ export type CardsResponse = {
   shots: number
   updated: string
   userId: string
+}
+
+export const OrderBy = {
+  ANSWER_ASC: 'answer-asc',
+  ANSWER_DESC: 'answer-desc',
+  CREATED_ASC: 'created-asc',
+  CREATED_DESC: 'created-desc',
+  GRADE_ASC: 'grade-asc',
+  GRADE_DESC: 'grade-desc',
+  NULL: null,
+  QUESTION_ASC: 'question-asc',
+  QUESTION_DESC: 'question-desc',
+  UPDATED_ASC: 'updated-asc',
+  UPDATED_DESC: 'updated-desc',
+} as const
+
+export type OrderByType = (typeof OrderBy)[keyof typeof OrderBy]
+
+type QUESTIONType = {
+  [key: string]: OrderByType
+}
+
+export const QUESTION_ORDER_BY: QUESTIONType = {
+  '1': 'question-asc',
+  '2': 'question-desc',
+  '3': null,
+}
+export const ANSWER_ORDER_BY: QUESTIONType = {
+  '1': 'answer-asc',
+  '2': 'answer-desc',
+  '3': null,
+}
+export const CREATED_ORDER_BY: QUESTIONType = {
+  '1': 'created-asc',
+  '2': 'created-desc',
+  '3': null,
+}
+export const GRADE_ORDER_BY: QUESTIONType = {
+  '1': 'grade-asc',
+  '2': 'grade-desc',
+  '3': null,
+}
+export const UPDATED_ORDER_BY: QUESTIONType = {
+  '1': 'updated-asc',
+  '2': 'updated-desc',
+  '3': null,
 }

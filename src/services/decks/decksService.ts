@@ -65,17 +65,17 @@ export const decksService = flashcardsApi.injectEndpoints({
     }),
     retrieveCardsInDeck: builder.query<DecksResponse<CardsResponse[]>, CardsArgs | void>({
       providesTags: ['Decks', 'Cards'],
-      query: ({ answer, currentPage, id, itemsPerPage, orderBy, question }: CardsArgs) => {
-        const params = {
-          ...(orderBy && { orderBy }),
-          ...(question && { question }),
-          ...(answer && { answer }),
-          ...(currentPage && { currentPage }),
-          ...(itemsPerPage && { itemsPerPage }),
-        }
+      query: ({ id, ...params }: CardsArgs) => {
+        // const params = {
+        //   ...(orderBy && { orderBy }),
+        //   ...(question && { question }),
+        //   ...(answer && { answer }),
+        //   ...(currentPage && { currentPage }),
+        //   ...(itemsPerPage && { itemsPerPage }),
+        // }
 
         return {
-          params: params ?? {},
+          params: params,
           url: `${DECKS}${id}/cards`,
         }
       },
