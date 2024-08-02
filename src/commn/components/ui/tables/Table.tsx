@@ -20,6 +20,7 @@ type HeadersType = {
 
 export type CellType = {
   element?: ReactElement[]
+  elementUser?: boolean
   idDeck?: string
   img?: null | string
   isEditable?: boolean
@@ -30,6 +31,7 @@ export type ParagraphType = {
   cells: CellType[]
   idCells: string
   isRowClickable?: boolean
+  userId?: string
 }
 
 type TableProps = {
@@ -109,52 +111,56 @@ export const Table = ({ headers, /*pageHistorySave,*/ paragraphs, setOrderBy }: 
         </thead>
         <tbody>
           {Array.isArray(paragraphs)
-            ? paragraphs.map(paragraph => (
-                <tr
-                  className={s.tr}
-                  key={paragraph.idCells}
-                  onClick={() => handleGetCard(paragraph.idCells, paragraph.isRowClickable)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {paragraph.cells.map((cell, idx) => {
-                    const { isEditable = true } = cell
+            ? paragraphs.map(paragraph => {
+                const { isRowClickable = true } = paragraph
 
-                    return (
-                      <Fragment key={idx}>
-                        {isEditable && (
-                          <td className={s.row}>
-                            <div className={s.item}>
-                              {cell.img && (
-                                <HoverIconImage
-                                  callback={e => handleImgClick(cell.img, e)}
-                                  className={s.img}
-                                  imgSrc={cell.img}
-                                />
-                              )}
-                              <TextFormat
-                                className={s.textCells}
-                                style={{ cursor: cell.idDeck ? 'pointer' : '' }}
-                                variant={'body2'}
-                              >
-                                {cell.value}
-                              </TextFormat>
-                              {cell.element && (
-                                <div className={s.elements}>
-                                  {cell.element?.map((el, k) => (
-                                    <div className={s.element} key={k}>
-                                      {el}
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                        )}
-                      </Fragment>
-                    )
-                  }) || []}
-                </tr>
-              ))
+                return (
+                  <tr
+                    className={s.tr}
+                    key={paragraph.idCells}
+                    onClick={() => handleGetCard(paragraph.idCells, isRowClickable)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {paragraph.cells.map((cell, idx) => {
+                      const { elementUser = true, isEditable = true } = cell
+
+                      return (
+                        <Fragment key={idx}>
+                          {isEditable && (
+                            <td className={s.row}>
+                              <div className={s.item}>
+                                {cell.img && (
+                                  <HoverIconImage
+                                    callback={e => handleImgClick(cell.img, e)}
+                                    className={s.img}
+                                    imgSrc={cell.img}
+                                  />
+                                )}
+                                <TextFormat
+                                  className={s.textCells}
+                                  style={{ cursor: cell.idDeck ? 'pointer' : '' }}
+                                  variant={'body2'}
+                                >
+                                  {cell.value}
+                                </TextFormat>
+                                {cell.element && (
+                                  <div className={s.elements}>
+                                    {cell.element?.map((el, k) => (
+                                      <div className={s.element} key={k}>
+                                        {elementUser && el}
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            </td>
+                          )}
+                        </Fragment>
+                      )
+                    }) || []}
+                  </tr>
+                )
+              })
             : []}
         </tbody>
       </table>
