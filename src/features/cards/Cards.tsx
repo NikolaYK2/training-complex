@@ -74,7 +74,7 @@ export const Cards = () => {
     updateSearchParam(CARDS_KEY_SEARCH_PARAMS.searchName, searchName)
   }
 
-  const setOrderBy = (orderBy: string) => {
+  const setOrderBy = (orderBy: OrderByType) => {
     updateSearchParam(CARDS_KEY_SEARCH_PARAMS.orderBy, orderBy)
   }
 
