@@ -1,7 +1,9 @@
 import { useState } from 'react'
 
+import { OrderByType } from '@/services/decks/DecksTypes'
+
 type Params = {
-  setOrderBy: ((sortValue: string) => void) | undefined
+  setOrderBy: ((sortValue: OrderByType) => void) | undefined
   styleAsc: string
   styleDesc: string
 }

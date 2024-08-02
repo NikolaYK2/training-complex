@@ -7,7 +7,7 @@ import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { useSortTable } from '@/commn/components/ui/tables/lib/useSortTable'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { CARDS_ROUTE } from '@/routes/Router'
-import { CardOrderByType } from '@/services/decks/DecksTypes'
+import { CardOrderByType, OrderByType } from '@/services/decks/DecksTypes'
 
 import s from './Table.module.scss'
 
@@ -41,7 +41,7 @@ type TableProps = {
   headers: HeadersType[]
   pageHistorySave?: PageHistorySaveType
   paragraphs: ParagraphType[] | undefined
-  setOrderBy?: (sortValue: string) => void
+  setOrderBy?: (sortValue: OrderByType) => void
 }
 
 export const Table = ({ headers, pageHistorySave, paragraphs, setOrderBy }: TableProps) => {

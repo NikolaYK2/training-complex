@@ -23,9 +23,6 @@ export const Header = () => {
     return <div>Error: {JSON.stringify(errorLogout)}</div>
   }
 
-  // if (isLoading) {
-  //   return <Loading />
-  // }
   if (isLoadingLogout) {
     return <Loading />
   }
@@ -49,6 +46,7 @@ export const Header = () => {
                   buttonName: data?.name ?? '',
                   email: data?.email,
                   icon: data?.avatar ?? 'avatar',
+                  route: PROFILE_ROUTE,
                 },
                 {
                   buttonName: 'My profile',
