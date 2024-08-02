@@ -74,7 +74,7 @@ export const CardRemover = ({
   }
 
   return (
-    <label className={`${s.containerCardRemover} ${className}`}>
+    <label className={`${s.containerCardRemover} ${className}`} onClick={e => e.stopPropagation()}>
       {isIcon && <DeleteIcon className={s.iconDelete} />}
       <DialogModal
         buttonName={buttonName}
