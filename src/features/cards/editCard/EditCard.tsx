@@ -28,7 +28,7 @@ export const EditCard = ({
   ] = useUpdateCardMutation()
 
   return (
-    <label className={`${s.containerEditCard} ${className}`}>
+    <label className={`${s.containerEditCard} ${className}`} onClick={e => e.stopPropagation()}>
       <EditIcon className={s.icon} />
       <CreateUpdateCard
         answer={answer}
