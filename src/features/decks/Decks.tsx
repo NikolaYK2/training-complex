@@ -55,27 +55,31 @@ export const Decks = () => {
   const activeTab = authorId || DECKS_KEY_SEARCH_PARAMS.default
 
   const setPage = (page: number) => {
-    updateSearchParam(DECKS_KEY_SEARCH_PARAMS.page, page)
+    updateSearchParam({ key: DECKS_KEY_SEARCH_PARAMS.page, value: page })
   }
 
   const setSearch = (name: string) => {
-    updateSearchParam(DECKS_KEY_SEARCH_PARAMS.searchName, name, setPage)
+    updateSearchParam({ callBack: setPage, key: DECKS_KEY_SEARCH_PARAMS.searchName, value: name })
   }
 
   const setAuthorDecks = (authorId: string) => {
-    updateSearchParam(DECKS_KEY_SEARCH_PARAMS.authorId, authorId, setPage)
+    updateSearchParam({ callBack: setPage, key: DECKS_KEY_SEARCH_PARAMS.authorId, value: authorId })
   }
 
   const setCountMinDecks = (countMin: number) => {
-    updateSearchParam(DECKS_KEY_SEARCH_PARAMS.minCardsCount, countMin, setPage)
+    updateSearchParam({
+      callBack: setPage,
+      key: DECKS_KEY_SEARCH_PARAMS.minCardsCount,
+      value: countMin,
+    })
   }
 
   const setCountMaxDecks = (countMax: number) => {
-    updateSearchParam(DECKS_KEY_SEARCH_PARAMS.maxCardsCount, countMax)
+    updateSearchParam({ key: DECKS_KEY_SEARCH_PARAMS.maxCardsCount, value: countMax })
   }
 
   const setOrderByDeck = (orderBy: OrderByType) => {
-    updateSearchParam(DECKS_KEY_SEARCH_PARAMS.orderBy, orderBy)
+    updateSearchParam({ key: DECKS_KEY_SEARCH_PARAMS.orderBy, value: orderBy })
   }
 
   const {
@@ -181,7 +185,7 @@ export const Decks = () => {
             { id: 2, orderBy: CARDS_COUNT_ORDER_BY, title: 'Cards' },
             { id: 3, orderBy: UPDATED_ORDER_BY, title: 'Last Updated' },
             { id: 4, orderBy: AUTHOR_NAME_ORDER_BY, title: 'Created By' },
-            { id: 5, isEditable: true, title: '' },
+            { id: 5, title: '' },
           ]}
           paragraphs={data?.items.map((deck: DeckType) => ({
             cardCounts: deck.cardsCount,

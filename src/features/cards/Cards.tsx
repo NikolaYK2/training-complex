@@ -9,7 +9,6 @@ import { Pagination } from '@/commn/components/ui/pagination/Pagination'
 import { Search } from '@/commn/components/ui/search/Search'
 import { Table } from '@/commn/components/ui/tables/Table'
 import { Title } from '@/commn/components/ui/title/Title'
-import { useSaveHistoryCount } from '@/commn/hooks/useSaveHistoryCount'
 import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
 import { CreateUpdateCard } from '@/features/cards/createUpdateCard/CreateUpdateCard'
 import { EditCard } from '@/features/cards/editCard/EditCard'
@@ -53,15 +52,15 @@ export const Cards = () => {
   const orderBy = searchParams.get(CARDS_KEY_SEARCH_PARAMS.orderBy) || null
 
   const setCurrentPage = (page: number) => {
-    updateSearchParam(CARDS_KEY_SEARCH_PARAMS.page, page)
+    updateSearchParam({ key: CARDS_KEY_SEARCH_PARAMS.page, replace: true, value: page })
   }
 
   const setSearch = (searchName: string) => {
-    updateSearchParam(CARDS_KEY_SEARCH_PARAMS.searchName, searchName)
+    updateSearchParam({ key: CARDS_KEY_SEARCH_PARAMS.searchName, value: searchName })
   }
 
   const setOrderBy = (orderBy: OrderByType) => {
-    updateSearchParam(CARDS_KEY_SEARCH_PARAMS.orderBy, orderBy)
+    updateSearchParam({ key: CARDS_KEY_SEARCH_PARAMS.orderBy, replace: true, value: orderBy })
   }
   const { data: dataUser } = useGetCurrentUserDataQuery()
 
@@ -91,8 +90,6 @@ export const Cards = () => {
     { error: errDeleteCard, isError: isErrDeleteCard, isLoading: isLoadDeleteCard },
   ] = useDeleteCardMutation()
 
-  const { historyCount } = useSaveHistoryCount({ page })
-
   if (isLoadingRetrieveDeck) {
     return <Loading />
   }
@@ -103,7 +100,7 @@ export const Cards = () => {
 
   return (
     <Page marginTop={'var(--margin-top-page-link'}>
-      <BackTo nameLink={'Back to Decks List'} saveClickPage={historyCount} />
+      <BackTo nameLink={'Back to Decks List'} />
       <Title
         idCard={idCard}
         imageDeck={dataDeckBy?.cover}

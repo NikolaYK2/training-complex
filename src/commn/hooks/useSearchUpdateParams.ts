@@ -1,14 +1,16 @@
 import { URLSearchParamsInit, useSearchParams } from 'react-router-dom'
 
+type UpdateSearchParamType = {
+  callBack?: (value: number) => void
+  key: string
+  replace?: boolean
+  value: null | number | string
+}
 type SearchParamsInit = URLSearchParamsInit | undefined
 export const useSearchUpdateParams = <T extends SearchParamsInit>(props?: T) => {
   const [searchParams, setSearchParams] = useSearchParams(props)
 
-  const updateSearchParam = (
-    key: string,
-    value: null | number | string,
-    callBack?: (value: number) => void
-  ) => {
+  const updateSearchParam = ({ callBack, key, replace = false, value }: UpdateSearchParamType) => {
     if (value === '' || value === 0 || value === null) {
       searchParams.delete(key)
     } else {
@@ -17,7 +19,7 @@ export const useSearchUpdateParams = <T extends SearchParamsInit>(props?: T) => 
     if (value && callBack) {
       callBack(1)
     }
-    setSearchParams(searchParams)
+    setSearchParams(searchParams, { replace })
   }
   const getSearchParam = (key: string, defaultValue: any = '') => {
     return searchParams.get(key) || defaultValue
