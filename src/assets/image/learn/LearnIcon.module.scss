@@ -1,2 +1,16 @@
 .containerLearnIcon {
+  &.animate .play {
+    transform-origin: center;
+    animation: learn-hover 1s ease;
+  }
+}
+
+@keyframes learn-hover {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

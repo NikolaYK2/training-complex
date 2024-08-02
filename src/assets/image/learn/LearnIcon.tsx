@@ -1,8 +1,22 @@
+import { useAnimation } from '@/commn/hooks/useAnimation'
+
 import s from './LearnIcon.module.scss'
 
-export const LearnIcon = () => {
+type Props = {
+  animation?: boolean
+}
+export const LearnIcon = ({ animation = false }: Props) => {
+  const { containerRef, handleAnimationEnd, handleMouseEnter } = useAnimation({
+    animationTriggerClass: `${animation && s.animate}`,
+  })
+
   return (
-    <div className={s.containerLearnIcon}>
+    <div
+      className={s.containerLearnIcon}
+      onAnimationEnd={handleAnimationEnd}
+      onMouseEnter={handleMouseEnter}
+      ref={containerRef}
+    >
       <svg
         fill={'none'}
         height={'100%'}
@@ -17,6 +31,7 @@ export const LearnIcon = () => {
           fill={'white'}
         />
         <path
+          className={s.play}
           d={
             'M8.22666 4.9674C8.06331 4.81687 7.85932 4.71765 7.64004 4.68209C7.42077 4.64654 7.19588 4.6762 6.99333 4.7674C6.7967 4.84694 6.62825 4.9833 6.5095 5.15905C6.39075 5.3348 6.32709 5.54196 6.32666 5.75407V10.2474C6.32709 10.4595 6.39075 10.6667 6.5095 10.8424C6.62825 11.0182 6.7967 11.1545 6.99333 11.2341C7.13784 11.2996 7.29464 11.3337 7.45333 11.3341C7.73927 11.3328 8.01467 11.226 8.22666 11.0341L10.6667 8.7874C10.7758 8.68747 10.8629 8.56593 10.9226 8.43049C10.9822 8.29506 11.013 8.14871 11.013 8.00074C11.013 7.85276 10.9822 7.70641 10.9226 7.57098C10.8629 7.43555 10.7758 7.314 10.6667 7.21407L8.22666 4.9674ZM7.66666 9.73407V6.2674L9.53999 8.00074L7.66666 9.73407Z'
           }
