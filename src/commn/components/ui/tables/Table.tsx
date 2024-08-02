@@ -11,11 +11,6 @@ import { CardOrderByType, OrderByType } from '@/services/decks/DecksTypes'
 
 import s from './Table.module.scss'
 
-export type PageHistorySaveType = {
-  authorIdSave?: string
-  minCardsSave?: number
-  pageDeckSave?: number
-}
 type HeadersType = {
   id: number
   isEditable?: boolean
@@ -39,12 +34,11 @@ export type ParagraphType = {
 
 type TableProps = {
   headers: HeadersType[]
-  pageHistorySave?: PageHistorySaveType
   paragraphs: ParagraphType[] | undefined
   setOrderBy?: (sortValue: OrderByType) => void
 }
 
-export const Table = ({ headers, pageHistorySave, paragraphs, setOrderBy }: TableProps) => {
+export const Table = ({ headers, /*pageHistorySave,*/ paragraphs, setOrderBy }: TableProps) => {
   const [activeImg, setActiveImg] = useState<null | string>(null)
   const { handleSetSortStyle, handleSort } = useSortTable({
     setOrderBy: setOrderBy,
@@ -73,13 +67,7 @@ export const Table = ({ headers, pageHistorySave, paragraphs, setOrderBy }: Tabl
   }
   const handleGetCard = (idCards: string | undefined, isRowClickable = false) => {
     if (idCards && isRowClickable) {
-      navigate(`${idCards}${CARDS_ROUTE}`, {
-        state: {
-          authorIdSave: pageHistorySave?.authorIdSave,
-          minCardsSave: pageHistorySave?.minCardsSave,
-          pageDeckSave: pageHistorySave?.pageDeckSave,
-        },
-      })
+      navigate(`${idCards}${CARDS_ROUTE}`)
     }
   }
 

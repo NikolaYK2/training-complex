@@ -1,5 +1,5 @@
 import { EditIcon } from '@/assets/image/edit/EditIcon'
-import { CreateUpdateCard } from '@/commn/components/ui/createUpdateCard/CreateUpdateCard'
+import { CreateUpdateCard } from '@/features/cards/createUpdateCard/CreateUpdateCard'
 import { useUpdateCardMutation } from '@/services/cards/cardsService'
 import { CardsResponse } from '@/services/decks/DecksTypes'
 

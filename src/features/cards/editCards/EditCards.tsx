@@ -1,4 +1,4 @@
-import { CreateUpdateDeck } from '@/commn/components/ui/createUpdateDeck/CreateUpdateDeck'
+import { CreateUpdateDeck } from '@/features/decks/createUpdateDeck/CreateUpdateDeck'
 import { useCreateUpdateDeckMutation } from '@/services/decks/decksService'
 
 type Props = {
