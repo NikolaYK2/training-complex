@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { DeleteIcon } from '@/assets/image/delete/DeleteIcon'
 import { Button } from '@/commn/components/ui/button'
+import { CardRemover } from '@/commn/components/ui/cardRemover/CardRemover'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
 import { Pagination } from '@/commn/components/ui/pagination/Pagination'
@@ -13,6 +14,7 @@ import { Title } from '@/commn/components/ui/title/Title'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
 import { CreateUpdateDeck } from '@/features/decks/createUpdateDeck/CreateUpdateDeck'
+import { LearnDeck } from '@/features/decks/learnDeck/LearnDeck'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
 import {
   AUTHOR_NAME_ORDER_BY,
@@ -22,7 +24,11 @@ import {
   OrderByType,
   UPDATED_ORDER_BY,
 } from '@/services/decks/DecksTypes'
-import { useCreateUpdateDeckMutation, useGetDecksQuery } from '@/services/decks/decksService'
+import {
+  useCreateUpdateDeckMutation,
+  useDeleteDeckMutation,
+  useGetDecksQuery,
+} from '@/services/decks/decksService'
 
 import s from './Decks.module.scss'
 
@@ -78,6 +84,10 @@ export const Decks = () => {
     createDeck,
     { error: errorCreateDeck, isError: isErrorCreateDeck, isLoading: isLoadingCreateDeck },
   ] = useCreateUpdateDeckMutation()
+  const [
+    deleteDeck,
+    { error: errorDeleteDeck, isError: isErrorDeleteDeck, isLoading: isLoadingDeleteDeck },
+  ] = useDeleteDeckMutation()
 
   const { data, error, isError, isLoading } = useGetDecksQuery({
     authorId: authorId || undefined,
@@ -167,17 +177,50 @@ export const Decks = () => {
             { id: 2, orderBy: CARDS_COUNT_ORDER_BY, title: 'Cards' },
             { id: 3, orderBy: UPDATED_ORDER_BY, title: 'Last Updated' },
             { id: 4, orderBy: AUTHOR_NAME_ORDER_BY, title: 'Created By' },
+            { id: 5, isEditable: true, title: '' },
           ]}
-          // pageHistorySave={{ authorIdSave: authorId, minCardsSave: minCards, pageDeckSave: page }}
           paragraphs={data?.items.map((deck: DeckType) => ({
             cells: [
               { img: deck.cover, value: deck.name },
               { value: `${deck.cardsCount}` },
               { value: new Date(deck.updated).toLocaleDateString() },
               { value: deck.author.name },
+              {
+                element: [
+                  <LearnDeck idCard={deck.id} key={'learn-deck'} />,
+
+                  <CreateUpdateDeck
+                    buttonName={'Edit pack'}
+                    coverDeckBy={deck.cover}
+                    error={errorCreateDeck}
+                    isError={isErrorCreateDeck}
+                    isIcon
+                    isLoading={isLoadingCreateDeck}
+                    key={'edit-deck'}
+                    method={'PATCH'}
+                    mutationFunction={createDeck}
+                    nameDeckBy={deck.name}
+                    titleContent={'Edit pack'}
+                    triggerVariant={'link'}
+                  />,
+                  <CardRemover
+                    buttonName={'delete pack'}
+                    className={s.cardRemover}
+                    error={errorDeleteDeck}
+                    idCard={deck.id}
+                    isError={isErrorDeleteDeck}
+                    isIcon
+                    isLoading={isLoadingDeleteDeck}
+                    key={'delete-deck'}
+                    mutationDeck={deleteDeck}
+                    text={`Do you really want to remove /${deck.name}? All cards will be deleted.`}
+                    titleName={'delete pack'}
+                  />,
+                ],
+                elementUser: dataUserData?.id === deck.userId,
+              },
             ],
             idCells: deck.id,
-            isRowClickable: true,
           }))}
           setOrderBy={setOrderByDeck}
         />
