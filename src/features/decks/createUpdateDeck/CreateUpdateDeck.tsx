@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
+import { EditIcon } from '@/assets/image/edit/EditIcon'
 import { ImageIcon } from '@/assets/image/image/ImageIcon'
 import { ButtonVariantType } from '@/commn/components/ui/button'
 import { ControlledCheckbox } from '@/commn/components/ui/checkBox/ControlledCheckbox'
@@ -32,6 +33,7 @@ type Props = {
   error: FetchBaseQueryError | SerializedError | undefined
   idCard?: string | undefined
   isError: boolean
+  isIcon?: boolean
   isLoading: boolean
   isPrivateCard?: boolean
   method: 'PATCH' | 'POST'
@@ -47,6 +49,7 @@ export const CreateUpdateDeck = ({
   error,
   idCard,
   isError,
+  isIcon = false,
   isLoading,
   isPrivateCard = false,
   method,
@@ -109,52 +112,55 @@ export const CreateUpdateDeck = ({
   }
 
   return (
-    <DialogModal
-      buttonName={buttonName}
-      isOpenModal={isOpenModal}
-      onSubmit={handleSubmit(onSubmit)}
-      setIsOpenModal={handleCloseModal}
-      titleContent={titleContent}
-      trigger={nameTrigger}
-      triggerVariant={triggerVariant}
-    >
-      {[
-        <div key={'loading'}>{isLoading && <Loading />}</div>,
-        <ControlledTextField
-          control={control}
-          errorMessage={errors.name?.message}
-          key={'input-name'}
-          label={'Name Pack'}
-          name={'name'}
-          type={'text'}
-        />,
+    <label className={s.containerCreateUpdDeck} onClick={e => e.stopPropagation()}>
+      {isIcon && <EditIcon className={s.editIcon} />}
+      <DialogModal
+        buttonName={buttonName}
+        isOpenModal={isOpenModal}
+        onSubmit={handleSubmit(onSubmit)}
+        setIsOpenModal={handleCloseModal}
+        titleContent={titleContent}
+        trigger={nameTrigger}
+        triggerVariant={triggerVariant}
+      >
+        {[
+          <div key={'loading'}>{isLoading && <Loading />}</div>,
+          <ControlledTextField
+            control={control}
+            errorMessage={errors.name?.message}
+            key={'input-name'}
+            label={'Name Pack'}
+            name={'name'}
+            type={'text'}
+          />,
 
-        <FIlePreview
-          filePreview={filePreview.fileImage}
-          filePreviewFullScreen={filePreviewFullScreen}
-          key={'file-preview'}
-          setFilePreview={cover => setFilePreview(prev => ({ ...prev, fileImage: cover }))}
-          setFilePreviewFullScreen={setFilePreviewFullScreen}
-          setValue={setValue}
-          valueKey={'cover'}
-        />,
+          <FIlePreview
+            filePreview={filePreview.fileImage}
+            filePreviewFullScreen={filePreviewFullScreen}
+            key={'file-preview'}
+            setFilePreview={cover => setFilePreview(prev => ({ ...prev, fileImage: cover }))}
+            setFilePreviewFullScreen={setFilePreviewFullScreen}
+            setValue={setValue}
+            valueKey={'cover'}
+          />,
 
-        <ControlledFileDownload
-          buttonName={'upload image'}
-          className={s.newDeck}
-          control={control}
-          iconComponent={<ImageIcon className={s.imageIcon} />}
-          key={'input-file'}
-          name={'cover'}
-          setFilePreview={cover => setFilePreview(prev => ({ ...prev, fileImage: cover }))}
-        />,
-        <ControlledCheckbox
-          control={control}
-          key={'check-box'}
-          label={'Private pack'}
-          name={'isPrivate'}
-        />,
-      ]}
-    </DialogModal>
+          <ControlledFileDownload
+            buttonName={'upload image'}
+            className={s.newDeck}
+            control={control}
+            iconComponent={<ImageIcon className={s.imageIcon} />}
+            key={'input-file'}
+            name={'cover'}
+            setFilePreview={cover => setFilePreview(prev => ({ ...prev, fileImage: cover }))}
+          />,
+          <ControlledCheckbox
+            control={control}
+            key={'check-box'}
+            label={'Private pack'}
+            name={'isPrivate'}
+          />,
+        ]}
+      </DialogModal>
+    </label>
   )
 }

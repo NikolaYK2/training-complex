@@ -45,7 +45,6 @@ export const Cards = () => {
   const [itemPage, setItemPage] = useState(10)
 
   const { id: idCard } = useParams<{ id: string }>()
-  const { data: dataUser } = useGetCurrentUserDataQuery()
 
   const { searchParams, updateSearchParam } = useSearchUpdateParams()
 
@@ -64,6 +63,7 @@ export const Cards = () => {
   const setOrderBy = (orderBy: OrderByType) => {
     updateSearchParam(CARDS_KEY_SEARCH_PARAMS.orderBy, orderBy)
   }
+  const { data: dataUser } = useGetCurrentUserDataQuery()
 
   const { data: dataCards } = useRetrieveCardsInDeckQuery({
     currentPage: page,
@@ -174,6 +174,7 @@ export const Cards = () => {
                 },
               ],
               idCells: card.id,
+              isRowClickable: false,
             }))}
             setOrderBy={setOrderBy}
           />
