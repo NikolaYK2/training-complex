@@ -8,7 +8,7 @@ import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FileP
 import { HoverIconImage } from '@/commn/components/ui/hoverIconImage/HoverIconImage'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { EditCards } from '@/features/cards/editCards/EditCards'
-import { DECK_ROUTE, LEARN_ROUTE } from '@/routes/Router'
+import { useRedirectLearn } from '@/features/decks/learnDeck/lib/useRedirectLearn'
 import { useDeleteDeckMutation } from '@/services/decks/decksService'
 
 import s from './Title.module.scss'
@@ -41,14 +41,8 @@ export const Title = ({
     deleteDeck,
     { error: errorDeleteDeck, isError: isErrorDeleteDeck, isLoading: isLoadingDeleteDeck },
   ] = useDeleteDeckMutation()
-
   const navigate = useNavigate()
-
-  const handleRedirectLearnClick = () => {
-    if (idCard) {
-      navigate(`${DECK_ROUTE}/${idCard}${LEARN_ROUTE}`)
-    }
-  }
+  const { handleRedirectLearnClick } = useRedirectLearn({ idCard })
 
   const handleImageClick = () => {
     setActivePreview(true)
