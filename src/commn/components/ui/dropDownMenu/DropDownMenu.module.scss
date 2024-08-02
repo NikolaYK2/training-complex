@@ -103,6 +103,7 @@ button {
     }
 
     .textBlock {
+      cursor: pointer;
       display: flex;
       flex-direction: column;
 
@@ -110,7 +111,10 @@ button {
         text-transform: uppercase;
       }
 
-      .element {
+      .element,
+      .element > label {
+        cursor: pointer;
+
         position: absolute;
         top: 0;
         left: 0;
