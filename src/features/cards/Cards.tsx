@@ -1,19 +1,19 @@
 import { useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import { BackTo } from '@/commn/components/ui/backTo/BackTo'
 import { CardRemover } from '@/commn/components/ui/cardRemover/CardRemover'
-import { CreateUpdateCard } from '@/commn/components/ui/createUpdateCard/CreateUpdateCard'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
 import { Pagination } from '@/commn/components/ui/pagination/Pagination'
 import { Search } from '@/commn/components/ui/search/Search'
-import { PageHistorySaveType, Table } from '@/commn/components/ui/tables/Table'
+import { Table } from '@/commn/components/ui/tables/Table'
 import { Title } from '@/commn/components/ui/title/Title'
+import { useSaveHistoryCount } from '@/commn/hooks/useSaveHistoryCount'
 import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
+import { CreateUpdateCard } from '@/features/cards/createUpdateCard/CreateUpdateCard'
 import { EditCard } from '@/features/cards/editCard/EditCard'
 import { GradeCard } from '@/features/cards/gradeCard/GradeCard'
-import { DECK_ROUTE } from '@/routes/Router'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
 import { useDeleteCardMutation } from '@/services/cards/cardsService'
 import {
@@ -42,26 +42,13 @@ const CARDS_KEY_SEARCH_PARAMS = {
 }
 
 export const Cards = () => {
+  const [itemPage, setItemPage] = useState(10)
+
   const { id: idCard } = useParams<{ id: string }>()
   const { data: dataUser } = useGetCurrentUserDataQuery()
-  const location = useLocation()
-  const { authorIdSave, minCardsSave, pageDeckSave } =
-    (location.state as {
-      authorIdSave: string
-      minCardsSave: number
-      pageDeckSave: number
-    } as PageHistorySaveType) || {}
 
-  const { searchParams, updateSearchParam } = useSearchUpdateParams({
-    authorId: authorIdSave ?? '',
-    minCardsCount: String(minCardsSave) ?? '',
-    pageDeck: String(pageDeckSave) ?? '',
-  })
+  const { searchParams, updateSearchParam } = useSearchUpdateParams()
 
-  const [itemPage, setItemPage] = useState(10)
-  const pageDeck = searchParams.get(CARDS_KEY_SEARCH_PARAMS.pageDeckSaveHistory)
-  const authorId = searchParams.get(CARDS_KEY_SEARCH_PARAMS.authorIdSaveHistory)
-  const minCardsCount = searchParams.get(CARDS_KEY_SEARCH_PARAMS.minCardsCountSaveHistory)
   const page = Number(searchParams.get(CARDS_KEY_SEARCH_PARAMS.page)) || 1
   const searchName = searchParams.get(CARDS_KEY_SEARCH_PARAMS.searchName) || ''
   const orderBy = searchParams.get(CARDS_KEY_SEARCH_PARAMS.orderBy) || null
@@ -104,6 +91,8 @@ export const Cards = () => {
     { error: errDeleteCard, isError: isErrDeleteCard, isLoading: isLoadDeleteCard },
   ] = useDeleteCardMutation()
 
+  const { historyCount } = useSaveHistoryCount({ page })
+
   if (isLoadingRetrieveDeck) {
     return <Loading />
   }
@@ -114,10 +103,7 @@ export const Cards = () => {
 
   return (
     <Page marginTop={'var(--margin-top-page-link'}>
-      <BackTo
-        nameLink={'Back to Decks List'}
-        saveHistoryPage={`${DECK_ROUTE}?page=${pageDeck}&authorId=${authorId}&minCardsCount=${minCardsCount}`}
-      />
+      <BackTo nameLink={'Back to Decks List'} saveClickPage={historyCount} />
       <Title
         idCard={idCard}
         imageDeck={dataDeckBy?.cover}
