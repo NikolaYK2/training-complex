@@ -1,5 +1,5 @@
 import { CreateUpdateDeck } from '@/features/decks/createUpdateDeck/CreateUpdateDeck'
-import { useCreateUpdateDeckMutation } from '@/services/decks/decksService'
+import { useDeckMutation } from '@/services/decks/lib/useDeckMutation'
 
 type Props = {
   cover: null | string | undefined
@@ -8,10 +8,7 @@ type Props = {
   name: string | undefined
 }
 export const EditCards = ({ cover, idCard, isPrivateCard, name }: Props) => {
-  const [
-    updateDeck,
-    { error: errUpdateDeck, isError: isErrUpdateDeck, isLoading: isLoadUpdateDeck },
-  ] = useCreateUpdateDeckMutation()
+  const { errUpdateDeck, isErrUpdateDeck, isLoadUpdateDeck, updateDeck } = useDeckMutation()
 
   return (
     <CreateUpdateDeck
