@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import { DeleteIcon } from '@/assets/image/delete/DeleteIcon'
 import { Button } from '@/commn/components/ui/button'
-import { CreateUpdateDeck } from '@/commn/components/ui/createUpdateDeck/CreateUpdateDeck'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
 import { Pagination } from '@/commn/components/ui/pagination/Pagination'
@@ -13,6 +12,7 @@ import { Table } from '@/commn/components/ui/tables/Table'
 import { Title } from '@/commn/components/ui/title/Title'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
+import { CreateUpdateDeck } from '@/features/decks/createUpdateDeck/CreateUpdateDeck'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
 import {
   AUTHOR_NAME_ORDER_BY,
@@ -93,6 +93,7 @@ export const Decks = () => {
     setCountMaxDecks(100)
     setCountMinDecks(0)
     setPage(1)
+    setSearch('')
   }
 
   if (isError) {
@@ -167,7 +168,7 @@ export const Decks = () => {
             { id: 3, orderBy: UPDATED_ORDER_BY, title: 'Last Updated' },
             { id: 4, orderBy: AUTHOR_NAME_ORDER_BY, title: 'Created By' },
           ]}
-          pageHistorySave={{ authorIdSave: authorId, minCardsSave: minCards, pageDeckSave: page }}
+          // pageHistorySave={{ authorIdSave: authorId, minCardsSave: minCards, pageDeckSave: page }}
           paragraphs={data?.items.map((deck: DeckType) => ({
             cells: [
               { img: deck.cover, value: deck.name },
