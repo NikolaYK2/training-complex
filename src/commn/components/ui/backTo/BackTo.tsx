@@ -8,14 +8,14 @@ import s from './BackTo.module.scss'
 
 type Props = {
   nameLink: string
-  saveHistoryPage?: null | string
+  saveClickPage?: null | number
 }
-export const BackTo = ({ nameLink, saveHistoryPage }: Props) => {
+export const BackTo = ({ nameLink, saveClickPage }: Props) => {
   const navigate = useNavigate()
 
   const handleGoBack = () => {
-    if (saveHistoryPage) {
-      navigate(saveHistoryPage)
+    if (saveClickPage) {
+      navigate(-saveClickPage - 1)
     } else {
       navigate(-1)
     }
