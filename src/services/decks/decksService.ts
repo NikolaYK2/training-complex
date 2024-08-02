@@ -5,8 +5,8 @@ import {
   CardsResponse,
   CreateDeckArgs,
   DeckType,
+  DecksArgs,
   DecksResponse,
-  GetDecksArgs,
 } from '@/services/decks/DecksTypes'
 import { flashcardsApi } from '@/services/flashcardsApi'
 import { prepareFormData } from '@/services/lib/prepareFormData'
@@ -53,7 +53,7 @@ export const decksService = flashcardsApi.injectEndpoints({
         }
       },
     }),
-    getDecks: builder.query<DecksResponse<DeckType[]>, GetDecksArgs | void>({
+    getDecks: builder.query<DecksResponse<DeckType[]>, DecksArgs | void>({
       providesTags: ['Decks'], //как бы обновляем кэш, так как новые данные
       //query param
       query: params => {

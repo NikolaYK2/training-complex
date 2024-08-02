@@ -14,7 +14,14 @@ import { Title } from '@/commn/components/ui/title/Title'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
-import { DeckType } from '@/services/decks/DecksTypes'
+import {
+  AUTHOR_NAME_ORDER_BY,
+  CARDS_COUNT_ORDER_BY,
+  DeckType,
+  NAME_ORDER_BY,
+  OrderByType,
+  UPDATED_ORDER_BY,
+} from '@/services/decks/DecksTypes'
 import { useCreateUpdateDeckMutation, useGetDecksQuery } from '@/services/decks/decksService'
 
 import s from './Decks.module.scss'
@@ -24,6 +31,7 @@ const DECKS_KEY_SEARCH_PARAMS = {
   default: 'default',
   maxCardsCount: 'maxCardsCount',
   minCardsCount: 'minCardsCount',
+  orderBy: 'orderBy',
   page: 'page',
   pageDeckSaveHistory: 'page-deck',
   searchName: 'name',
@@ -40,6 +48,7 @@ export const Decks = () => {
   const authorId = searchParams.get(DECKS_KEY_SEARCH_PARAMS.authorId) || ''
   const minCards = Number(searchParams.get(DECKS_KEY_SEARCH_PARAMS.minCardsCount)) || 0
   const maxCards = Number(searchParams.get(DECKS_KEY_SEARCH_PARAMS.maxCardsCount)) || 100
+  const orderBy = searchParams.get(DECKS_KEY_SEARCH_PARAMS.orderBy) || null
   const activeTab = authorId || DECKS_KEY_SEARCH_PARAMS.default
 
   const setPage = (page: number) => {
@@ -61,6 +70,10 @@ export const Decks = () => {
   const setCountMaxDecks = (countMax: number) => {
     updateSearchParam(DECKS_KEY_SEARCH_PARAMS.maxCardsCount, countMax)
   }
+
+  const setOrderByDeck = (orderBy: OrderByType) => {
+    updateSearchParam(DECKS_KEY_SEARCH_PARAMS.orderBy, orderBy)
+  }
   const [
     createDeck,
     { error: errorCreateDeck, isError: isErrorCreateDeck, isLoading: isLoadingCreateDeck },
@@ -73,6 +86,7 @@ export const Decks = () => {
     maxCardsCount: maxCards,
     minCardsCount: minCards,
     name: name || undefined,
+    orderBy: orderBy || undefined,
   }) //из query возвращается обьект из mutation картэш(массив с заранее определенными элементами)
 
   const handleClearFilter = () => {
@@ -81,9 +95,6 @@ export const Decks = () => {
     setPage(1)
   }
 
-  // if (isLoading) {
-  //   return <Loading />
-  // }
   if (isError) {
     console.error(error)
 
@@ -151,10 +162,10 @@ export const Decks = () => {
       <div className={s.table}>
         <Table
           headers={[
-            { id: 1, title: 'Name' },
-            { id: 2, title: 'Cards' },
-            { id: 3, title: 'Last Updated' },
-            { id: 4, title: 'Created By' },
+            { id: 1, orderBy: NAME_ORDER_BY, title: 'Name' },
+            { id: 2, orderBy: CARDS_COUNT_ORDER_BY, title: 'Cards' },
+            { id: 3, orderBy: UPDATED_ORDER_BY, title: 'Last Updated' },
+            { id: 4, orderBy: AUTHOR_NAME_ORDER_BY, title: 'Created By' },
           ]}
           pageHistorySave={{ authorIdSave: authorId, minCardsSave: minCards, pageDeckSave: page }}
           paragraphs={data?.items.map((deck: DeckType) => ({
@@ -167,6 +178,7 @@ export const Decks = () => {
             idCells: deck.id,
             isRowClickable: true,
           }))}
+          setOrderBy={setOrderByDeck}
         />
       </div>
       <Pagination

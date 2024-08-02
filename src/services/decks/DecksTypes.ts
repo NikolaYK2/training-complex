@@ -25,7 +25,7 @@ export type DecksResponse<T> = {
   pagination: Pagination
 }
 
-export type GetDecksArgs = {
+export type DecksArgs = {
   authorId?: string
   currentPage?: number
   favoritedBy?: string
@@ -33,6 +33,7 @@ export type GetDecksArgs = {
   maxCardsCount?: number
   minCardsCount?: number
   name?: string
+  orderBy?: string
 }
 
 export type CreateDeckArgs = {
@@ -82,17 +83,22 @@ export type CardsResponse = {
 export const OrderBy = {
   ANSWER_ASC: 'answer-asc',
   ANSWER_DESC: 'answer-desc',
+  AUTHOR_ASC: 'author.name-asc',
+  AUTHOR_DESC: 'author.name-desc',
+  CARDS_COUNTS_ASC: 'cardsCount-asc',
+  CARDS_COUNTS_DESC: 'cardsCount-desc',
   CREATED_ASC: 'created-asc',
   CREATED_DESC: 'created-desc',
   GRADE_ASC: 'grade-asc',
   GRADE_DESC: 'grade-desc',
+  NAME_ASC: 'name-asc',
+  NAME_DESC: 'name-desc',
   NULL: null,
   QUESTION_ASC: 'question-asc',
   QUESTION_DESC: 'question-desc',
   UPDATED_ASC: 'updated-asc',
   UPDATED_DESC: 'updated-desc',
 } as const
-
 export type OrderByType = (typeof OrderBy)[keyof typeof OrderBy]
 
 export type CardOrderByType = {
@@ -122,5 +128,20 @@ export const GRADE_ORDER_BY: CardOrderByType = {
 export const UPDATED_ORDER_BY: CardOrderByType = {
   '1': 'updated-asc',
   '2': 'updated-desc',
+  '3': null,
+}
+export const CARDS_COUNT_ORDER_BY: CardOrderByType = {
+  '1': 'cardsCount-asc',
+  '2': 'cardsCount-desc',
+  '3': null,
+}
+export const NAME_ORDER_BY: CardOrderByType = {
+  '1': 'name-asc',
+  '2': 'name-desc',
+  '3': null,
+}
+export const AUTHOR_NAME_ORDER_BY: CardOrderByType = {
+  '1': 'author.name-asc',
+  '2': 'author.name-desc',
   '3': null,
 }
