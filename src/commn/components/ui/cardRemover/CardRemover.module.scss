@@ -1,6 +1,14 @@
 .containerCardRemover {
   cursor: pointer;
+
   position: relative;
+
+  display: flex;
+
+  width: 100%;
+  min-width: 18px;
+  height: 100%;
+  min-height: 18px;
 
   .iconDelete {
     position: absolute;
