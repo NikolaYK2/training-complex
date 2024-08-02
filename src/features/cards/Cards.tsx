@@ -152,7 +152,7 @@ export const Cards = () => {
                       answerImg={card.answerImg}
                       className={s.iconEdit}
                       idCard={card.id}
-                      key={'icon-edit'}
+                      key={'edit'}
                       question={card.question}
                       questionImg={card.questionImg}
                     />,
@@ -164,7 +164,7 @@ export const Cards = () => {
                       isError={isErrDeleteCard}
                       isIcon
                       isLoading={isLoadDeleteCard}
-                      key={'icon-delete'}
+                      key={'delete'}
                       mutationDeck={deleteCard}
                       text={'Are you sure you want to delete this card? The card will be deleted.'}
                       titleName={'delete card'}
