@@ -87,7 +87,10 @@ export const CardRemover = ({
           <TextFormat key={'text-1'} style={{ display: '' }} variant={'body1'}>
             <span style={{ display: 'flex' }}>
               {firstText}
-              <TextFormat style={{ marginLeft: '5px' }}>{`${name}`}</TextFormat>
+              <TextFormat
+                style={{ marginLeft: '5px' }}
+                variant={'subtitle1'}
+              >{`${name}`}</TextFormat>
             </span>
             {lastText}
           </TextFormat>,
