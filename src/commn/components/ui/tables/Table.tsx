@@ -28,6 +28,7 @@ export type CellType = {
 }
 
 export type ParagraphType = {
+  cardCounts?: number
   cells: CellType[]
   idCells: string
   isRowClickable?: boolean
@@ -145,11 +146,19 @@ export const Table = ({ headers, /*pageHistorySave,*/ paragraphs, setOrderBy }: 
                                 </TextFormat>
                                 {cell.element && (
                                   <div className={s.elements}>
-                                    {cell.element?.map((el, k) => (
-                                      <div className={s.element} key={k}>
-                                        {elementUser && el}
-                                      </div>
-                                    ))}
+                                    {cell.element
+                                      .filter(
+                                        el =>
+                                          (elementUser &&
+                                            (el.key === 'delete' || el.key === 'edit')) ||
+                                          (el.key === 'learn' && !!paragraph.cardCounts) ||
+                                          el.key === 'grade'
+                                      )
+                                      .map((el, k) => (
+                                        <div className={s.element} key={k}>
+                                          {el}
+                                        </div>
+                                      ))}
                                   </div>
                                 )}
                               </div>
