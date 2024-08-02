@@ -24,11 +24,8 @@ import {
   OrderByType,
   UPDATED_ORDER_BY,
 } from '@/services/decks/DecksTypes'
-import {
-  useCreateUpdateDeckMutation,
-  useDeleteDeckMutation,
-  useGetDecksQuery,
-} from '@/services/decks/decksService'
+import { useGetDecksQuery } from '@/services/decks/decksService'
+import { useDeckMutation } from '@/services/decks/lib/useDeckMutation'
 
 import s from './Decks.module.scss'
 
@@ -80,14 +77,21 @@ export const Decks = () => {
   const setOrderByDeck = (orderBy: OrderByType) => {
     updateSearchParam(DECKS_KEY_SEARCH_PARAMS.orderBy, orderBy)
   }
-  const [
+
+  const {
     createDeck,
-    { error: errorCreateDeck, isError: isErrorCreateDeck, isLoading: isLoadingCreateDeck },
-  ] = useCreateUpdateDeckMutation()
-  const [
     deleteDeck,
-    { error: errorDeleteDeck, isError: isErrorDeleteDeck, isLoading: isLoadingDeleteDeck },
-  ] = useDeleteDeckMutation()
+    errUpdateDeck,
+    errorCreateDeck,
+    errorDeleteDeck,
+    isErrUpdateDeck,
+    isErrorCreateDeck,
+    isErrorDeleteDeck,
+    isLoadUpdateDeck,
+    isLoadingCreateDeck,
+    isLoadingDeleteDeck,
+    updateDeck,
+  } = useDeckMutation()
 
   const { data, error, isError, isLoading } = useGetDecksQuery({
     authorId: authorId || undefined,
@@ -180,6 +184,7 @@ export const Decks = () => {
             { id: 5, isEditable: true, title: '' },
           ]}
           paragraphs={data?.items.map((deck: DeckType) => ({
+            cardCounts: deck.cardsCount,
             cells: [
               { img: deck.cover, value: deck.name },
               { value: `${deck.cardsCount}` },
@@ -187,20 +192,22 @@ export const Decks = () => {
               { value: deck.author.name },
               {
                 element: [
-                  <LearnDeck idCard={deck.id} key={'learn-deck'} />,
+                  <LearnDeck idCard={deck.id} key={'learn'} />,
 
                   <CreateUpdateDeck
-                    buttonName={'Edit pack'}
+                    buttonName={'change save'}
                     coverDeckBy={deck.cover}
-                    error={errorCreateDeck}
-                    isError={isErrorCreateDeck}
+                    error={errUpdateDeck}
+                    idCard={deck.id}
+                    isError={isErrUpdateDeck}
                     isIcon
-                    isLoading={isLoadingCreateDeck}
-                    key={'edit-deck'}
+                    isLoading={isLoadUpdateDeck}
+                    isPrivateCard={deck.isPrivate}
+                    key={'edit'}
                     method={'PATCH'}
-                    mutationFunction={createDeck}
+                    mutationFunction={updateDeck}
                     nameDeckBy={deck.name}
-                    titleContent={'Edit pack'}
+                    titleContent={'edit pack'}
                     triggerVariant={'link'}
                   />,
                   <CardRemover
@@ -211,7 +218,7 @@ export const Decks = () => {
                     isError={isErrorDeleteDeck}
                     isIcon
                     isLoading={isLoadingDeleteDeck}
-                    key={'delete-deck'}
+                    key={'delete'}
                     mutationDeck={deleteDeck}
                     text={`Do you really want to remove /${deck.name}? All cards will be deleted.`}
                     titleName={'delete pack'}
