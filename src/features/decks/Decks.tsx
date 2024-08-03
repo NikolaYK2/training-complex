@@ -124,10 +124,13 @@ export const Decks = () => {
           paragraphs={data?.items.map((deck: DeckType) => ({
             cardCounts: deck.cardsCount,
             cells: [
-              { img: deck.cover, value: deck.name },
-              { value: `${deck.cardsCount}` },
-              { value: new Date(deck.updated).toLocaleDateString() },
-              { value: deck.author.name },
+              { forMobileTitle: 'Name', img: deck.cover, value: deck.name },
+              { forMobileTitle: 'Cards', value: `${deck.cardsCount}` },
+              {
+                forMobileTitle: 'Last Updated',
+                value: new Date(deck.updated).toLocaleDateString(),
+              },
+              { forMobileTitle: 'Created By', value: deck.author.name },
               {
                 element: [
                   <LearnDeck idCard={deck.id} key={'learn'} />,
