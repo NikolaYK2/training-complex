@@ -1,0 +1,70 @@
+.filters {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+
+  //height: 65px;
+  margin: 0.298% 0 3.573%;
+
+  .search {
+    display: flex;
+    width: 100%;
+    max-width: 299px;
+    margin: 0 24px 0 0;
+  }
+
+  .mobile {
+    display: flex;
+    align-items: end;
+    justify-content: start;
+    width: 100%;
+  }
+
+  .tab {
+    width: 100%;
+    max-width: 229px;
+    margin: 0 3.504% 0 0;
+  }
+
+  .slider {
+    width: 100%;
+    max-width: 251px;
+    margin: 0 5.256% 0 0; //36px
+  }
+
+  .search,
+  .tab,
+  .slider {
+    width: 100%;
+  }
+
+  .deleteBtn {
+    position: relative;
+    min-width: 83px;
+    padding-left: min(10%, 44px);
+
+    .deleteIcon {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      display: flex;
+      justify-content: start;
+
+      width: 100%;
+      height: 100%;
+      padding: 0 10px 0 15%;
+    }
+  }
+
+  @media (width <= 1024px) {
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+
+    .search {
+      max-width: 100%;
+      margin: 26px 0 20px;
+    }
+  }
+}
