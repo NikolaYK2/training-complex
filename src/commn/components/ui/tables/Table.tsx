@@ -82,7 +82,7 @@ export const Table = ({ headers, /*pageHistorySave,*/ paragraphs, setOrderBy }: 
 
   return (
     <>
-      <table className={s.container}>
+      <table className={s.containerTable}>
         <thead>
           <tr>
             {headers.map(header => {
