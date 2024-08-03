@@ -2,6 +2,7 @@ import { KeyboardEvent, KeyboardEventHandler, useCallback } from 'react'
 
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { SelectItem, Selector } from '@/commn/components/ui/selector/Selector'
+import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { DOTS, usePagination } from '@/commn/hooks/usePagination'
 
 import s from './Pagination.module.scss'
@@ -110,6 +111,9 @@ export const Pagination = ({
       </button>
 
       <div className={s.blockSelector}>
+        <TextFormat style={{ marginRight: '6px' }} variant={'body2'}>
+          Show
+        </TextFormat>
         <Selector className={s.selector} onValueChange={setPageSize} value={itemPage}>
           <SelectItem value={'10'}>10</SelectItem>
           <SelectItem value={'20'}>20</SelectItem>
@@ -117,6 +121,9 @@ export const Pagination = ({
           <SelectItem value={'50'}>50</SelectItem>
           <SelectItem value={'100'}>100</SelectItem>
         </Selector>
+        <TextFormat style={{ marginLeft: '9px' }} variant={'body2'}>
+          on page
+        </TextFormat>
       </div>
     </nav>
   )

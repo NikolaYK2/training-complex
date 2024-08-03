@@ -89,6 +89,7 @@
 
 .blockSelector {
   user-select: none;
+  display: flex;
   padding: 0 0 0 min(4.486%, 24px);
 
   .selector {
