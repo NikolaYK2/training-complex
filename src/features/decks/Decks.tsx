@@ -1,19 +1,14 @@
 import { useState } from 'react'
 
-import { DeleteIcon } from '@/assets/image/delete/DeleteIcon'
-import { Button } from '@/commn/components/ui/button'
 import { CardRemover } from '@/commn/components/ui/cardRemover/CardRemover'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
 import { Pagination } from '@/commn/components/ui/pagination/Pagination'
-import { Search } from '@/commn/components/ui/search/Search'
-import { SliderValue } from '@/commn/components/ui/slider/SliderValue'
-import { TabSwitcher } from '@/commn/components/ui/tabSwitcher/TabSwitcher'
 import { Table } from '@/commn/components/ui/tables/Table'
 import { Title } from '@/commn/components/ui/title/Title'
-import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
 import { CreateUpdateDeck } from '@/features/decks/createUpdateDeck/CreateUpdateDeck'
+import { Filters } from '@/features/decks/filters/Filters'
 import { LearnDeck } from '@/features/decks/learnDeck/LearnDeck'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
 import {
@@ -29,7 +24,7 @@ import { useDeckMutation } from '@/services/decks/lib/useDeckMutation'
 
 import s from './Decks.module.scss'
 
-const DECKS_KEY_SEARCH_PARAMS = {
+export const DECKS_KEY_SEARCH_PARAMS = {
   authorId: 'authorId',
   default: 'default',
   maxCardsCount: 'maxCardsCount',
@@ -56,26 +51,6 @@ export const Decks = () => {
 
   const setPage = (page: number) => {
     updateSearchParam({ key: DECKS_KEY_SEARCH_PARAMS.page, value: page })
-  }
-
-  const setSearch = (name: string) => {
-    updateSearchParam({ callBack: setPage, key: DECKS_KEY_SEARCH_PARAMS.searchName, value: name })
-  }
-
-  const setAuthorDecks = (authorId: string) => {
-    updateSearchParam({ callBack: setPage, key: DECKS_KEY_SEARCH_PARAMS.authorId, value: authorId })
-  }
-
-  const setCountMinDecks = (countMin: number) => {
-    updateSearchParam({
-      callBack: setPage,
-      key: DECKS_KEY_SEARCH_PARAMS.minCardsCount,
-      value: countMin,
-    })
-  }
-
-  const setCountMaxDecks = (countMax: number) => {
-    updateSearchParam({ key: DECKS_KEY_SEARCH_PARAMS.maxCardsCount, value: countMax })
   }
 
   const setOrderByDeck = (orderBy: OrderByType) => {
@@ -107,13 +82,6 @@ export const Decks = () => {
     orderBy: orderBy || undefined,
   }) //из query возвращается обьект из mutation картэш(массив с заранее определенными элементами)
 
-  const handleClearFilter = () => {
-    setCountMaxDecks(100)
-    setCountMinDecks(0)
-    setPage(1)
-    setSearch('')
-  }
-
   if (isError) {
     console.error(error)
 
@@ -136,48 +104,14 @@ export const Decks = () => {
           titleContent={'Add New Deck'}
         />
       </Title>
-      <div className={s.filters}>
-        <div className={s.search}>
-          <Search searchName={name} setSearch={setSearch} />
-        </div>
-        <div className={s.tab}>
-          <TextFormat style={{ marginBottom: '5px' }} variant={'body2'}>
-            Show decks cards
-          </TextFormat>
-
-          <TabSwitcher
-            activeTab={activeTab}
-            tabInfo={[
-              {
-                callback: setAuthorDecks,
-                trigger: 'My Cards',
-                value: dataUserData?.id ?? '',
-              },
-              {
-                callback: setAuthorDecks,
-                trigger: 'All Cards',
-                value: DECKS_KEY_SEARCH_PARAMS.default,
-              },
-            ]}
-          />
-        </div>
-        <div className={s.slider}>
-          <TextFormat style={{ marginBottom: '5px' }} variant={'body2'}>
-            Number of cards
-          </TextFormat>
-
-          <SliderValue
-            maxValue={maxCards}
-            minValue={minCards}
-            setCountMaxDecks={setCountMaxDecks}
-            setCountMinDecks={setCountMinDecks}
-          />
-        </div>
-        <Button className={s.deleteBtn} onClick={handleClearFilter} variant={'secondary'}>
-          <DeleteIcon className={s.deleteIcon} />
-          <TextFormat variant={'subtitle2'}>Clear Filter</TextFormat>
-        </Button>
-      </div>
+      <Filters
+        activeTab={activeTab}
+        dataUserData={dataUserData}
+        maxCards={maxCards}
+        minCards={minCards}
+        name={name}
+        setPage={setPage}
+      />
       <div className={s.table}>
         <Table
           headers={[
