@@ -1,6 +1,5 @@
 .container {
   display: flex;
-  width: 100%;
 }
 
 .blockTab {
@@ -45,5 +44,16 @@
   &:focus-visible {
     background-color: var(--color-primary-500);
     border: 1px solid var(--color-info-900);
+  }
+}
+
+@media (width <= 480px) {
+  .list {
+    display: flex;
+    width: 100%;
+  }
+
+  .blockTab {
+    width: 100%;
   }
 }

@@ -32,10 +32,11 @@ type Props = {
  *     },
  *   ]}
  * />
- */ export const TabSwitcher = ({ activeTab, tabInfo }: Props) => {
+ */
+export const TabSwitcher = ({ activeTab, tabInfo }: Props) => {
   return (
-    <Tabs.Root className={s.container} value={activeTab}>
-      <Tabs.List>
+    <Tabs.Root className={`${s.container}`} value={activeTab}>
+      <Tabs.List className={s.list}>
         {tabInfo.map(el => (
           <Tabs.Trigger
             className={s.blockTab}
@@ -48,8 +49,8 @@ type Props = {
         ))}
       </Tabs.List>
       {tabInfo.map(el => (
-        <Tabs.Content key={el.trigger} value={el.value ? el.value : ''}>
-          <p className={'Text'}>{el.description}</p>
+        <Tabs.Content className={s.content} key={el.trigger} value={el.value ? el.value : ''}>
+          <p className={s.text}>{el.description}</p>
         </Tabs.Content>
       ))}
     </Tabs.Root>
