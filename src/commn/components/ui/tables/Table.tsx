@@ -21,6 +21,7 @@ type HeadersType = {
 export type CellType = {
   element?: ReactElement[]
   elementUser?: boolean
+  forMobileTitle?: string
   idDeck?: string
   img?: null | string
   isEditable?: boolean
@@ -83,7 +84,7 @@ export const Table = ({ headers, /*pageHistorySave,*/ paragraphs, setOrderBy }: 
   return (
     <>
       <table className={s.containerTable}>
-        <thead>
+        <thead className={s.thead}>
           <tr>
             {headers.map(header => {
               const { isEditable = true } = header
@@ -112,7 +113,7 @@ export const Table = ({ headers, /*pageHistorySave,*/ paragraphs, setOrderBy }: 
             })}
           </tr>
         </thead>
-        <tbody>
+        <tbody className={s.tbody}>
           {Array.isArray(paragraphs)
             ? paragraphs.map(paragraph => {
                 const { isRowClickable = true } = paragraph
@@ -130,7 +131,7 @@ export const Table = ({ headers, /*pageHistorySave,*/ paragraphs, setOrderBy }: 
                       return (
                         <Fragment key={idx}>
                           {isEditable && (
-                            <td className={s.row}>
+                            <td aria-label={cell.forMobileTitle} className={s.tdRow}>
                               <div className={s.item}>
                                 {cell.img && (
                                   <HoverIconImage
