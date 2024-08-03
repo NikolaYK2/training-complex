@@ -100,7 +100,9 @@ export const Table = ({ headers, /*pageHistorySave,*/ paragraphs, setOrderBy }: 
                           header.orderBy && handleSetSortStyle(header.id)
                         }`}
                       >
-                        <TextFormat variant={'subtitle2'}>{header.title}</TextFormat>
+                        <TextFormat style={{ padding: '0' }} variant={'subtitle2'}>
+                          {header.title}
+                        </TextFormat>
                         <IconSvg name={'arrow'} />
                       </div>
                     </th>

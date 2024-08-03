@@ -11,12 +11,6 @@
   text-transform: capitalize;
 
   border: 1px solid var(--color-dark-500);
-
-  @media (width <= 700px) {
-    overflow-x: auto;
-    display: block;
-    white-space: nowrap;
-  }
 }
 
 .header {
@@ -24,7 +18,8 @@
   text-align: left;
   background-color: var(--color-dark-500);
 
-  &:nth-child(3) {
+  &:nth-child(3),
+  &:nth-child(4) {
     min-width: 158px;
   }
 
@@ -104,4 +99,15 @@
       }
     }
   }
+}
+
+@media (width <= 700px) {
+  .containerTable {
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+  }
+}
+
+@media (width <= 480px) {
 }
