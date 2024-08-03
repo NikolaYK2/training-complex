@@ -18,7 +18,8 @@
     }
   }
 
-  .nextPage, .previousPag {
+  .nextPage,
+  .previousPag {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -73,13 +74,9 @@
 
         line-height: var(--line-height-24);
 
-
-
         &:not(.active):hover {
           background: var(--color-dark-500);
         }
-
-
       }
 
       .active {
@@ -90,9 +87,27 @@
   }
 }
 
-
 .blockSelector {
   user-select: none;
   padding: 0 0 0 min(4.486%, 24px);
-}
 
+  .selector {
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+    min-width: 50px;
+    max-width: 50px;
+    height: 24px;
+    padding: 0 6px;
+
+    color: var(--color-light-100);
+
+    background: var(--color-dark-700);
+    border: 1px solid var(--color-dark-500);
+    border-radius: 1px;
+  }
+}

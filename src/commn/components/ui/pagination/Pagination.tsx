@@ -1,21 +1,23 @@
 import { KeyboardEvent, KeyboardEventHandler, useCallback } from 'react'
 
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
-import { Select } from '@/commn/components/ui/select/Select'
+import { SelectItem, Selector } from '@/commn/components/ui/selector/Selector'
 import { DOTS, usePagination } from '@/commn/hooks/usePagination'
 
 import s from './Pagination.module.scss'
 
 type Props = {
   currentPage: number // Текущая страница
+  itemPage: string
   onPageChange: (pageNumber: number) => void // Функция обратного вызова при изменении страницы
   pageSize: number // Количество элементов на странице
-  setPageSize: (pageNumber: number) => void // Функция обратного вызова при изменении страницы
+  setPageSize: (value: string) => void // Функция обратного вызова при изменении страницы
   siblingCount: number // Количество "соседних" страниц, отображаемых слева и справа от текущей страницы
   totalCount: number // Общее количество элементов
 }
 export const Pagination = ({
   currentPage,
+  itemPage,
   onPageChange,
   pageSize = 1,
   setPageSize,
@@ -108,16 +110,13 @@ export const Pagination = ({
       </button>
 
       <div className={s.blockSelector}>
-        <Select
-          options={[
-            { id: 10, value: '10' },
-            { id: 20, value: '20' },
-            { id: 30, value: '30' },
-            { id: 50, value: '50' },
-            { id: 100, value: '100' },
-          ]}
-          setOptions={setPageSize}
-        />
+        <Selector className={s.selector} onValueChange={setPageSize} value={itemPage}>
+          <SelectItem value={'10'}>10</SelectItem>
+          <SelectItem value={'20'}>20</SelectItem>
+          <SelectItem value={'30'}>30</SelectItem>
+          <SelectItem value={'50'}>50</SelectItem>
+          <SelectItem value={'100'}>100</SelectItem>
+        </Selector>
       </div>
     </nav>
   )

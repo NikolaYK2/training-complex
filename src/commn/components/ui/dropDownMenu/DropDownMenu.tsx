@@ -94,16 +94,13 @@ export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
                 onClick={el.callback}
                 to={el.route ?? ''}
               >
-                {el.email ||
-                  (el.icon && (
-                    <label className={`${el.email ? s.avatar : s.iconSlot}`}>
-                      {el.email ? (
-                        <img alt={'avatar'} src={el.icon} />
-                      ) : (
-                        <IconSvg name={el.email ? 'avatar' : (el.icon as IconNameType)} />
-                      )}
-                    </label>
-                  ))}
+                <label className={`${el.email ? s.avatar : s.iconSlot}`}>
+                  {el.email ? (
+                    <img alt={'avatar'} src={el.icon} />
+                  ) : (
+                    <IconSvg name={el.email ? 'avatar' : (el.icon as IconNameType)} />
+                  )}
+                </label>
                 <label className={`${s.textBlock}`}>
                   {el.buttonName && (
                     <TextFormat className={s.text} variant={'caption'}>
