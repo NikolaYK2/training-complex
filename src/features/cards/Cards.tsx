@@ -41,7 +41,7 @@ const CARDS_KEY_SEARCH_PARAMS = {
 }
 
 export const Cards = () => {
-  const [itemPage, setItemPage] = useState(10)
+  const [itemPage, setItemPage] = useState('10')
 
   const { id: idCard } = useParams<{ id: string }>()
 
@@ -67,7 +67,7 @@ export const Cards = () => {
   const { data: dataCards } = useRetrieveCardsInDeckQuery({
     currentPage: page,
     id: idCard ? idCard : '',
-    itemsPerPage: itemPage,
+    itemsPerPage: Number(itemPage),
     orderBy: orderBy as OrderByType,
     question: searchName || undefined,
   })
@@ -138,10 +138,16 @@ export const Cards = () => {
             ]}
             paragraphs={dataCards?.items.map((card: CardsResponse) => ({
               cells: [
-                { img: card.questionImg, value: card.question },
-                { img: card.answerImg, value: card.answer },
-                { value: new Date(card.updated).toLocaleDateString() },
-                { element: [<GradeCard cardId={card.id} grade={card.grade} key={'grade'} />] },
+                { forMobileTitle: 'Question', img: card.questionImg, value: card.question },
+                { forMobileTitle: 'Answer', img: card.answerImg, value: card.answer },
+                {
+                  forMobileTitle: 'Last Updated',
+                  value: new Date(card.updated).toLocaleDateString(),
+                },
+                {
+                  element: [<GradeCard cardId={card.id} grade={card.grade} key={'grade'} />],
+                  forMobileTitle: 'Grade',
+                },
                 {
                   element: [
                     <EditCard
@@ -179,6 +185,7 @@ export const Cards = () => {
       )}
       <Pagination
         currentPage={page}
+        itemPage={itemPage}
         onPageChange={setCurrentPage}
         pageSize={1}
         setPageSize={setItemPage}
