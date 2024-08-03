@@ -41,7 +41,7 @@ const DECKS_KEY_SEARCH_PARAMS = {
 }
 
 export const Decks = () => {
-  const [itemPage, setItemPage] = useState(10)
+  const [itemPage, setItemPage] = useState('10')
   const { searchParams, updateSearchParam } = useSearchUpdateParams()
   const { data: dataUserData } = useGetCurrentUserDataQuery()
 
@@ -100,7 +100,7 @@ export const Decks = () => {
   const { data, error, isError, isLoading } = useGetDecksQuery({
     authorId: authorId || undefined,
     currentPage: page, //было просто page если use useState
-    itemsPerPage: itemPage,
+    itemsPerPage: Number(itemPage),
     maxCardsCount: maxCards,
     minCardsCount: minCards,
     name: name || undefined,
@@ -236,14 +236,17 @@ export const Decks = () => {
           setOrderBy={setOrderByDeck}
         />
       </div>
-      <Pagination
-        currentPage={page}
-        onPageChange={setPage}
-        pageSize={1}
-        setPageSize={setItemPage}
-        siblingCount={1}
-        totalCount={data?.pagination?.totalPages ?? 1}
-      />
+      <div className={s.pagination}>
+        <Pagination
+          currentPage={page}
+          itemPage={itemPage}
+          onPageChange={setPage}
+          pageSize={1}
+          setPageSize={setItemPage}
+          siblingCount={1}
+          totalCount={data?.pagination?.totalPages ?? 1}
+        />
+      </div>
     </Page>
   )
 }
