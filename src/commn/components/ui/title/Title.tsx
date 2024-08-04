@@ -53,7 +53,7 @@ export const Title = ({
   }
 
   return (
-    <div className={s.containerTitle} style={styles}>
+    <div className={s.containerTitle} id={'title'} style={styles}>
       <div className={`${s.blockItem} ${isNotItem ? s.modBlock : ''}`}>
         <div className={s.settingBlock}>
           <TextFormat className={`${s.nameTitle}`} variant={'h1'}>
