@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom'
 
 import { Button } from '@/commn/components/ui/button'
 import { DropDownMenu } from '@/commn/components/ui/dropDownMenu/DropDownMenu'
-import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { Loading } from '@/commn/components/ui/loading/Loading'
+import { Logo } from '@/commn/components/ui/logo/Logo'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
-import { HOME_ROUTE, LOGIN_ROUTE, PROFILE_ROUTE } from '@/routes/Router'
+import { LOGIN_ROUTE, PROFILE_ROUTE } from '@/routes/Router'
 import { useGetCurrentUserDataQuery, useLogoutMutation } from '@/services/auth/authService'
 
 import s from './Header.module.scss'
@@ -30,9 +30,7 @@ export const Header = () => {
   return (
     <header className={s.header}>
       <div className={s.container}>
-        <Link className={s.logo} to={HOME_ROUTE}>
-          <IconSvg name={'logo'} />
-        </Link>
+        <Logo />
         {isLogin ? (
           <Button as={Link} to={LOGIN_ROUTE} variant={'secondary'}>
             <TextFormat variant={'subtitle2'}>Sign In</TextFormat>
