@@ -1,5 +1,5 @@
 import { CreateUpdateDeck } from '@/features/decks/createUpdateDeck/CreateUpdateDeck'
-import { useDeckMutation } from '@/services/decks/lib/useDeckMutation'
+import { useDeckMutation } from '@/services/lib/deck/useDeckMutation'
 
 type Props = {
   cover: null | string | undefined

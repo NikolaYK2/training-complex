@@ -20,7 +20,7 @@ import {
   UPDATED_ORDER_BY,
 } from '@/services/decks/DecksTypes'
 import { useGetDecksQuery } from '@/services/decks/decksService'
-import { useDeckMutation } from '@/services/decks/lib/useDeckMutation'
+import { useDeckMutation } from '@/services/lib/deck/useDeckMutation'
 
 import s from './Decks.module.scss'
 

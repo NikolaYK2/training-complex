@@ -23,6 +23,7 @@ type Story = StoryObj<typeof meta>
 export const PaginationStatic: Story = {
   args: {
     currentPage: 2,
+    itemPage: '10',
     onPageChange: () => {},
     pageSize: 10,
     setPageSize: () => {},
@@ -33,13 +34,14 @@ export const PaginationStatic: Story = {
 
 export const PaginationControlled = () => {
   const [currentPage, setCurrentPage] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
+  const [pageSize, setPageSize] = useState('10')
 
   return (
     <Pagination
       currentPage={currentPage}
+      itemPage={'10'}
       onPageChange={setCurrentPage}
-      pageSize={pageSize}
+      pageSize={Number(pageSize)}
       setPageSize={setPageSize}
       siblingCount={1}
       totalCount={70}
