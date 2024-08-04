@@ -6,16 +6,47 @@
 
   .search {
     display: flex;
+    align-items: center;
+
     width: 100%;
     max-width: 299px;
     margin: 0 24px 0 0;
+
+    .filterIcon {
+      display: none;
+      margin: 0 0 0 24px;
+    }
   }
 
   .mobile {
+    width: 100%;
+    height: 100%;
+  }
+
+  .mobileActive {
+    display: none;
+  }
+
+  .containerFilters {
+    position: relative;
     display: flex;
     align-items: end;
     justify-content: start;
-    width: 100%;
+
+    .blockMenuFilters {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+
+      width: 100%;
+      margin: 0 0 22px;
+
+      .iconClose {
+        width: 24px;
+        height: 24px;
+        padding: 5px;
+      }
+    }
   }
 
   .tab {
@@ -68,10 +99,57 @@
   }
 
   @media (width <= 480px) {
+    .search .filterIcon {
+      display: flex;
+    }
+
     .mobile {
-      flex-direction: column;
-      align-items: center;
+      position: fixed;
+      z-index: 101;
+      top: 0;
+      right: -100%;
+
+      align-items: end;
+      justify-content: end;
+
       width: 100%;
+      height: 100%;
+
+      background: transparent;
+
+      transition:
+        right 0.4s ease 0.3s,
+        background 0.3s ease;
+
+      .containerFilters {
+        flex-direction: column;
+        align-items: end;
+
+        width: 100%;
+        max-width: 266px;
+        height: 100%;
+        margin: 0 0 0 auto;
+        padding: 21px 16px;
+
+        background: var(--color-dark-500);
+
+        .blockMenuFilters {
+          display: flex;
+        }
+
+        .deleteBtn {
+          width: 87%;
+        }
+      }
+    }
+
+    .mobileActive {
+      right: 0;
+      display: flex;
+      background: var(--color-dark-900-opasity-7);
+      transition:
+        right 0.4s ease,
+        background 0.3s ease 0.3s;
     }
 
     .tab {
