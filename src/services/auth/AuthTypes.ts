@@ -11,7 +11,10 @@ export type LoginResponse = {
   accessToken: string
   refreshToken: string
 }
-
+export type UserDataArgs = {
+  avatar?: File
+  name?: string
+}
 export type RegistrationArgs = {
   email: string
   html: string

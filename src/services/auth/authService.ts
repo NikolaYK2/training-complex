@@ -5,9 +5,11 @@ import {
   PasswordResetArgs,
   RegistrationArgs,
   ResponseType,
+  UserDataArgs,
   VerifyEmailArgc,
 } from '@/services/auth/AuthTypes'
 import { flashcardsApi } from '@/services/flashcardsApi'
+import { prepareFormData } from '@/services/lib/prepareFormData'
 
 const AUTH = 'v1/auth/'
 
@@ -68,13 +70,17 @@ export const authService = flashcardsApi.injectEndpoints({
         url: `${AUTH}resend-verification-email`,
       }),
     }),
-    updateUserData: builder.mutation<ResponseType, FormData>({
+    updateUserData: builder.mutation<ResponseType, UserDataArgs>({
       invalidatesTags: ['Auth'],
-      query: formData => ({
-        body: formData,
-        method: 'PATCH',
-        url: `${AUTH}me`,
-      }),
+      query: ({ avatar, name }) => {
+        const formData = prepareFormData({ avatar, name })
+
+        return {
+          body: formData,
+          method: 'PATCH',
+          url: `${AUTH}me`,
+        }
+      },
     }),
   }),
 })
