@@ -5,7 +5,7 @@ import { TickBox } from '@/commn/components/ui/checkBox/TickBox'
 import { FileDownload } from '@/commn/components/ui/fileDonwold/FileDownload'
 import { TextField } from '@/commn/components/ui/input/TextField'
 import { DialogModal } from '@/commn/components/ui/modals/dialog/DialogModal'
-import { Select } from '@/commn/components/ui/select/Select'
+import { SelectItem, Selector } from '@/commn/components/ui/selector/Selector'
 
 const meta = {
   argTypes: {},
@@ -54,14 +54,20 @@ export const modal: Story = {
   render: () => (
     <DialogModal isOpenModal setIsOpenModal={() => {}} trigger={'tick'}>
       {[
-        <Select
-          key={1}
-          options={[
-            { id: 1, value: 'Select-box' },
-            { id: 2, value: 'hi maloy' },
-            { id: 3, value: 'Sam maloy' },
-          ]}
-        />,
+        <Selector key={'1'}>
+          <SelectItem key={'10'} value={'10'}>
+            10
+          </SelectItem>
+          <SelectItem key={'20'} value={'20'}>
+            20
+          </SelectItem>
+          <SelectItem key={'50'} value={'50'}>
+            50
+          </SelectItem>
+          <SelectItem key={'100'} value={'100'}>
+            100
+          </SelectItem>
+        </Selector>,
         <TextField key={'Input1'} type={'text'} />,
         <TextField key={'Input2'} type={'password'} />,
         <TickBox key={'TickBox'} label={'opana!'} />,
