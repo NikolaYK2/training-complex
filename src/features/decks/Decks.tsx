@@ -95,6 +95,7 @@ export const Decks = () => {
       <Title isDeck nameDeck={'Decks list'}>
         <CreateUpdateDeck
           buttonName={'Add New Deck'}
+          className={s.btnCreateDeck}
           error={errorCreateDeck}
           isError={isErrorCreateDeck}
           isLoading={isLoadingCreateDeck}
