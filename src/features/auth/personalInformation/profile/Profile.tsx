@@ -1,11 +1,12 @@
-import { KeyboardEvent, useState } from 'react'
+import { KeyboardEvent, useEffect, useRef, useState } from 'react'
 
 import { AvatarDefault } from '@/assets/image/avaDefault/AvatarDefault'
 import { EditIcon } from '@/assets/image/edit/EditIcon'
 import { FileDownload } from '@/commn/components/ui/fileDonwold/FileDownload'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
-import { useGetCurrentUserDataQuery, useUpdateUserDataMutation } from '@/services/auth/authService'
+import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
+import { useAuthMutation } from '@/services/lib/auth/useAuthMutation'
 
 import s from './Profile.module.scss'
 
@@ -16,14 +17,31 @@ type Props = {
 export const Profile = ({ isEditingPersonalInfo, setIsEditingPersonalInfo }: Props) => {
   const [isActiveAvatar, setIsActiveAvatar] = useState(false)
   const { data, error, isError, isLoading } = useGetCurrentUserDataQuery()
-  const [
-    updateUserData,
-    { error: errorUpdUser, isError: isErrorUpdUser, isLoading: isLoadingUpdUser },
-  ] = useUpdateUserDataMutation()
+  const { errorUpdUser, isErrorUpdUser, isLoadingUpdUser, updateUserData } = useAuthMutation()
+
+  const clickTimeoutRef = useRef<null | number>(null) // Таймер для обработки кликов
 
   const onDoubleClickHandle = () => {
-    setIsEditingPersonalInfo?.(true)
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current) // Очистить таймер если был установлен
+      clickTimeoutRef.current = null // Сбросить ссылку на таймер
+      setIsEditingPersonalInfo?.(true) // Двойной клик
+    } else {
+      clickTimeoutRef.current = window.setTimeout(() => {
+        // Один клик
+        clickTimeoutRef.current = null // Сбросить ссылку на таймер
+      }, 250) // Таймаут для обработки двойного клика
+    }
   }
+
+  useEffect(() => {
+    return () => {
+      if (clickTimeoutRef.current) {
+        clearTimeout(clickTimeoutRef.current) // Очистить таймер при размонтировании
+      }
+    }
+  }, [])
+
   const handlerOnKeyDown = (event: KeyboardEvent<HTMLImageElement>) => {
     if (event.key === 'Escape') {
       setIsActiveAvatar(false)
@@ -60,13 +78,13 @@ export const Profile = ({ isEditingPersonalInfo, setIsEditingPersonalInfo }: Pro
             className={s.editAvatar}
             disabled={isLoadingUpdUser}
             iconComponent={<EditIcon style={{ padding: '4px' }} />}
+            mutation={updateUserData}
             name={'avatar'}
-            onChangeValue={updateUserData}
           />
         )}
       </div>
       {!isEditingPersonalInfo && (
-        <div className={s.name} onDoubleClick={onDoubleClickHandle}>
+        <div className={s.name} onClick={onDoubleClickHandle}>
           <TextFormat variant={'h2'}>{data?.name ? data?.name : 'Ivan'}</TextFormat>
           <EditIcon className={s.iconEditName} />
         </div>
