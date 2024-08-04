@@ -6,7 +6,7 @@ import { Search } from '@/commn/components/ui/search/Search'
 import { SliderValue } from '@/commn/components/ui/slider/SliderValue'
 import { TabSwitcher } from '@/commn/components/ui/tabSwitcher/TabSwitcher'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
-import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
+import { UpdateSearchParamType } from '@/commn/hooks/useSearchUpdateParams'
 import { DECKS_KEY_SEARCH_PARAMS } from '@/features/decks/Decks'
 import { useMenuVisibility } from '@/features/decks/filters/lib/useMenuVisibility'
 import { ResponseType } from '@/services/auth/AuthTypes'
@@ -20,9 +20,17 @@ type Props = {
   minCards: number
   name: string
   setPage: (page: number) => void
+  updateSearchParam: ({ callBack, key, replace, value }: UpdateSearchParamType) => void
 }
-export const Filters = ({ activeTab, dataUserData, maxCards, minCards, name, setPage }: Props) => {
-  const { updateSearchParam } = useSearchUpdateParams()
+export const Filters = ({
+  activeTab,
+  dataUserData,
+  maxCards,
+  minCards,
+  name,
+  setPage,
+  updateSearchParam,
+}: Props) => {
   const { handleClickStopPropagation, handleToggleMenu, isMenuVisible } = useMenuVisibility()
 
   const setSearch = (name: string) => {

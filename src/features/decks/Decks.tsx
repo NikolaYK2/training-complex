@@ -112,6 +112,7 @@ export const Decks = () => {
         minCards={minCards}
         name={name}
         setPage={setPage}
+        updateSearchParam={updateSearchParam}
       />
       <div className={s.table}>
         <Table
