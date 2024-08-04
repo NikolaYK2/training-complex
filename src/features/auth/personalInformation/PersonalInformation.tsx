@@ -5,11 +5,9 @@ import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
-import {
-  useGetCurrentUserDataQuery,
-  useLogoutMutation,
-  useUpdateUserDataMutation,
-} from '@/services/auth/authService'
+import { deepNotEqual } from '@/commn/utils/deepNotEqual'
+import { useGetCurrentUserDataQuery, useLogoutMutation } from '@/services/auth/authService'
+import { useAuthMutation } from '@/services/lib/auth/useAuthMutation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
@@ -23,10 +21,8 @@ export const PersonalInformation = () => {
   const [isEditingPersonalInfo, setIsEditingPersonalInfo] = useState(false)
 
   const { data, error, isError, isLoading } = useGetCurrentUserDataQuery()
-  const [
-    updateUserData,
-    { error: errorUpdUser, isError: isErrorUpdUser, isLoading: isLoadingUpdUser },
-  ] = useUpdateUserDataMutation()
+  const { errorUpdUser, isErrorUpdUser, isLoadingUpdUser, updateUserData } = useAuthMutation()
+
   const [logOut, { error: errorLogout, isError: isErrorLogout, isLoading: isLoadingLogout }] =
     useLogoutMutation()
   const {
@@ -40,20 +36,25 @@ export const PersonalInformation = () => {
     },
     resolver: zodResolver(personalInformationSchema),
   })
-
+  const param = { name: data?.name }
   const onSubmit: SubmitHandler<PersonalInformationType> = async data => {
-    try {
-      if (isEditingPersonalInfo) {
-        const formData = new FormData()
+    const dataParam = {
+      name: data.text,
+    }
 
-        formData.append('name', data.text)
-        await updateUserData(formData)
-        setIsEditingPersonalInfo(false)
-      } else {
-        await logOut()
+    if (deepNotEqual(param, dataParam)) {
+      try {
+        if (isEditingPersonalInfo) {
+          await updateUserData({ name: data.text })
+          setIsEditingPersonalInfo(false)
+        } else {
+          await logOut()
+        }
+      } catch (e) {
+        console.error('Error: ', e)
       }
-    } catch (e) {
-      console.error('Error: ', e)
+    } else {
+      setIsEditingPersonalInfo(false)
     }
   }
 
