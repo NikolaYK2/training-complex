@@ -1,6 +1,7 @@
 type PrepareFormDataProps = {
   answer?: string
   answerImg?: File | string
+  avatar?: File | string
   cover?: File | string
   initialAnswerImg?: string
   initialQuestionImg?: string
@@ -12,6 +13,7 @@ type PrepareFormDataProps = {
 export const prepareFormData = ({
   answer,
   answerImg,
+  avatar,
   cover,
   isPrivate,
   name,
@@ -23,6 +25,7 @@ export const prepareFormData = ({
   appendFieldImage('questionImg', questionImg, formData)
   appendFieldImage('answerImg', answerImg, formData)
   appendFieldImage('cover', cover, formData)
+  appendFieldImage('avatar', avatar, formData)
 
   appendFieldText('name', name, formData)
   appendFieldText('isPrivate', isPrivate, formData)
