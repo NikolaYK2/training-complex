@@ -1,17 +1,19 @@
 import { ChangeEvent, ReactElement, forwardRef, useState } from 'react'
 
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
+import { useUpdateUserDataMutation } from '@/services/auth/authService'
 
 import s from './FileDownload.module.scss'
 
+type MutationType = ReturnType<typeof useUpdateUserDataMutation>[0]
 export type FiledDownloadProps = {
   buttonName?: string
   className?: string
   disabled?: boolean
   iconComponent: ReactElement
+  mutation?: MutationType
   name: string
   onChange?: (file: File) => void
-  onChangeValue?: (file: FormData) => void
   setFilePreview?: (file: null | string) => void
 }
 
@@ -21,9 +23,9 @@ export const FileDownload = forwardRef<HTMLInputElement, FiledDownloadProps>((pr
     className,
     disabled,
     iconComponent,
+    mutation,
     name,
     onChange,
-    onChangeValue,
     setFilePreview,
     ...rest
   } = props
@@ -49,8 +51,7 @@ export const FileDownload = forwardRef<HTMLInputElement, FiledDownloadProps>((pr
         onChange?.(file)
       }
 
-      // Вызов коллбэка onChange с FormData
-      onChangeValue?.(formData)
+      mutation?.({ avatar: file })
     }
   }
 
