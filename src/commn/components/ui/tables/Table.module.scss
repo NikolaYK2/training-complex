@@ -202,12 +202,12 @@
     }
   }
 
-  .element {
+  .tdRow .item .elements .element {
     display: flex;
     justify-content: space-between;
 
     width: 100%;
     height: 100%;
-    margin-left: 0 !important;
+    margin-left: 0;
   }
 }
