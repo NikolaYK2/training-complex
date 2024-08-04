@@ -45,6 +45,7 @@ type Props = {
 }
 export const CreateUpdateDeck = ({
   buttonName,
+  className = '',
   coverDeckBy,
   error,
   idCard,
@@ -112,7 +113,10 @@ export const CreateUpdateDeck = ({
   }
 
   return (
-    <label className={s.containerCreateUpdDeck} onClick={e => e.stopPropagation()}>
+    <label
+      className={`${s.containerCreateUpdDeck} ${className}`}
+      onClick={e => e.stopPropagation()}
+    >
       {isIcon && <EditIcon className={s.editIcon} />}
       <DialogModal
         buttonName={buttonName}
