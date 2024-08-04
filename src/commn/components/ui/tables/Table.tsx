@@ -131,7 +131,10 @@ export const Table = ({ headers, /*pageHistorySave,*/ paragraphs, setOrderBy }: 
                       return (
                         <Fragment key={idx}>
                           {isEditable && (
-                            <td aria-label={cell.forMobileTitle} className={s.tdRow}>
+                            <td
+                              aria-label={cell.forMobileTitle}
+                              className={`${s.tdRow} ${cell.forMobileTitle ? s.tdRowMobile : ''}`}
+                            >
                               <div className={s.item}>
                                 {cell.img && (
                                   <HoverIconImage
