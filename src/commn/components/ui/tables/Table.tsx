@@ -1,6 +1,7 @@
 import { Fragment, MouseEvent, ReactElement, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { SearchIcon } from '@/assets/image/search/SearchIcon'
 import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FilePreviewPortal'
 import { HoverIconImage } from '@/commn/components/ui/hoverIconImage/HoverIconImage'
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
@@ -83,102 +84,111 @@ export const Table = ({ headers, /*pageHistorySave,*/ paragraphs, setOrderBy }: 
 
   return (
     <>
-      <table className={s.containerTable}>
-        <thead className={s.thead}>
-          <tr>
-            {headers.map(header => {
-              const { isEditable = true } = header
-
-              return (
-                <Fragment key={header.id}>
-                  {isEditable && (
-                    <th
-                      className={`${s.header} ${header.orderBy && s.headerHover}`}
-                      onClick={() => handleSort(header.orderBy, header.id)}
-                    >
-                      <div
-                        className={`${s.caption} ${
-                          header.orderBy && handleSetSortStyle(header.id)
-                        }`}
-                      >
-                        <TextFormat style={{ padding: '0' }} variant={'subtitle2'}>
-                          {header.title}
-                        </TextFormat>
-                        <IconSvg name={'arrow'} />
-                      </div>
-                    </th>
-                  )}
-                </Fragment>
-              )
-            })}
-          </tr>
-        </thead>
-        <tbody className={s.tbody}>
-          {Array.isArray(paragraphs)
-            ? paragraphs.map(paragraph => {
-                const { isRowClickable = true } = paragraph
+      {!paragraphs?.length ? (
+        <div className={s.nothingFound}>
+          <SearchIcon className={s.searchIcon} />
+          <TextFormat className={s.nothingFoundText} variant={'body1'}>
+            Nothing found...
+          </TextFormat>
+        </div>
+      ) : (
+        <table className={s.containerTable}>
+          <thead className={s.thead}>
+            <tr>
+              {headers.map(header => {
+                const { isEditable = true } = header
 
                 return (
-                  <tr
-                    className={s.tr}
-                    key={paragraph.idCells}
-                    onClick={() => handleGetCard(paragraph.idCells, isRowClickable)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    {paragraph.cells.map((cell, idx) => {
-                      const { elementUser = true, isEditable = true } = cell
-
-                      return (
-                        <Fragment key={idx}>
-                          {isEditable && (
-                            <td
-                              aria-label={cell.forMobileTitle}
-                              className={`${s.tdRow} ${cell.forMobileTitle ? s.tdRowMobile : ''}`}
-                            >
-                              <div className={s.item}>
-                                {cell.img && (
-                                  <HoverIconImage
-                                    callback={e => handleImgClick(cell.img, e)}
-                                    className={s.img}
-                                    imgSrc={cell.img}
-                                  />
-                                )}
-                                <TextFormat
-                                  className={s.textCells}
-                                  style={{ cursor: cell.idDeck ? 'pointer' : '' }}
-                                  variant={'body2'}
-                                >
-                                  {cell.value}
-                                </TextFormat>
-                                {cell.element && (
-                                  <div className={s.elements}>
-                                    {cell.element
-                                      .filter(
-                                        el =>
-                                          (elementUser &&
-                                            (el.key === 'delete' || el.key === 'edit')) ||
-                                          (el.key === 'learn' && !!paragraph.cardCounts) ||
-                                          el.key === 'grade'
-                                      )
-                                      .map((el, k) => (
-                                        <div className={s.element} key={k}>
-                                          {el}
-                                        </div>
-                                      ))}
-                                  </div>
-                                )}
-                              </div>
-                            </td>
-                          )}
-                        </Fragment>
-                      )
-                    }) || []}
-                  </tr>
+                  <Fragment key={header.id}>
+                    {isEditable && (
+                      <th
+                        className={`${s.header} ${header.orderBy && s.headerHover}`}
+                        onClick={() => handleSort(header.orderBy, header.id)}
+                      >
+                        <div
+                          className={`${s.caption} ${
+                            header.orderBy && handleSetSortStyle(header.id)
+                          }`}
+                        >
+                          <TextFormat style={{ padding: '0' }} variant={'subtitle2'}>
+                            {header.title}
+                          </TextFormat>
+                          <IconSvg name={'arrow'} />
+                        </div>
+                      </th>
+                    )}
+                  </Fragment>
                 )
-              })
-            : []}
-        </tbody>
-      </table>
+              })}
+            </tr>
+          </thead>
+          <tbody className={s.tbody}>
+            {Array.isArray(paragraphs)
+              ? paragraphs.map(paragraph => {
+                  const { isRowClickable = true } = paragraph
+
+                  return (
+                    <tr
+                      className={s.tr}
+                      key={paragraph.idCells}
+                      onClick={() => handleGetCard(paragraph.idCells, isRowClickable)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      {paragraph.cells.map((cell, idx) => {
+                        const { elementUser = true, isEditable = true } = cell
+
+                        return (
+                          <Fragment key={idx}>
+                            {isEditable && (
+                              <td
+                                aria-label={cell.forMobileTitle}
+                                className={`${s.tdRow} ${cell.forMobileTitle ? s.tdRowMobile : ''}`}
+                              >
+                                <div className={s.item}>
+                                  {cell.img && (
+                                    <HoverIconImage
+                                      callback={e => handleImgClick(cell.img, e)}
+                                      className={s.img}
+                                      imgSrc={cell.img}
+                                    />
+                                  )}
+                                  <TextFormat
+                                    className={s.textCells}
+                                    style={{ cursor: cell.idDeck ? 'pointer' : '' }}
+                                    variant={'body2'}
+                                  >
+                                    {cell.value}
+                                  </TextFormat>
+                                  {cell.element && (
+                                    <div className={s.elements}>
+                                      {cell.element
+                                        .filter(
+                                          el =>
+                                            (elementUser &&
+                                              (el.key === 'delete' || el.key === 'edit')) ||
+                                            (el.key === 'learn' && !!paragraph.cardCounts) ||
+                                            el.key === 'grade'
+                                        )
+                                        .map((el, k) => (
+                                          <div className={s.element} key={k}>
+                                            {el}
+                                          </div>
+                                        ))}
+                                    </div>
+                                  )}
+                                </div>
+                              </td>
+                            )}
+                          </Fragment>
+                        )
+                      }) || []}
+                    </tr>
+                  )
+                })
+              : []}
+          </tbody>
+        </table>
+      )}
       {activeImg && <FilePreviewPortal onClose={handleClosePreview} src={activeImg} />}
     </>
   )
