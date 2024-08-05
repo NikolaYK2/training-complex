@@ -29,6 +29,7 @@ export const authService = flashcardsApi.injectEndpoints({
       }),
     }),
     loginAuth: builder.mutation<LoginResponse, LoginArgs>({
+      invalidatesTags: ['Auth'],
       query: args => ({
         body: args,
         method: 'POST',
