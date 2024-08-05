@@ -16,8 +16,8 @@ import { z } from 'zod'
 export const RegisterSchema = z
   .object({
     email: z.string().trim().email(),
-    password: z.string().min(5),
-    passwordConfirm: z.string().min(5),
+    password: z.string().min(3).max(30),
+    passwordConfirm: z.string().min(3).max(30),
   })
   .refine(data => data.password === data.passwordConfirm, {
     message: "Passwords don't match",
