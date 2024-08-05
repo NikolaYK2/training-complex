@@ -42,7 +42,7 @@ export const Profile = ({ isEditingPersonalInfo, setIsEditingPersonalInfo }: Pro
     }
   }, [])
 
-  const handlerOnKeyDown = (event: KeyboardEvent<HTMLImageElement>) => {
+  const handlerOnKeyDownAvatar = (event: KeyboardEvent<HTMLImageElement>) => {
     if (event.key === 'Escape') {
       setIsActiveAvatar(false)
     }
@@ -67,7 +67,7 @@ export const Profile = ({ isEditingPersonalInfo, setIsEditingPersonalInfo }: Pro
         <div
           className={`${s.avatar} ${isActiveAvatar ? s.fullScreenAvatar : ''}`}
           onClick={() => setIsActiveAvatar(!isActiveAvatar)}
-          onKeyDown={handlerOnKeyDown}
+          onKeyDown={handlerOnKeyDownAvatar}
           tabIndex={0}
         >
           {isLoadingUpdUser && <Loading />}
@@ -84,9 +84,14 @@ export const Profile = ({ isEditingPersonalInfo, setIsEditingPersonalInfo }: Pro
         )}
       </div>
       {!isEditingPersonalInfo && (
-        <div className={s.name} onClick={onDoubleClickHandle}>
-          <TextFormat variant={'h2'}>{data?.name ? data?.name : 'Ivan'}</TextFormat>
-          <EditIcon className={s.iconEditName} />
+        <div className={s.blockText}>
+          <div className={s.name} onClick={onDoubleClickHandle}>
+            <TextFormat variant={'h2'}>{data?.name ? data?.name : 'Ivan'}</TextFormat>
+            <EditIcon className={s.iconEditName} />
+          </div>
+          <TextFormat className={s.email} variant={'body2'}>
+            {data?.email}
+          </TextFormat>
         </div>
       )}
     </div>

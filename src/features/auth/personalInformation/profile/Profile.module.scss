@@ -59,33 +59,43 @@
     }
   }
 
-  .name {
-    cursor: pointer;
-
-    position: relative;
-
+  .blockText {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
 
-    width: 100%;
-    padding: 0 25px;
+    .name {
+      cursor: pointer;
 
-    .iconEditName {
-      position: absolute;
-      inset: 0;
+      position: relative;
 
       display: flex;
       align-items: center;
-      justify-content: end;
+      justify-content: center;
 
       width: 100%;
-      height: 100%;
+      padding: 0 25px;
 
-      > svg {
-        width: 16px;
-        height: 16px;
+      .iconEditName {
+        position: absolute;
+        inset: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: end;
+
+        width: 100%;
+        height: 100%;
+
+        > svg {
+          width: 16px;
+          height: 16px;
+        }
       }
+    }
+
+    .email {
+      color: var(--color-dark-100);
     }
   }
 }
