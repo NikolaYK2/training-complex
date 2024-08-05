@@ -15,11 +15,11 @@
 
   //ANIMATION ---------------------------------------------------------------------
   .iconLogOut {
-    &:hover div svg path:last-child {
+    &:hover svg path:last-child {
       animation: active-logout 0.8s forwards 0s;
     }
 
-    &:not(:hover) div svg path:last-child {
+    &:not(:hover) svg path:last-child {
       animation: inactive-logout 0.4s forwards;
     }
   }
