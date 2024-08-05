@@ -12,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 export const personalInformationSchema = z.object({
-  text: z.string().min(3).max(20),
+  text: z.string().trim().min(3).max(20),
 })
 
 export type PersonalInformationType = z.infer<typeof personalInformationSchema>
