@@ -1,5 +1,6 @@
 import { Navigate, RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom'
 
+import { Loading } from '@/commn/components/ui/loading/Loading'
 import { CheckEmail } from '@/features/auth/checkEmail/CheckEmail'
 import { ConfirmEmail } from '@/features/auth/confirmEmail/ConfirmEmail'
 import { CreateNewPassword } from '@/features/auth/createPassword/CreateNewPassword'
@@ -13,6 +14,7 @@ import { Learn } from '@/features/learn/Learn'
 import { AppRoutes } from '@/routes/AppRoutes'
 import { PrivateRoutes } from '@/routes/PrivateRoutes'
 import { ErrorRoute } from '@/routes/errorRoute/ErrorRoute'
+import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
 
 export const HOME_ROUTE = '/'
 export const DECK_ROUTE = '/deck'
@@ -90,5 +92,16 @@ export const router = createBrowserRouter([
 ])
 
 export const Router = () => {
+  const {
+    data: dataMe,
+    error: errMe,
+    isError: isErrMe,
+    isLoading: isLoadMe,
+  } = useGetCurrentUserDataQuery()
+
+  if (isLoadMe) {
+    return <Loading />
+  }
+
   return <RouterProvider router={router} />
 }
