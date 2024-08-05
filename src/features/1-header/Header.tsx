@@ -1,71 +1,14 @@
-import { Link } from 'react-router-dom'
-
-import { Button } from '@/commn/components/ui/button'
-import { DropDownMenu } from '@/commn/components/ui/dropDownMenu/DropDownMenu'
-import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Logo } from '@/commn/components/ui/logo/Logo'
-import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
-import { LOGIN_ROUTE, PROFILE_ROUTE } from '@/routes/Router'
-import { useGetCurrentUserDataQuery, useLogoutMutation } from '@/services/auth/authService'
+import { ProfileMenu } from '@/features/1-header/profileMenu/ProfileMenu'
 
 import s from './Header.module.scss'
 
 export const Header = () => {
-  const { data, error, isError } = useGetCurrentUserDataQuery()
-  const [logout, { error: errorLogout, isError: isErrorLogout, isLoading: isLoadingLogout }] =
-    useLogoutMutation()
-  const isLogin = false
-
-  if (isError) {
-    return <div>Error: {JSON.stringify(error)}</div>
-  }
-  if (isErrorLogout) {
-    return <div>Error: {JSON.stringify(errorLogout)}</div>
-  }
-
-  if (isLoadingLogout) {
-    return <Loading />
-  }
-
   return (
     <header className={s.header}>
       <div className={s.container}>
         <Logo />
-        {isLogin ? (
-          <Button as={Link} to={LOGIN_ROUTE} variant={'secondary'}>
-            <TextFormat variant={'subtitle2'}>Sign In</TextFormat>
-          </Button>
-        ) : (
-          <DropDownMenu
-            classNameMenuArrow={s.arrow}
-            menuConfig={{
-              content: [
-                {
-                  buttonName: data?.name ?? '',
-                  email: data?.email,
-                  icon: data?.avatar ?? 'avatar',
-                  route: PROFILE_ROUTE,
-                },
-                {
-                  buttonName: 'My profile',
-                  classNameButton: 'iconProfile',
-                  icon: 'profile',
-                  route: PROFILE_ROUTE,
-                },
-                {
-                  buttonName: 'sign out',
-                  callback: logout,
-                  classNameButton: 'iconLogOut',
-                  icon: 'logOut',
-                },
-              ],
-              trigger: {
-                imag: data?.avatar,
-                title: data?.name ?? '',
-              },
-            }}
-          />
-        )}
+        <ProfileMenu />
       </div>
     </header>
   )
