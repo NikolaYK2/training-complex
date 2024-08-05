@@ -43,7 +43,7 @@ type TableProps = {
   setOrderBy?: (sortValue: OrderByType) => void
 }
 
-export const Table = ({ headers, /*pageHistorySave,*/ paragraphs, setOrderBy }: TableProps) => {
+export const Table = ({ headers, paragraphs, setOrderBy }: TableProps) => {
   const [activeImg, setActiveImg] = useState<null | string>(null)
   const { handleSetSortStyle, handleSort } = useSortTable({
     setOrderBy: setOrderBy,
