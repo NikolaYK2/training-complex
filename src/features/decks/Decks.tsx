@@ -8,6 +8,7 @@ import { Table } from '@/commn/components/ui/tables/Table'
 import { Title } from '@/commn/components/ui/title/Title'
 import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
 import { CreateUpdateDeck } from '@/features/decks/createUpdateDeck/CreateUpdateDeck'
+import { FavoriteDeck } from '@/features/decks/favoriteDeck/FavoriteDeck'
 import { Filters } from '@/features/decks/filters/Filters'
 import { LearnDeck } from '@/features/decks/learnDeck/LearnDeck'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
@@ -27,6 +28,7 @@ import s from './Decks.module.scss'
 export const DECKS_KEY_SEARCH_PARAMS = {
   authorId: 'authorId',
   default: 'default',
+  favoritedBy: 'favoritedBy',
   maxCardsCount: 'maxCardsCount',
   minCardsCount: 'minCardsCount',
   orderBy: 'orderBy',
@@ -47,6 +49,7 @@ export const Decks = () => {
   const minCards = Number(searchParams.get(DECKS_KEY_SEARCH_PARAMS.minCardsCount)) || 0
   const maxCards = Number(searchParams.get(DECKS_KEY_SEARCH_PARAMS.maxCardsCount)) || 100
   const orderBy = searchParams.get(DECKS_KEY_SEARCH_PARAMS.orderBy) || null
+  const favoritedBy = searchParams.get(DECKS_KEY_SEARCH_PARAMS.favoritedBy) || ''
   const activeTab = authorId || DECKS_KEY_SEARCH_PARAMS.default
 
   const setPage = (page: number) => {
@@ -75,6 +78,7 @@ export const Decks = () => {
   const { data, error, isError, isLoading } = useGetDecksQuery({
     authorId: authorId || undefined,
     currentPage: page, //было просто page если use useState
+    favoritedBy: favoritedBy || undefined,
     itemsPerPage: Number(itemPage),
     maxCardsCount: maxCards,
     minCardsCount: minCards,
@@ -107,9 +111,11 @@ export const Decks = () => {
       <Filters
         activeTab={activeTab}
         dataUserData={dataUserData}
+        favoritedBy={favoritedBy}
         maxCards={maxCards}
         minCards={minCards}
         name={name}
+        searchParams={searchParams}
         setPage={setPage}
         updateSearchParam={updateSearchParam}
       />
@@ -153,7 +159,6 @@ export const Decks = () => {
                   />,
                   <CardRemover
                     buttonName={'delete pack'}
-                    className={s.cardRemover}
                     error={errorDeleteDeck}
                     idCard={deck.id}
                     isError={isErrorDeleteDeck}
@@ -164,6 +169,7 @@ export const Decks = () => {
                     text={`Do you really want to remove /${deck.name}? All cards will be deleted.`}
                     titleName={'delete pack'}
                   />,
+                  <FavoriteDeck idCard={deck.id} isFavorite={deck.isFavorite} key={'like'} />,
                 ],
                 elementUser: dataUserData?.id === deck.userId,
               },
