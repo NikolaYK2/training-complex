@@ -9,7 +9,7 @@
   }
 }
 
-@media (width <= 480px) {
+@media (max-width: $viewportMobile) {
   .logo {
     display: none;
   }
