@@ -8,6 +8,7 @@ import { FilePreviewPortal } from '@/commn/components/ui/filePreviewPortal/FileP
 import { HoverIconImage } from '@/commn/components/ui/hoverIconImage/HoverIconImage'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { EditCards } from '@/features/cards/editCards/EditCards'
+import { FavoriteDeck } from '@/features/decks/favoriteDeck/FavoriteDeck'
 import { useRedirectLearn } from '@/features/decks/learnDeck/lib/useRedirectLearn'
 import { useDeleteDeckMutation } from '@/services/decks/decksService'
 
@@ -18,6 +19,7 @@ export type TitleProps = {
   idCard?: string
   imageDeck?: null | string
   isDeck?: boolean
+  isFavorite?: boolean
   isNotItem?: boolean
   isPrivateCard?: boolean
   isUserId?: boolean
@@ -29,6 +31,7 @@ export const Title = ({
   idCard,
   imageDeck,
   isDeck = false,
+  isFavorite,
   isNotItem = false,
   isPrivateCard,
   isUserId = false,
@@ -105,6 +108,13 @@ export const Title = ({
                 }}
               />
             </div>
+          )}
+          {idCard && (
+            <FavoriteDeck
+              className={s.favoriteDeck}
+              idCard={idCard ?? ''}
+              isFavorite={isFavorite ?? false}
+            />
           )}
         </div>
         {isNotItem && (
