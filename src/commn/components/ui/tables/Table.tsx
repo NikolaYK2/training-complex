@@ -167,7 +167,8 @@ export const Table = ({ headers, paragraphs, setOrderBy }: TableProps) => {
                                             (elementUser &&
                                               (el.key === 'delete' || el.key === 'edit')) ||
                                             (el.key === 'learn' && !!paragraph.cardCounts) ||
-                                            el.key === 'grade'
+                                            el.key === 'grade' ||
+                                            el.key === 'like'
                                         )
                                         .map((el, k) => (
                                           <div className={s.element} key={k}>
