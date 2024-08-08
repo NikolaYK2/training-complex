@@ -17,6 +17,7 @@ export type MenuItem = {
   buttonName?: string
   callback?: () => void
   classNameButton?: string
+  disabled?: boolean
   element?: ReactNode
   email?: string
   icon: 'avatar' | 'delete' | 'edit' | 'learn' | 'logOut' | 'notFile' | 'profile' | string
@@ -91,6 +92,7 @@ export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
               <Button
                 as={getComponentType(el)}
                 className={s.block}
+                disabled={el.disabled}
                 onClick={el.callback}
                 to={el.route ?? ''}
               >
