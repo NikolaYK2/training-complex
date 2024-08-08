@@ -99,7 +99,6 @@ export const Decks = () => {
           error={errorCreateDeck}
           isError={isErrorCreateDeck}
           isLoading={isLoadingCreateDeck}
-          method={'POST'}
           mutationFunction={createDeck}
           nameTrigger={'Add New Deck'}
           titleContent={'Add New Deck'}
@@ -147,7 +146,6 @@ export const Decks = () => {
                     isLoading={isLoadUpdateDeck}
                     isPrivateCard={deck.isPrivate}
                     key={'edit'}
-                    method={'PATCH'}
                     mutationFunction={updateDeck}
                     nameDeckBy={deck.name}
                     titleContent={'edit pack'}
