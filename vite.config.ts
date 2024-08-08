@@ -9,7 +9,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use '@/assets/styles/_mixins.scss' as *;`,
+        additionalData: `@use '@/assets/styles/_mixins.scss' as *; @use '@/assets/styles/_viewports.scss' as *;`,
       },
     },
   },
