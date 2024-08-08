@@ -19,7 +19,6 @@ export const EditCards = ({ cover, idCard, isPrivateCard, name }: Props) => {
       isError={isErrUpdateDeck}
       isLoading={isLoadUpdateDeck}
       isPrivateCard={isPrivateCard}
-      method={'PATCH'}
       mutationFunction={updateDeck}
       nameDeckBy={name}
       titleContent={'edit pack'}
