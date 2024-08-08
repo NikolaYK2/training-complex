@@ -1,5 +1,6 @@
 import { DeleteIcon } from '@/assets/image/delete/DeleteIcon'
 import { FilterIcon } from '@/assets/image/filter/FilterIcon'
+import { LikeIcon } from '@/assets/image/like/LikeIcon'
 import { Button } from '@/commn/components/ui/button'
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { Search } from '@/commn/components/ui/search/Search'
@@ -16,6 +17,7 @@ import s from './Filters.module.scss'
 type Props = {
   activeTab: string
   dataUserData: ResponseType | null | undefined
+  favoritedBy: string
   maxCards: number
   minCards: number
   name: string
@@ -25,6 +27,7 @@ type Props = {
 export const Filters = ({
   activeTab,
   dataUserData,
+  favoritedBy,
   maxCards,
   minCards,
   name,
@@ -52,11 +55,22 @@ export const Filters = ({
     updateSearchParam({ key: DECKS_KEY_SEARCH_PARAMS.maxCardsCount, value: countMax })
   }
 
+  const setFavoriteDeck = (clear?: string) => {
+    const newValue = favoritedBy === '~caller' ? '' : '~caller'
+
+    updateSearchParam({
+      callBack: setPage,
+      key: DECKS_KEY_SEARCH_PARAMS.favoritedBy,
+      value: clear === 'off' ? '' : newValue,
+    })
+  }
+
   const handleClearFilter = () => {
     setCountMaxDecks(100)
     setCountMinDecks(0)
     setPage(1)
     setSearch('')
+    setFavoriteDeck('off')
   }
 
   return (
@@ -93,6 +107,11 @@ export const Filters = ({
                   callback: setAuthorDecks,
                   trigger: 'All Cards',
                   value: DECKS_KEY_SEARCH_PARAMS.default,
+                },
+                {
+                  callback: setFavoriteDeck,
+                  iconTrigger: <LikeIcon isActive={!!favoritedBy} position={'absolute'} />,
+                  value: 'caller' ?? '',
                 },
               ]}
             />

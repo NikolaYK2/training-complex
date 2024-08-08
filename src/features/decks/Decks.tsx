@@ -115,7 +115,6 @@ export const Decks = () => {
         maxCards={maxCards}
         minCards={minCards}
         name={name}
-        searchParams={searchParams}
         setPage={setPage}
         updateSearchParam={updateSearchParam}
       />
