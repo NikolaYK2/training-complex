@@ -1,3 +1,4 @@
+import { localStorageUtil } from '@/commn/utils/localStorageUtil'
 import {
   LoginArgs,
   LoginResponse,
@@ -15,11 +16,9 @@ const AUTH = 'v1/auth/'
 
 export const authService = flashcardsApi.injectEndpoints({
   endpoints: builder => ({
-    getCurrentUserData: builder.query<ResponseType, void>({
+    getCurrentUserData: builder.query<ResponseType | null, void>({
       providesTags: ['Auth'],
-      query: () => ({
-        url: `${AUTH}me`,
-      }),
+      query: () => `${AUTH}me`,
     }),
     getVerifyEmail: builder.mutation<void, { code: string }>({
       query: token => ({
@@ -30,17 +29,47 @@ export const authService = flashcardsApi.injectEndpoints({
     }),
     loginAuth: builder.mutation<LoginResponse, LoginArgs>({
       invalidatesTags: ['Auth'],
-      query: args => ({
-        body: args,
-        method: 'POST',
-        url: `${AUTH}login`,
-      }),
+
+      async onQueryStarted(_, { queryFulfilled }) {
+        const { data } = await queryFulfilled
+
+        if (!data) {
+          return
+        }
+        localStorageUtil.saveItem('accessToken', data.accessToken)
+        localStorageUtil.saveItem('refreshToken', data.refreshToken)
+      },
+
+      query: body => {
+        return {
+          body,
+          method: 'POST',
+          url: `${AUTH}login`,
+        }
+      },
     }),
     logout: builder.mutation<void, void>({
-      query: args => ({
-        body: args,
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        const res = dispatch(
+          authService.util.updateQueryData('getCurrentUserData', _, () => {
+            return null
+          })
+        )
+
+        try {
+          await queryFulfilled
+
+          localStorageUtil.removeItem('accessToken')
+          localStorageUtil.removeItem('refreshToken')
+        } catch (error) {
+          console.error('Logout failed:', error)
+          res.undo()
+        }
+      },
+
+      query: () => ({
         method: 'POST',
-        url: `${AUTH}logout`,
+        url: `/v2/auth/logout`,
       }),
     }),
     passwordRecovery: builder.mutation<void, PasswordRecoveryEmailArgs>({
