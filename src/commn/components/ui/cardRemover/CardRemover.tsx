@@ -53,7 +53,7 @@ export const CardRemover = ({
   text = '',
   titleName,
 }: Props) => {
-  const { handleSubmit } = useCreateEntityForm({
+  const { handleCloseModal, handleSubmit } = useCreateEntityForm({
     defaultValues: {
       id: idCard,
     },
@@ -79,6 +79,7 @@ export const CardRemover = ({
       <DialogModal
         buttonName={buttonName}
         onSubmit={handleSubmit(onSubmit)}
+        setIsOpenModal={handleCloseModal}
         titleContent={titleName}
         triggerVariant={'link'}
       >
