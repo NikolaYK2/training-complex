@@ -1,7 +1,10 @@
-// utils/localStorageUtil.ts
+import { LoginResponse } from '@/services/auth/AuthTypes'
 
+type ParamsKey = keyof LoginResponse
+// Utility for working with localStorage
 export const localStorageUtil = {
-  getItem: <T>(key: string): T | null => {
+  // Get item from localStorage
+  getItem: <T>(key: ParamsKey): T | null => {
     try {
       const item = localStorage.getItem(key)
 
@@ -13,7 +16,8 @@ export const localStorageUtil = {
     }
   },
 
-  removeItem: (key: string): void => {
+  // Remove item from localStorage
+  removeItem: (key: ParamsKey): void => {
     try {
       localStorage.removeItem(key)
     } catch (error) {
@@ -21,7 +25,8 @@ export const localStorageUtil = {
     }
   },
 
-  saveItem: <T>(key: string, value: T): void => {
+  // Save item to localStorage
+  saveItem: <T>(key: ParamsKey, value: T): void => {
     try {
       localStorage.setItem(key, JSON.stringify(value))
     } catch (error) {
