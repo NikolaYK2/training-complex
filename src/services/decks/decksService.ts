@@ -7,6 +7,7 @@ import {
   DeckType,
   DecksArgs,
   DecksResponse,
+  UdpDeckArgs,
 } from '@/services/decks/DecksTypes'
 import { flashcardsApi } from '@/services/flashcardsApi'
 import { prepareFormData } from '@/services/lib/prepareFormData'
@@ -32,15 +33,39 @@ export const decksService = flashcardsApi.injectEndpoints({
         }
       },
     }),
-    createUpdateDeck: builder.mutation<DeckType, CreateDeckArgs>({
+    createDeck: builder.mutation<DeckType, CreateDeckArgs>({
       invalidatesTags: ['Decks'],
-      query: ({ cover, id, isPrivate, method, name }) => {
+      async onQueryStarted(_, { dispatch, getState, queryFulfilled }) {
+        const cachedArgsForQuery = decksService.util.selectCachedArgsForQuery(
+          getState(),
+          'getDecks'
+        ) as DecksArgs[]
+
+        try {
+          const { data } = await queryFulfilled
+
+          cachedArgsForQuery.forEach(cachedArgs => {
+            dispatch(
+              decksService.util.updateQueryData('getDecks', cachedArgs, draft => {
+                if (cachedArgs.currentPage !== 1) {
+                  return
+                }
+                draft.items.unshift(data)
+                draft.items.pop()
+              })
+            )
+          })
+        } catch (e) {
+          console.error(e)
+        }
+      },
+      query: ({ cover, isPrivate, name }) => {
         const formData = prepareFormData({ cover, isPrivate, name })
 
         return {
           body: formData,
-          method: method,
-          url: `${DECKS}${id ? id : ''}`,
+          method: 'POST',
+          url: `${DECKS}`,
         }
       },
     }),
@@ -54,26 +79,17 @@ export const decksService = flashcardsApi.injectEndpoints({
       },
     }),
     getDecks: builder.query<DecksResponse<DeckType[]>, DecksArgs | void>({
-      providesTags: ['Decks'], //как бы обновляем кэш, так как новые данные
-      //query param
-      query: params => {
+      providesTags: ['Decks'],
+      query: args => {
         return {
-          params: params ?? {},
+          params: args ? getValuable(args) : undefined,
           url: `v2/decks`,
         }
       },
     }),
     retrieveCardsInDeck: builder.query<DecksResponse<CardsResponse[]>, CardsArgs | void>({
-      providesTags: ['Decks', 'Cards'],
+      providesTags: ['Decks'],
       query: ({ id, ...params }: CardsArgs) => {
-        // const params = {
-        //   ...(orderBy && { orderBy }),
-        //   ...(question && { question }),
-        //   ...(answer && { answer }),
-        //   ...(currentPage && { currentPage }),
-        //   ...(itemsPerPage && { itemsPerPage }),
-        // }
-
         return {
           params: params,
           url: `${DECKS}${id}/cards`,
@@ -108,16 +124,72 @@ export const decksService = flashcardsApi.injectEndpoints({
         }
       },
     }),
+    updateDeck: builder.mutation<DeckType, UdpDeckArgs>({
+      invalidatesTags: ['Decks'],
+      async onQueryStarted({ cover, id, ...args }, { dispatch, getState, queryFulfilled }) {
+        // 1
+        const cachedArgsForQuery = decksService.util.selectCachedArgsForQuery(
+          getState(),
+          'getDecks'
+        )
+        const patchResults: any[] = []
+
+        cachedArgsForQuery.forEach(cachedArgs => {
+          patchResults.push(
+            dispatch(
+              decksService.util.updateQueryData('getDecks', cachedArgs, draft => {
+                const itemToUpdateIndex = draft.items.findIndex(deck => deck.id === id)
+
+                if (itemToUpdateIndex === -1) {
+                  return
+                }
+                draft.items[itemToUpdateIndex] = { ...draft.items[itemToUpdateIndex], ...args }
+              })
+            )
+          )
+        })
+
+        try {
+          //2 - запускает query
+          await queryFulfilled
+        } catch (e) {
+          patchResults.forEach(patchResult => {
+            // в случае ошибки вернет предыдущее значение
+            patchResult.undo()
+          })
+        }
+      },
+      query: ({ cover, id, isPrivate, name }) => {
+        const formData = prepareFormData({ cover, isPrivate, name })
+
+        return {
+          body: formData,
+          method: 'PATCH',
+          url: `${DECKS}${id}`,
+        }
+      },
+    }),
   }),
 })
 
 export const {
   useCreateCardInDeckMutation,
-  useCreateUpdateDeckMutation,
+  useCreateDeckMutation,
   useDeleteDeckMutation,
   useGetDecksQuery,
   useRetrieveCardsInDeckQuery,
   useRetrieveDeckByIdQuery,
   useRetrieveRandomCardQuery,
   useSaveGradeCardMutation,
+  useUpdateDeckMutation,
 } = decksService
+
+type Valuable<T> = { [K in keyof T as T[K] extends null | undefined ? never : K]: T[K] }
+
+export function getValuable<T extends {}, V = Valuable<T>>(obj: T): V {
+  return Object.fromEntries(
+    Object.entries(obj).filter(
+      ([, v]) => !((typeof v === 'string' && !v.length) || v === null || typeof v === 'undefined')
+    )
+  ) as V
+}

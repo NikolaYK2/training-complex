@@ -38,12 +38,12 @@ export type DecksArgs = {
 
 export type CreateDeckArgs = {
   cover?: File
-  id?: string
   isPrivate?: boolean
-  method?: 'PATCH' | 'POST'
   name: string
 }
-
+export type UdpDeckArgs = CreateDeckArgs & {
+  id: string
+}
 export type CardArgs = {
   answer: string
   answerImg?: string
