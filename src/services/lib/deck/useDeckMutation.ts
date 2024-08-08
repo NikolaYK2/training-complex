@@ -1,14 +1,18 @@
-import { useCreateUpdateDeckMutation, useDeleteDeckMutation } from '@/services/decks/decksService'
+import {
+  useCreateDeckMutation,
+  useDeleteDeckMutation,
+  useUpdateDeckMutation,
+} from '@/services/decks/decksService'
 
 export const useDeckMutation = () => {
   const [
     createDeck,
     { error: errorCreateDeck, isError: isErrorCreateDeck, isLoading: isLoadingCreateDeck },
-  ] = useCreateUpdateDeckMutation()
+  ] = useCreateDeckMutation()
   const [
     updateDeck,
     { error: errUpdateDeck, isError: isErrUpdateDeck, isLoading: isLoadUpdateDeck },
-  ] = useCreateUpdateDeckMutation()
+  ] = useUpdateDeckMutation()
 
   const [
     deleteDeck,
