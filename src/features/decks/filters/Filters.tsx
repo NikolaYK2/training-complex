@@ -15,7 +15,7 @@ import s from './Filters.module.scss'
 
 type Props = {
   activeTab: string
-  dataUserData: ResponseType | undefined
+  dataUserData: ResponseType | null | undefined
   maxCards: number
   minCards: number
   name: string
