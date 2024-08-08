@@ -23,6 +23,7 @@ export const useCreateEntityForm = <T extends FieldValues>({
   const {
     control,
     formState: { errors },
+    getValues,
     handleSubmit,
     reset,
     setValue,
@@ -48,6 +49,7 @@ export const useCreateEntityForm = <T extends FieldValues>({
     errors,
     filePreview,
     filePreviewFullScreen,
+    getValues,
     handleCloseModal,
     handleFormReset,
     handleSubmit,
