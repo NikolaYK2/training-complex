@@ -18,7 +18,7 @@ export const LearnDeck = ({ idCard }: Props) => {
 
   return (
     <label className={s.containerLearnDeck} onClick={handleClick}>
-      <LearnIcon animation />
+      <LearnIcon animation className={s.icon} />
     </label>
   )
 }
