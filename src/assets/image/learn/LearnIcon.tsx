@@ -4,15 +4,16 @@ import s from './LearnIcon.module.scss'
 
 type Props = {
   animation?: boolean
+  className?: string
 }
-export const LearnIcon = ({ animation = false }: Props) => {
+export const LearnIcon = ({ animation = false, className = '' }: Props) => {
   const { containerRef, handleAnimationEnd, handleMouseEnter } = useAnimation({
     animationTriggerClass: `${animation && s.animate}`,
   })
 
   return (
     <div
-      className={s.containerLearnIcon}
+      className={`${s.containerLearnIcon} ${className}`}
       onAnimationEnd={handleAnimationEnd}
       onMouseEnter={handleMouseEnter}
       ref={containerRef}

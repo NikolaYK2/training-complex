@@ -1,4 +1,8 @@
 .containerLearnIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   &.animate .play {
     transform-origin: center;
     animation: learn-hover 1s ease;
