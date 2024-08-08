@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
 import { EditIcon } from '@/assets/image/edit/EditIcon'
@@ -11,7 +10,7 @@ import { ControlledTextField } from '@/commn/components/ui/input/ControlledTextF
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { DialogModal } from '@/commn/components/ui/modals/dialog/DialogModal'
 import { useCreateEntityForm } from '@/commn/hooks/useCreateEntityForm'
-import { useCreateUpdateDeckMutation } from '@/services/decks/decksService'
+import { useCreateDeckMutation, useUpdateDeckMutation } from '@/services/decks/decksService'
 import { SerializedError } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { z } from 'zod'
@@ -25,7 +24,9 @@ const createDeckSchema = z.object({
 })
 
 export type FormTypeCreateUpdateDeck = z.infer<typeof createDeckSchema>
-type CreateUpdateDeckMutationTrigger = ReturnType<typeof useCreateUpdateDeckMutation>[0]
+type CreateUpdateDeckMutationTrigger =
+  | ReturnType<typeof useCreateDeckMutation>[0]
+  | ReturnType<typeof useUpdateDeckMutation>[0]
 type Props = {
   buttonName?: string
   className?: string
@@ -36,7 +37,6 @@ type Props = {
   isIcon?: boolean
   isLoading: boolean
   isPrivateCard?: boolean
-  method: 'PATCH' | 'POST'
   mutationFunction: CreateUpdateDeckMutationTrigger
   nameDeckBy?: string
   nameTrigger?: string
@@ -53,7 +53,6 @@ export const CreateUpdateDeck = ({
   isIcon = false,
   isLoading,
   isPrivateCard = false,
-  method,
   mutationFunction,
   nameDeckBy,
   nameTrigger,
@@ -85,28 +84,15 @@ export const CreateUpdateDeck = ({
     try {
       await mutationFunction({
         cover: data.cover,
-        id: idCard,
+        id: idCard ?? '',
         isPrivate: data.isPrivate,
-        method,
         name: data.name,
       })
-      handleFormReset()
+      idCard ? handleCloseModal() : handleFormReset()
     } catch (e) {
       console.error('Error creating deck: ', e)
     }
   }
-
-  useEffect(() => {
-    if (coverDeckBy) {
-      setFilePreview(prev => ({ ...prev, fileImage: coverDeckBy }))
-    }
-    if (nameDeckBy) {
-      setValue('name', nameDeckBy)
-    }
-    if (isPrivateCard) {
-      setValue('isPrivate', isPrivateCard)
-    }
-  }, [coverDeckBy, nameDeckBy, setFilePreview, setValue, isPrivateCard])
 
   if (isError) {
     return <div>Error: {JSON.stringify(error)}</div>
