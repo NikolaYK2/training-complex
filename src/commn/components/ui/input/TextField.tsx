@@ -20,6 +20,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
     disabled,
     errorMessage,
     label,
+    name,
     onChange,
     onValueChange,
     type: typeInput,
@@ -67,8 +68,9 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
         }`}
       >
         <input
-          autoComplete={'current-password'}
+          autoComplete={name}
           disabled={disabled}
+          name={name}
           onBlur={onFocusHandler}
           onChange={handleChange}
           onFocus={focusHandler}
