@@ -1,12 +1,10 @@
-import { useState } from 'react'
-
 import { CardRemover } from '@/commn/components/ui/cardRemover/CardRemover'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
 import { Pagination } from '@/commn/components/ui/pagination/Pagination'
 import { Table } from '@/commn/components/ui/tables/Table'
 import { Title } from '@/commn/components/ui/title/Title'
-import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
+import { DECKS_KEY_SEARCH_PARAMS, useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
 import { CreateUpdateDeck } from '@/features/decks/createUpdateDeck/CreateUpdateDeck'
 import { FavoriteDeck } from '@/features/decks/favoriteDeck/FavoriteDeck'
 import { Filters } from '@/features/decks/filters/Filters'
@@ -25,25 +23,13 @@ import { useDeckMutation } from '@/services/lib/deck/useDeckMutation'
 
 import s from './Decks.module.scss'
 
-export const DECKS_KEY_SEARCH_PARAMS = {
-  authorId: 'authorId',
-  default: 'default',
-  favoritedBy: 'favoritedBy',
-  maxCardsCount: 'maxCardsCount',
-  minCardsCount: 'minCardsCount',
-  orderBy: 'orderBy',
-  page: 'page',
-  pageDeckSaveHistory: 'page-deck',
-  searchName: 'name',
-}
-
 export const Decks = () => {
-  const [itemPage, setItemPage] = useState('10')
-  const { searchParams, updateSearchParam } = useSearchUpdateParams()
+  const { clearParams, searchParams, updateSearchParam } = useSearchUpdateParams()
   const { data: dataUserData } = useGetCurrentUserDataQuery()
 
   //rrm search params ------------
   const page = Number(searchParams.get(DECKS_KEY_SEARCH_PARAMS.page)) || 1
+  const pageItem = Number(searchParams.get(DECKS_KEY_SEARCH_PARAMS.pageItem)) || 10
   const name = searchParams.get(DECKS_KEY_SEARCH_PARAMS.searchName) || ''
   const authorId = searchParams.get(DECKS_KEY_SEARCH_PARAMS.authorId) || ''
   const minCards = Number(searchParams.get(DECKS_KEY_SEARCH_PARAMS.minCardsCount)) || 0
@@ -54,6 +40,9 @@ export const Decks = () => {
 
   const setPage = (page: number) => {
     updateSearchParam({ key: DECKS_KEY_SEARCH_PARAMS.page, value: page })
+  }
+  const setItemPage = (items: string) => {
+    updateSearchParam({ key: DECKS_KEY_SEARCH_PARAMS.pageItem, value: items })
   }
 
   const setOrderByDeck = (orderBy: OrderByType) => {
@@ -77,9 +66,9 @@ export const Decks = () => {
 
   const { data, error, isError, isLoading } = useGetDecksQuery({
     authorId: authorId || undefined,
-    currentPage: page, //было просто page если use useState
+    currentPage: page,
     favoritedBy: favoritedBy || undefined,
-    itemsPerPage: Number(itemPage),
+    itemsPerPage: pageItem,
     maxCardsCount: maxCards,
     minCardsCount: minCards,
     name: name || undefined,
@@ -99,6 +88,7 @@ export const Decks = () => {
       <Title isDeck nameDeck={'Decks list'}>
         <CreateUpdateDeck
           buttonName={'Add New Deck'}
+          callback={clearParams}
           className={s.btnCreateDeck}
           error={errorCreateDeck}
           isError={isErrorCreateDeck}
@@ -110,12 +100,12 @@ export const Decks = () => {
       </Title>
       <Filters
         activeTab={activeTab}
+        callback={clearParams}
         dataUserData={dataUserData}
         favoritedBy={favoritedBy}
         maxCards={maxCards}
         minCards={minCards}
         name={name}
-        setPage={setPage}
         updateSearchParam={updateSearchParam}
       />
       <div className={s.table}>
@@ -178,17 +168,15 @@ export const Decks = () => {
           setOrderBy={setOrderByDeck}
         />
       </div>
-      <div className={s.pagination}>
-        <Pagination
-          currentPage={page}
-          itemPage={itemPage}
-          onPageChange={setPage}
-          pageSize={1}
-          setPageSize={setItemPage}
-          siblingCount={1}
-          totalCount={data?.pagination?.totalPages ?? 1}
-        />
-      </div>
+      <Pagination
+        currentPage={page}
+        itemPage={String(pageItem)}
+        onPageChange={setPage}
+        pageSize={1}
+        setPageSize={setItemPage}
+        siblingCount={1}
+        totalCount={data?.pagination?.totalPages ?? 1}
+      />
     </Page>
   )
 }
