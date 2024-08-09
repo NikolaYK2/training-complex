@@ -1,8 +1,10 @@
 .nav {
   display: flex;
   align-items: center;
+
   max-width: 580px;
   height: 100%;
+  margin: 2.3815% 0 0; //24px
 
   button {
     all: unset;

@@ -8,6 +8,7 @@ import { DOTS, usePagination } from '@/commn/hooks/usePagination'
 import s from './Pagination.module.scss'
 
 type Props = {
+  className?: string
   currentPage: number // Текущая страница
   itemPage: string
   onPageChange: (pageNumber: number) => void // Функция обратного вызова при изменении страницы
@@ -17,6 +18,7 @@ type Props = {
   totalCount: number // Общее количество элементов
 }
 export const Pagination = ({
+  className = '',
   currentPage,
   itemPage,
   onPageChange,
@@ -72,7 +74,7 @@ export const Pagination = ({
   }
 
   return (
-    <nav className={s.nav}>
+    <nav className={`${s.nav} ${className}`}>
       <button
         className={`${s.nextPage} ${currentPage > 1 && s.activeArrow}`}
         onClick={previousPage}
