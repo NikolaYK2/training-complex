@@ -18,6 +18,36 @@ export const decksService = flashcardsApi.injectEndpoints({
   endpoints: builder => ({
     addFavorite: builder.mutation<void, { id: string }>({
       invalidatesTags: ['Decks'],
+      async onQueryStarted({ id }, { dispatch, getState, queryFulfilled }) {
+        // 1
+        const cachedFavorite = decksService.util.selectCachedArgsForQuery(getState(), 'getDecks')
+        const patchResults: any[] = []
+
+        cachedFavorite.forEach(favoriteCash => {
+          patchResults.push(
+            dispatch(
+              decksService.util.updateQueryData('getDecks', favoriteCash, draft => {
+                const itemToUpdateIndex = draft.items.findIndex(deck => deck.id === id)
+
+                if (itemToUpdateIndex === -1) {
+                  return
+                }
+                draft.items[itemToUpdateIndex].isFavorite = true
+              })
+            )
+          )
+        })
+
+        try {
+          //2 - запускает query
+          await queryFulfilled
+        } catch (e) {
+          patchResults.forEach(patchResult => {
+            // в случае ошибки вернет предыдущее значение
+            patchResult.undo()
+          })
+        }
+      },
       query: ({ id }) => {
         return {
           method: 'POST',
@@ -80,6 +110,29 @@ export const decksService = flashcardsApi.injectEndpoints({
     }),
     deleteDeck: builder.mutation<void, { id: string }>({
       invalidatesTags: ['Decks'],
+      async onQueryStarted({ id }, { dispatch, getState, queryFulfilled }) {
+        const cachedDeleteDeck = decksService.util.selectCachedArgsForQuery(getState(), 'getDecks')
+        const patchResults: any[] = []
+
+        cachedDeleteDeck.forEach(cachedArgs => {
+          patchResults.push(
+            dispatch(
+              decksService.util.updateQueryData('getDecks', cachedArgs, draft => {
+                draft.items = draft.items.filter(deck => deck.id !== id) // Удаляем элемент из кеша
+              })
+            )
+          )
+        })
+
+        try {
+          await queryFulfilled
+        } catch (e) {
+          patchResults.forEach(patchResult => {
+            patchResult.undo()
+          })
+        }
+      },
+
       query: ({ id }) => {
         return {
           method: 'DELETE',
@@ -98,6 +151,36 @@ export const decksService = flashcardsApi.injectEndpoints({
     }),
     removeFavorite: builder.mutation<void, { id: string }>({
       invalidatesTags: ['Decks'],
+      async onQueryStarted({ id }, { dispatch, getState, queryFulfilled }) {
+        const cachedRemoveFavorite = decksService.util.selectCachedArgsForQuery(
+          getState(),
+          'getDecks'
+        ) as DecksArgs[]
+        const patchResults: any[] = []
+
+        cachedRemoveFavorite.forEach(favoriteCash => {
+          patchResults.push(
+            dispatch(
+              decksService.util.updateQueryData('getDecks', favoriteCash, draft => {
+                const itemToUpdateIndex = draft.items.findIndex(deck => deck.id === id)
+
+                if (itemToUpdateIndex !== -1) {
+                  draft.items[itemToUpdateIndex].isFavorite = false
+                }
+              })
+            )
+          )
+        })
+
+        try {
+          await queryFulfilled
+        } catch (e) {
+          patchResults.forEach(patchResult => {
+            patchResult.undo()
+          })
+        }
+      },
+
       query: ({ id }) => {
         return {
           method: 'DELETE',
@@ -206,7 +289,7 @@ export const {
 
 type Valuable<T> = { [K in keyof T as T[K] extends null | undefined ? never : K]: T[K] }
 
-export function getValuable<T extends {}, V = Valuable<T>>(obj: T): V {
+function getValuable<T extends {}, V = Valuable<T>>(obj: T): V {
   return Object.fromEntries(
     Object.entries(obj).filter(
       ([, v]) => !((typeof v === 'string' && !v.length) || v === null || typeof v === 'undefined')
