@@ -36,6 +36,8 @@
   }
 
   .description {
+    display: flex;
+    justify-content: center;
     margin: 6.846% 0 2.977%;
     color: var(--color-dark-100);
   }
@@ -48,6 +50,9 @@
 
 .imageTitle {
   cursor: pointer;
+
+  display: flex;
+  justify-content: start;
 
   width: 100%;
   max-width: 170px;
