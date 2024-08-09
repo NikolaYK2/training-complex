@@ -29,6 +29,7 @@ type CreateUpdateDeckMutationTrigger =
   | ReturnType<typeof useUpdateDeckMutation>[0]
 type Props = {
   buttonName?: string
+  callback?: () => void
   className?: string
   coverDeckBy?: null | string | undefined
   error: FetchBaseQueryError | SerializedError | undefined
@@ -45,6 +46,7 @@ type Props = {
 }
 export const CreateUpdateDeck = ({
   buttonName,
+  callback,
   className = '',
   coverDeckBy,
   error,
@@ -88,7 +90,12 @@ export const CreateUpdateDeck = ({
         isPrivate: data.isPrivate,
         name: data.name,
       })
-      idCard ? handleCloseModal() : handleFormReset()
+      if (idCard) {
+        handleCloseModal()
+      } else {
+        handleFormReset()
+        callback?.()
+      }
     } catch (e) {
       console.error('Error creating deck: ', e)
     }
