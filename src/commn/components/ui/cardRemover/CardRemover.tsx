@@ -53,7 +53,7 @@ export const CardRemover = ({
   text = '',
   titleName,
 }: Props) => {
-  const { handleCloseModal, handleSubmit } = useCreateEntityForm({
+  const { closeModal, handleSubmit, isOpenModal, setIsOpenModal } = useCreateEntityForm({
     defaultValues: {
       id: idCard,
     },
@@ -61,9 +61,14 @@ export const CardRemover = ({
   })
 
   const onSubmit: SubmitHandler<FormType> = async data => {
-    if (data.id) {
-      await mutationDeck({ id: data.id })
-      navigate && navigate?.(-1)
+    try {
+      if (data.id) {
+        await mutationDeck({ id: data.id }).unwrap()
+        closeModal()
+        navigate && navigate?.(-1)
+      }
+    } catch (e) {
+      console.error(e)
     }
   }
 
@@ -78,8 +83,9 @@ export const CardRemover = ({
       {isIcon && <DeleteIcon className={s.iconDelete} />}
       <DialogModal
         buttonName={buttonName}
+        isOpenModal={isOpenModal}
         onSubmit={handleSubmit(onSubmit)}
-        setIsOpenModal={handleCloseModal}
+        setIsOpenModal={setIsOpenModal}
         titleContent={titleName}
         triggerVariant={'link'}
       >
@@ -88,10 +94,7 @@ export const CardRemover = ({
           <TextFormat key={'text-1'} style={{ display: '' }} variant={'body1'}>
             <span style={{ display: 'flex' }}>
               {firstText}
-              <TextFormat
-                style={{ marginLeft: '5px' }}
-                variant={'subtitle1'}
-              >{`${name}`}</TextFormat>
+              <TextFormat className={s.name}>{`${name}`}</TextFormat>
             </span>
             {lastText}
           </TextFormat>,
