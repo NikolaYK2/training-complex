@@ -43,8 +43,11 @@ export const useCreateEntityForm = <T extends FieldValues>({
     setIsOpenModal(!isOpenModal)
     setFilePreviewFullScreen(false)
   }
+  const openModal = () => setIsOpenModal(true)
+  const closeModal = () => setIsOpenModal(false)
 
   return {
+    closeModal,
     control,
     errors,
     filePreview,
@@ -54,8 +57,10 @@ export const useCreateEntityForm = <T extends FieldValues>({
     handleFormReset,
     handleSubmit,
     isOpenModal,
+    openModal,
     setFilePreview,
     setFilePreviewFullScreen,
+    setIsOpenModal,
     setValue,
   }
 }
