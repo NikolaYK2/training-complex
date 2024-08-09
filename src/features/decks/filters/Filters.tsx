@@ -7,8 +7,7 @@ import { Search } from '@/commn/components/ui/search/Search'
 import { SliderValue } from '@/commn/components/ui/slider/SliderValue'
 import { TabSwitcher } from '@/commn/components/ui/tabSwitcher/TabSwitcher'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
-import { UpdateSearchParamType } from '@/commn/hooks/useSearchUpdateParams'
-import { DECKS_KEY_SEARCH_PARAMS } from '@/features/decks/Decks'
+import { DECKS_KEY_SEARCH_PARAMS, UpdateSearchParamType } from '@/commn/hooks/useSearchUpdateParams'
 import { useMenuVisibility } from '@/features/decks/filters/lib/useMenuVisibility'
 import { ResponseType } from '@/services/auth/AuthTypes'
 
@@ -16,60 +15,68 @@ import s from './Filters.module.scss'
 
 type Props = {
   activeTab: string
+  callback?: () => void
   dataUserData: ResponseType | null | undefined
   favoritedBy: string
   maxCards: number
   minCards: number
   name: string
-  setPage: (page: number) => void
-  updateSearchParam: ({ callBack, key, replace, value }: UpdateSearchParamType) => void
+  updateSearchParam: ({ key, removeKeys, replace, value }: UpdateSearchParamType) => void
 }
 export const Filters = ({
   activeTab,
+  callback,
   dataUserData,
   favoritedBy,
   maxCards,
   minCards,
   name,
-  setPage,
   updateSearchParam,
 }: Props) => {
   const { handleClickStopPropagation, handleToggleMenu, isMenuVisible } = useMenuVisibility()
 
-  const setSearch = (name: string) => {
-    updateSearchParam({ callBack: setPage, key: DECKS_KEY_SEARCH_PARAMS.searchName, value: name })
-  }
   const setAuthorDecks = (authorId: string) => {
-    updateSearchParam({ callBack: setPage, key: DECKS_KEY_SEARCH_PARAMS.authorId, value: authorId })
+    updateSearchParam({
+      key: DECKS_KEY_SEARCH_PARAMS.authorId,
+      value: authorId,
+    })
   }
 
   const setCountMinDecks = (countMin: number) => {
     updateSearchParam({
-      callBack: setPage,
       key: DECKS_KEY_SEARCH_PARAMS.minCardsCount,
+      removeKeys: [DECKS_KEY_SEARCH_PARAMS.page],
       value: countMin,
+    })
+  }
+  const setSearch = (name: string) => {
+    updateSearchParam({
+      key: DECKS_KEY_SEARCH_PARAMS.searchName,
+      removeKeys: [DECKS_KEY_SEARCH_PARAMS.page, DECKS_KEY_SEARCH_PARAMS.minCardsCount],
+      value: name,
     })
   }
 
   const setCountMaxDecks = (countMax: number) => {
-    updateSearchParam({ key: DECKS_KEY_SEARCH_PARAMS.maxCardsCount, value: countMax })
+    updateSearchParam({
+      key: DECKS_KEY_SEARCH_PARAMS.maxCardsCount,
+      removeKeys: [DECKS_KEY_SEARCH_PARAMS.page],
+      value: countMax,
+    })
   }
 
   const setFavoriteDeck = (clear?: string) => {
     const newValue = favoritedBy === '~caller' ? '' : '~caller'
 
     updateSearchParam({
-      callBack: setPage,
       key: DECKS_KEY_SEARCH_PARAMS.favoritedBy,
+      removeKeys: [DECKS_KEY_SEARCH_PARAMS.page],
       value: clear === 'off' ? '' : newValue,
     })
   }
 
   const handleClearFilter = () => {
-    setCountMaxDecks(100)
-    setCountMinDecks(0)
-    setPage(1)
-    setSearch('')
+    callback?.()
     setFavoriteDeck('off')
   }
 
