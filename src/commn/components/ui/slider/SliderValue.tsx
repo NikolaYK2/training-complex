@@ -36,11 +36,15 @@ export const SliderValue = ({
   }, [initialMax])
   // Обновляем значения в родительском компоненте при изменении дебаунсированных значений
   useEffect(() => {
-    setCountMinDecks(debouncedMinValue)
+    if (debouncedMinValue !== initialMin) {
+      setCountMinDecks(debouncedMinValue)
+    }
   }, [debouncedMinValue])
 
   useEffect(() => {
-    setCountMaxDecks(debouncedMaxValue)
+    if (debouncedMaxValue !== initialMax) {
+      setCountMaxDecks(debouncedMaxValue)
+    }
   }, [debouncedMaxValue])
   // Обновляем состояния ползунков
   const changeSliderValues = (value: number[]) => {
