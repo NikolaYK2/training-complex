@@ -49,19 +49,19 @@ export const Filters = ({
       value: countMin,
     })
   }
-  const setSearch = (name: string) => {
-    updateSearchParam({
-      key: DECKS_KEY_SEARCH_PARAMS.searchName,
-      removeKeys: [DECKS_KEY_SEARCH_PARAMS.page, DECKS_KEY_SEARCH_PARAMS.minCardsCount],
-      value: name,
-    })
-  }
-
   const setCountMaxDecks = (countMax: number) => {
     updateSearchParam({
       key: DECKS_KEY_SEARCH_PARAMS.maxCardsCount,
       removeKeys: [DECKS_KEY_SEARCH_PARAMS.page],
       value: countMax,
+    })
+  }
+
+  const setSearch = (name: string) => {
+    updateSearchParam({
+      key: DECKS_KEY_SEARCH_PARAMS.searchName,
+      removeKeys: [DECKS_KEY_SEARCH_PARAMS.page, DECKS_KEY_SEARCH_PARAMS.minCardsCount],
+      value: name,
     })
   }
 
