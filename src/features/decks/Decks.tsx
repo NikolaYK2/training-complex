@@ -129,6 +129,8 @@ export const Decks = () => {
               { forMobileTitle: 'Created By', value: deck.author.name },
               {
                 element: [
+                  <FavoriteDeck idCard={deck.id} isFavorite={deck.isFavorite} key={'like'} />,
+
                   <LearnDeck idCard={deck.id} key={'learn'} />,
 
                   <CreateUpdateDeck
@@ -158,7 +160,6 @@ export const Decks = () => {
                     text={`Do you really want to remove /${deck.name}? All cards will be deleted.`}
                     titleName={'delete pack'}
                   />,
-                  <FavoriteDeck idCard={deck.id} isFavorite={deck.isFavorite} key={'like'} />,
                 ],
                 elementUser: dataUserData?.id === deck.userId,
               },
