@@ -15,12 +15,18 @@ type Story = StoryObj<typeof meta>
 
 export const LayoutHeader: Story = {
   args: {
+    avatar: 'avatar',
     children: <Decks />,
+    email: 'email',
+    name: 'name',
   },
 }
 
 export const LayoutLogin: Story = {
   args: {
+    avatar: 'avatar',
     children: <SignIn />,
+    email: 'email',
+    name: 'name',
   },
 }
