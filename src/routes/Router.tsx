@@ -6,7 +6,6 @@ import {
   createBrowserRouter,
 } from 'react-router-dom'
 
-import { Loading } from '@/commn/components/ui/loading/Loading'
 import { CheckEmail } from '@/features/auth/checkEmail/CheckEmail'
 import { ConfirmEmail } from '@/features/auth/confirmEmail/ConfirmEmail'
 import { CreateNewPassword } from '@/features/auth/createPassword/CreateNewPassword'
@@ -17,9 +16,8 @@ import { SignUp } from '@/features/auth/registration/SignUp'
 import { Cards } from '@/features/cards/Cards'
 import { Decks } from '@/features/decks/Decks'
 import { Learn } from '@/features/learn/Learn'
-import { AppRoutes } from '@/routes/AppRoutes'
+import { AppRoutes, useAuthContext } from '@/routes/AppRoutes'
 import { ErrorRoute } from '@/routes/errorRoute/ErrorRoute'
-import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
 
 export const HOME_ROUTE = '/'
 export const DECKS_ROUTE = '/decks'
@@ -106,17 +104,13 @@ export const Router = () => {
 }
 
 function PrivateRoutes() {
-  const { data: currentUser, isLoading } = useGetCurrentUserDataQuery()
+  const { isAuthenticated } = useAuthContext()
 
-  if (isLoading) {
-    return <Loading />
-  }
-
-  return currentUser ? <Outlet /> : <Navigate replace to={LOGIN_ROUTE} />
+  return isAuthenticated ? <Outlet /> : <Navigate replace to={LOGIN_ROUTE} />
 }
 
 function RedirectIsLogged() {
-  const { data: currentUser } = useGetCurrentUserDataQuery()
+  const { isAuthenticated } = useAuthContext()
 
-  return !currentUser ? <Outlet /> : <Navigate replace to={HOME_ROUTE} />
+  return !isAuthenticated ? <Outlet /> : <Navigate replace to={HOME_ROUTE} />
 }
