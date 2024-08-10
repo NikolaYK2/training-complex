@@ -13,7 +13,7 @@ export const BackTo = ({ nameLink }: Props) => {
   const navigate = useNavigate()
 
   const handleGoBack = () => {
-    navigate(-2)
+    navigate(-1)
   }
 
   return (
