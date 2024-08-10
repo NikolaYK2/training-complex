@@ -15,18 +15,20 @@ export const useDebounce = (
   onChange?: (value: ChangeEvent<HTMLInputElement>) => void
 ) => {
   const [valueDebounce, setDebounce] = useState(initialValue)
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDebounce(e.currentTarget.value)
     onChange?.(e)
   }
 
-  // Функция для сброса текущего значения дебаунса
   const reset = () => {
-    setDebounce('') // Сбрасываем значение дебаунса
+    callback?.('')
   }
 
   useEffect(() => {
+    if (valueDebounce.trim() === '') {
+      return // Если значение пустое, не запускаем дебаунс
+    }
+
     const handler = setTimeout(() => {
       callback && callback(valueDebounce)
     }, delay)
@@ -37,12 +39,10 @@ export const useDebounce = (
   }, [valueDebounce])
 
   useEffect(() => {
-    // Сбросить значение дебаунса при изменении initialValue
     if (initialValue !== valueDebounce) {
-      setDebounce(initialValue || '') // Если initialValue пустое, устанавливаем ''
+      setDebounce(initialValue)
     }
   }, [initialValue])
 
-  // Возвращаем объект с функциями и текущим значением дебаунса
   return { handleChange, reset, valueDebounce }
 }
