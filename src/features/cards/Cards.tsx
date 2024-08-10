@@ -9,7 +9,7 @@ import { Pagination } from '@/commn/components/ui/pagination/Pagination'
 import { Search } from '@/commn/components/ui/search/Search'
 import { Table } from '@/commn/components/ui/tables/Table'
 import { Title } from '@/commn/components/ui/title/Title'
-import { useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
+import { DECKS_KEY_SEARCH_PARAMS, useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
 import { CreateUpdateCard } from '@/features/cards/createUpdateCard/CreateUpdateCard'
 import { EditCard } from '@/features/cards/editCard/EditCard'
 import { GradeCard } from '@/features/cards/gradeCard/GradeCard'
@@ -56,7 +56,11 @@ export const Cards = () => {
   }
 
   const setSearch = (searchName: string) => {
-    updateSearchParam({ key: CARDS_KEY_SEARCH_PARAMS.searchName, value: searchName })
+    updateSearchParam({
+      key: CARDS_KEY_SEARCH_PARAMS.searchName,
+      removeKeys: [DECKS_KEY_SEARCH_PARAMS.page],
+      value: searchName,
+    })
   }
 
   const setOrderBy = (orderBy: OrderByType) => {
