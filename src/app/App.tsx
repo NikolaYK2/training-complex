@@ -1,13 +1,13 @@
 import { Provider } from 'react-redux'
 
-import { Toast } from '@/commn/components/ui/toast/Toast'
+import { Snackbar } from '@/commn/components/ui/snackbar/Snackbar'
 import { Router } from '@/routes/Router'
 import { store } from '@/services/store'
 
 export function App() {
   return (
     <Provider store={store}>
-      <Toast />
+      <Snackbar />
       <Router />
     </Provider>
   )
