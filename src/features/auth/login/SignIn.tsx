@@ -1,5 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 
+import { appAction } from '@/app/model/sliceApp'
 import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
@@ -8,6 +10,11 @@ import { useLoginAuthMutation } from '@/services/auth/authService'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
+type Error = {
+  data?: {
+    message: string
+  }
+}
 export const loginSchema = z.object({
   email: z.string().trim().email(),
   password: z.string().min(3).max(30),
@@ -17,6 +24,7 @@ export const loginSchema = z.object({
 export type LoginFormType = z.infer<typeof loginSchema>
 
 export const SignIn = () => {
+  const dispatch = useDispatch()
   const {
     control,
     formState: { errors },
@@ -41,7 +49,15 @@ export const SignIn = () => {
       }).unwrap()
 
       reset()
-    } catch (e) {
+    } catch (e: unknown) {
+      const error = e as Error
+
+      dispatch(
+        appAction.setStatusMessage({
+          message: error?.data?.message || 'invalid email or password',
+          type: 'error',
+        })
+      )
       console.error('login error: ', e)
     }
   }
