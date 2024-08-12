@@ -5,7 +5,7 @@ import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
-import { manageFeedback } from '@/commn/utils/manageFeedback'
+import { tryCatch } from '@/commn/utils/tryCatch'
 import { useLoginAuthMutation } from '@/services/auth/authService'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -36,7 +36,7 @@ export const SignIn = () => {
 
   const [authorisation, { isLoading }] = useLoginAuthMutation()
   const onSubmit: SubmitHandler<LoginFormType> = async data => {
-    try {
+    return tryCatch(dispatch, async () => {
       await authorisation({
         email: data.email,
         password: data.password,
@@ -44,14 +44,7 @@ export const SignIn = () => {
       }).unwrap()
 
       reset()
-    } catch (e) {
-      manageFeedback({
-        data: e,
-        defaultMessage: 'invalid email or password',
-        dispatch,
-        type: 'error',
-      })
-    }
+    })
   }
 
   return (
