@@ -31,64 +31,42 @@ export const CREATE_NEW_PASSWORD_ROUTE = '/create-password'
 export const CHECK_EMAIL_ROUTE = '/check-email'
 export const CONFIRM_EMAIL_ROUTE = '/confirm-email'
 
-export const publicRoutes: RouteObject[] = [
-  {
-    children: [
-      {
-        element: <SignIn />,
-        path: LOGIN_ROUTE,
-      },
-      {
-        element: <SignUp />,
-        path: REGISTER_ROUTE,
-      },
-      {
-        element: <ForgotPassword />,
-        path: FORGOT_PASSWORD_ROUTE,
-      },
-      {
-        element: <CreateNewPassword />,
-        path: `${CREATE_NEW_PASSWORD_ROUTE}/:token`,
-      },
-      {
-        element: <CheckEmail />,
-        path: CHECK_EMAIL_ROUTE,
-      },
-      {
-        element: <ConfirmEmail />,
-        path: `${CONFIRM_EMAIL_ROUTE}/:token`,
-      },
-    ],
-    element: <RedirectIsLogged />,
-  },
+const publicRoutes: RouteObject[] = [
+  { element: <SignIn />, path: LOGIN_ROUTE },
+  { element: <SignUp />, path: REGISTER_ROUTE },
+  { element: <ForgotPassword />, path: FORGOT_PASSWORD_ROUTE },
+  { element: <CreateNewPassword />, path: `${CREATE_NEW_PASSWORD_ROUTE}/:token` },
+  { element: <CheckEmail />, path: CHECK_EMAIL_ROUTE },
+  { element: <ConfirmEmail />, path: `${CONFIRM_EMAIL_ROUTE}/:token` },
 ]
-export const privateRoutes: RouteObject[] = [
-  {
-    element: <Navigate replace to={DECKS_ROUTE} />,
-    path: `${HOME_ROUTE}`,
-  },
-  {
-    element: <Decks />,
-    path: `${DECKS_ROUTE}`,
-  },
-  {
-    element: <Cards />,
-    path: `${DECKS_ROUTE}/:id${CARDS_ROUTE}`,
-  },
-  {
-    element: <Learn />,
-    path: `${DECKS_ROUTE}/:id${LEARN_ROUTE}`,
-  },
-  {
-    element: <PersonalInformation />,
-    path: PROFILE_ROUTE,
-  },
+
+const privateRoutes: RouteObject[] = [
+  { element: <Navigate replace to={DECKS_ROUTE} />, path: HOME_ROUTE },
+  { element: <Decks />, path: DECKS_ROUTE },
+  { element: <Cards />, path: `${DECKS_ROUTE}/:id${CARDS_ROUTE}` },
+  { element: <Learn />, path: `${DECKS_ROUTE}/:id${LEARN_ROUTE}` },
+  { element: <PersonalInformation />, path: PROFILE_ROUTE },
 ]
+
+const PublicRoutes = () => {
+  const { isAuthenticated } = useAuthContext()
+
+  return isAuthenticated ? <Navigate replace to={DECKS_ROUTE} /> : <Outlet />
+}
+
+const PrivateRoutes = () => {
+  const { isAuthenticated } = useAuthContext()
+
+  return isAuthenticated ? <Outlet /> : <Navigate replace to={LOGIN_ROUTE} />
+}
 
 export const router = createBrowserRouter([
   {
     children: [
-      ...publicRoutes,
+      {
+        children: publicRoutes,
+        element: <PublicRoutes />,
+      },
       {
         children: privateRoutes,
         element: <PrivateRoutes />,
@@ -98,19 +76,4 @@ export const router = createBrowserRouter([
     element: <AppRoutes />,
   },
 ])
-
-export const Router = () => {
-  return <RouterProvider router={router} />
-}
-
-function PrivateRoutes() {
-  const { isAuthenticated } = useAuthContext()
-
-  return isAuthenticated ? <Outlet /> : <Navigate replace to={LOGIN_ROUTE} />
-}
-
-function RedirectIsLogged() {
-  const { isAuthenticated } = useAuthContext()
-
-  return !isAuthenticated ? <Outlet /> : <Navigate replace to={HOME_ROUTE} />
-}
+export const Router = () => <RouterProvider router={router} />
