@@ -166,7 +166,9 @@ export const FormAuth = <TFieldValues extends FieldValues>({
 
       <Button
         as={formInfo[title].rote ? Link : 'button'}
-        className={`${s.submitBtn} ${isPersonalInformation && s.submitBtnMarginMod} iconLogOut`}
+        className={`${s.submitBtn} ${
+          isPersonalInformation && s.submitBtnMarginMod
+        } iconLogOutAnimation`}
         to={formInfo[title].rote ? formInfo[title].rote : ''}
         type={'submit'}
         variant={isPersonalInformation && !isEditingPersonalInfo ? 'secondary' : 'primary'}
