@@ -16,6 +16,30 @@ const AUTH = 'v1/auth/'
 
 export const authService = flashcardsApi.injectEndpoints({
   endpoints: builder => ({
+    deleteAccount: builder.mutation<void, void>({
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        const res = dispatch(
+          authService.util.updateQueryData('getCurrentUserData', _, () => {
+            return null
+          })
+        )
+
+        try {
+          await queryFulfilled
+
+          localStorageUtil.removeItem('accessToken')
+          localStorageUtil.removeItem('refreshToken')
+        } catch (error) {
+          console.error('Logout failed:', error)
+          res.undo()
+        }
+      },
+
+      query: () => ({
+        method: 'DELETE',
+        url: `${AUTH}me`,
+      }),
+    }),
     getCurrentUserData: builder.query<ResponseType | null, void>({
       providesTags: ['Auth'],
       query: () => `${AUTH}me`,
@@ -116,6 +140,7 @@ export const authService = flashcardsApi.injectEndpoints({
 })
 
 export const {
+  useDeleteAccountMutation,
   useGetCurrentUserDataQuery,
   useGetVerifyEmailMutation,
   useLoginAuthMutation,
