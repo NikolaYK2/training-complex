@@ -1,8 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
+export type MessageType = 'error' | 'success'
 type initialStateApp = {
   message: null | string
-  messageType: 'error' | 'success' | null
+  messageType: MessageType | null
 }
 const initialState: initialStateApp = {
   message: null,
