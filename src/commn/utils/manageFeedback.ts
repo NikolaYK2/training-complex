@@ -9,14 +9,13 @@ type Data = {
 
 type HandlerResponse = {
   data: unknown
-  defaultMessage: string
   dispatch: Dispatch
   type: MessageType
 }
-export const manageFeedback = ({ data, defaultMessage, dispatch, type }: HandlerResponse) => {
+export const manageFeedback = ({ data, dispatch, type }: HandlerResponse) => {
   const res = data as Data
 
-  const message = res?.data?.message || defaultMessage
+  const message = res?.data?.message || 'Network error!'
 
   dispatch(appAction.setStatusMessage({ message, type }))
 }
