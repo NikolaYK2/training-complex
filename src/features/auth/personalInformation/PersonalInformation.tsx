@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 
 import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
 import { deepNotEqual } from '@/commn/utils/deepNotEqual'
+import { tryCatch } from '@/commn/utils/tryCatch'
 import { useGetCurrentUserDataQuery, useLogoutMutation } from '@/services/auth/authService'
 import { useAuthMutation } from '@/services/lib/auth/useAuthMutation'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -19,7 +21,7 @@ export type PersonalInformationType = z.infer<typeof personalInformationSchema>
 
 export const PersonalInformation = () => {
   const [isEditingPersonalInfo, setIsEditingPersonalInfo] = useState(false)
-
+  const dispatch = useDispatch()
   const { data, error, isError, isLoading } = useGetCurrentUserDataQuery()
   const { errorUpdUser, isErrorUpdUser, isLoadingUpdUser, updateUserData } = useAuthMutation()
 
@@ -37,22 +39,21 @@ export const PersonalInformation = () => {
     resolver: zodResolver(personalInformationSchema),
   })
   const param = { name: data?.name }
+
   const onSubmit: SubmitHandler<PersonalInformationType> = async data => {
     const dataParam = {
       name: data.text,
     }
 
     if (deepNotEqual(param, dataParam)) {
-      try {
+      return tryCatch(dispatch, async () => {
         if (isEditingPersonalInfo) {
-          await updateUserData({ name: data.text })
+          await updateUserData({ name: data.text }).unwrap()
           setIsEditingPersonalInfo(false)
         } else {
           await logOut()
         }
-      } catch (e) {
-        console.error('Error: ', e)
-      }
+      })
     } else {
       setIsEditingPersonalInfo(false)
     }

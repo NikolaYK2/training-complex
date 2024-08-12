@@ -1,10 +1,12 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
+import { tryCatch } from '@/commn/utils/tryCatch'
 import { LOGIN_ROUTE } from '@/routes/Router'
 import { usePasswordResetMutation } from '@/services/auth/authService'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -29,21 +31,21 @@ export const CreateNewPassword = () => {
   })
   const { token } = useParams<{ token: string }>()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const [resetPassword, { error, isError, isLoading }] = usePasswordResetMutation()
+
   const onSubmit: SubmitHandler<CreateNewPasswordType> = async data => {
-    try {
+    return tryCatch(dispatch, async () => {
       if (token) {
-        await resetPassword({ password: data.password, token })
+        await resetPassword({ password: data.password, token }).unwrap()
         reset()
-        // Добавление задержки или других мер подтверждения успешного сброса пароля
-        // перед переходом на страницу входа
+
         setTimeout(() => {
           navigate(LOGIN_ROUTE)
         }, 1000)
       }
-    } catch (e) {
-      console.error('New password ', e)
-    }
+    })
   }
 
   if (isError) {

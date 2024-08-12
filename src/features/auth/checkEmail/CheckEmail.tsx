@@ -1,10 +1,12 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 
 import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
+import { tryCatch } from '@/commn/utils/tryCatch'
 import { templatesEmail } from '@/features/auth/templates/templatesEmail'
 import { useResendVerificationEmailMutation } from '@/services/auth/authService'
 
@@ -19,10 +21,11 @@ export type CheckEmailStateType = {
 type UserIdType = { html: string; userId: string }
 export const CheckEmail = () => {
   const location = useLocation()
+  const dispatch = useDispatch()
   const { buttonName, email, redirect, route, userId } =
     (location.state as CheckEmailStateType) || {}
 
-  const [setVerify, { error, isError, isLoading }] = useResendVerificationEmailMutation()
+  const [setVerify, { isLoading }] = useResendVerificationEmailMutation()
 
   const { control, handleSubmit } = useForm<UserIdType>({
     defaultValues: {
@@ -32,15 +35,9 @@ export const CheckEmail = () => {
   })
 
   const onSubmit: SubmitHandler<UserIdType> = async data => {
-    try {
-      await setVerify({ html: data.html, userId: data.userId })
-    } catch (e) {
-      console.error('Error send verify ', e)
-    }
-  }
-
-  if (isError) {
-    return <div>{JSON.stringify(error)}</div>
+    return tryCatch(dispatch, async () => {
+      await setVerify({ html: data.html, userId: data.userId }).unwrap()
+    })
   }
 
   return (

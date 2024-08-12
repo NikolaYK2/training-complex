@@ -1,10 +1,12 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
+import { tryCatch } from '@/commn/utils/tryCatch'
 import { CheckEmailStateType } from '@/features/auth/checkEmail/CheckEmail'
 import { templatesEmail } from '@/features/auth/templates/templatesEmail'
 import { CHECK_EMAIL_ROUTE, LOGIN_ROUTE } from '@/routes/Router'
@@ -31,9 +33,10 @@ export const ForgotPassword = () => {
     resolver: zodResolver(forgotPasswordSchema),
   })
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [forgotPassword, { error, isError, isLoading }] = usePasswordRecoveryMutation()
   const onSubmit: SubmitHandler<ForgotPasswordType> = async data => {
-    try {
+    return tryCatch(dispatch, async () => {
       await forgotPassword({ email: data.email, html: templatesEmail.recoverPassword }).unwrap()
       navigate(CHECK_EMAIL_ROUTE, {
         state: {
@@ -44,9 +47,7 @@ export const ForgotPassword = () => {
         } as CheckEmailStateType,
       })
       reset()
-    } catch (e) {
-      console.error('Forgot password: ', e)
-    }
+    })
   }
 
   if (isError) {

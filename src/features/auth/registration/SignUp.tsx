@@ -6,7 +6,7 @@ import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
-import { manageFeedback } from '@/commn/utils/manageFeedback'
+import { tryCatch } from '@/commn/utils/tryCatch'
 import { CheckEmailStateType } from '@/features/auth/checkEmail/CheckEmail'
 import { templatesEmail } from '@/features/auth/templates/templatesEmail'
 import { CHECK_EMAIL_ROUTE } from '@/routes/Router'
@@ -42,11 +42,10 @@ export const SignUp = () => {
     resolver: zodResolver(RegisterSchema),
   })
   const [registration, { isLoading: isLoadingRegistration }] = useRegistrationAuthMutation()
-
-  const navigate = useNavigate()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const onSubmit: SubmitHandler<RegisterFormType> = async data => {
-    try {
+    return tryCatch(dispatch, async () => {
       const registrationResult = await registration({
         email: data.email,
         html: templatesEmail.checkEmail,
@@ -61,9 +60,7 @@ export const SignUp = () => {
         } as CheckEmailStateType,
       })
       reset()
-    } catch (e) {
-      manageFeedback({ data: e, dispatch, type: 'error' })
-    }
+    })
   }
 
   return (
