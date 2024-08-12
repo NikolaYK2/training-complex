@@ -14,7 +14,7 @@
   }
 
   //ANIMATION ---------------------------------------------------------------------
-  .iconLogOut {
+  .iconLogOutAnimation {
     &:hover svg path:last-child {
       animation: active-logout 0.8s forwards 0s;
     }
@@ -24,7 +24,7 @@
     }
   }
 
-  .iconProfile {
+  .iconProfileAnimation {
     &:hover div svg path:first-child {
       animation: active-profile 1s forwards 0s;
     }
@@ -45,11 +45,11 @@
   }
 
   .deleteAnimation {
-    &:hover div svg path:last-child {
+    &:hover svg path:last-child {
       animation: delete-hover 0.6s ease forwards;
     }
 
-    &:not(:hover) div svg path:last-child {
+    &:not(:hover) svg path:last-child {
       animation: delete-not-hover 0.3s forwards;
     }
   }
