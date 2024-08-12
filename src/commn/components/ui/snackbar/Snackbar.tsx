@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooksStore'
 import { appSelectorMessage, appSelectorMessageType } from '@/app/model/selectorApp'
-import { appAction } from '@/app/model/sliceApp'
+import { MessageType, appAction } from '@/app/model/sliceApp'
 import { TickIcon } from '@/assets/image/tick/TickIcon'
 import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
@@ -16,28 +16,27 @@ export const Snackbar = () => {
   const messageType = useAppSelector(appSelectorMessageType)
 
   const dispatch = useAppDispatch()
-  const timerRef = useRef(0)
+  const timerRef = useRef<number | undefined>(0)
 
   useEffect(() => {
-    let timerId = timerRef.current
-
-    setOpen(false)
-
     if (message) {
       setOpen(true)
-      window.clearTimeout(timerId)
-      timerId = window.setTimeout(() => {
+      timerRef.current = window.setTimeout(() => {
         setOpen(false)
         dispatch(appAction.clearStatusMessage())
-      }, 3000)
+      }, 5000)
     }
 
-    return () => clearTimeout(timerId)
-  }, [message])
+    return () => clearTimeout(timerRef.current)
+  }, [message, dispatch])
 
   return (
     <Toast.Provider swipeDirection={'right'}>
-      <Toast.Root className={s.snackRoot} onOpenChange={setOpen} open={open}>
+      <Toast.Root
+        className={`${s.snackRoot} ${styles(messageType)}`}
+        onOpenChange={setOpen}
+        open={open}
+      >
         <Toast.Description asChild className={s.descriptionBlock}>
           <div className={s.description}>
             {messageType === 'success' && <TickIcon className={s.iconOk} />}
@@ -52,4 +51,15 @@ export const Snackbar = () => {
       <Toast.Viewport className={s.viewport} />
     </Toast.Provider>
   )
+}
+
+const styles = (type: MessageType | null) => {
+  switch (type) {
+    case 'success':
+      return s.success
+    case 'error':
+      return s.error
+    default:
+      return ''
+  }
 }
