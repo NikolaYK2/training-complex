@@ -3,6 +3,7 @@ import { Dispatch } from '@reduxjs/toolkit'
 
 type Data = {
   data?: {
+    errorMessages: string
     message: string
   }
 }
@@ -15,7 +16,7 @@ type HandlerResponse = {
 export const manageFeedback = ({ data, dispatch, type }: HandlerResponse) => {
   const res = data as Data
 
-  const message = res?.data?.message || 'Network error!'
+  const message = res?.data?.message || res.data?.errorMessages || 'Network error!'
 
   dispatch(appAction.setStatusMessage({ message, type }))
 }
