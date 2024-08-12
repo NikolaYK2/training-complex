@@ -1,5 +1,4 @@
 import { localStorageUtil } from '@/commn/utils/localStorageUtil'
-import { LOGIN_ROUTE, router } from '@/routes/Router'
 import { LoginResponse } from '@/services/auth/AuthTypes'
 import {
   BaseQueryFn,
@@ -62,7 +61,7 @@ export const baseQueryWithReauth: BaseQueryFn<
 
           result = await baseQuery(args, api, extraOptions)
         } else {
-          router.navigate(LOGIN_ROUTE)
+          // router.navigate(LOGIN_ROUTE)
         }
       } finally {
         release()
