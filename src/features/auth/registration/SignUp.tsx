@@ -1,11 +1,12 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { Card } from '@/commn/components/ui/card/Card'
 import { FormAuth } from '@/commn/components/ui/formAuth/FormAuth'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
-import { errorsResponse } from '@/commn/utils/errorsResponse'
+import { manageFeedback } from '@/commn/utils/manageFeedback'
 import { CheckEmailStateType } from '@/features/auth/checkEmail/CheckEmail'
 import { templatesEmail } from '@/features/auth/templates/templatesEmail'
 import { CHECK_EMAIL_ROUTE } from '@/routes/Router'
@@ -40,11 +41,10 @@ export const SignUp = () => {
     },
     resolver: zodResolver(RegisterSchema),
   })
-  const [registration, { error, isError, isLoading: isLoadingRegistration }] =
-    useRegistrationAuthMutation()
+  const [registration, { isLoading: isLoadingRegistration }] = useRegistrationAuthMutation()
 
   const navigate = useNavigate()
-
+  const dispatch = useDispatch()
   const onSubmit: SubmitHandler<RegisterFormType> = async data => {
     try {
       const registrationResult = await registration({
@@ -62,12 +62,8 @@ export const SignUp = () => {
       })
       reset()
     } catch (e) {
-      console.error('failed to register: ', e)
+      manageFeedback({ data: e, dispatch, type: 'error' })
     }
-  }
-
-  if (isError) {
-    return <div>{errorsResponse(error)}</div>
   }
 
   return (
