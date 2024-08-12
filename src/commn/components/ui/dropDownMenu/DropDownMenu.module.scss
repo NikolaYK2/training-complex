@@ -138,6 +138,13 @@ button {
     }
   }
 
+  .warning {
+    &:hover .text {
+      color: var(--color-danger-500);
+      transition: 0.5s ease 0.3s;
+    }
+  }
+
   .menuArrow {
     filter: drop-shadow(0 1px 0 var(--color-dark-500));
     fill: var(--color-dark-700);

@@ -14,7 +14,7 @@ type TriggerType = {
   title?: string
 }
 export type MenuItem = {
-  buttonName?: string
+  buttonName?: 'delete account' | string
   callback?: () => void
   classNameButton?: string
   disabled?: boolean
@@ -86,7 +86,9 @@ export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
         <DropdownMenu.Content className={s.content} sideOffset={5}>
           {menuConfig.content.map(el => (
             <DropdownMenu.Label
-              className={`${s.item} ${el.classNameButton ? el.classNameButton : ''}`}
+              className={`${s.item} ${el.classNameButton ? el.classNameButton : ''} ${
+                el.buttonName === 'delete account' ? s.warning : ''
+              }`}
               key={el.icon}
             >
               <Button
