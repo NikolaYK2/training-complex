@@ -1,3 +1,4 @@
+import { useAppDispatch } from '@/app/lib/hooksStore'
 import { CardRemover } from '@/commn/components/ui/cardRemover/CardRemover'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
@@ -5,6 +6,7 @@ import { Pagination } from '@/commn/components/ui/pagination/Pagination'
 import { Table } from '@/commn/components/ui/tables/Table'
 import { Title } from '@/commn/components/ui/title/Title'
 import { DECKS_KEY_SEARCH_PARAMS, useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
+import { manageFeedback } from '@/commn/utils/manageFeedback'
 import { CreateUpdateDeck } from '@/features/decks/createUpdateDeck/CreateUpdateDeck'
 import { FavoriteDeck } from '@/features/decks/favoriteDeck/FavoriteDeck'
 import { Filters } from '@/features/decks/filters/Filters'
@@ -26,7 +28,7 @@ import s from './Decks.module.scss'
 export const Decks = () => {
   const { clearParams, searchParams, updateSearchParam } = useSearchUpdateParams()
   const { data: dataUserData } = useGetCurrentUserDataQuery()
-
+  const dispatch = useAppDispatch()
   //rrm search params ------------
   const page = Number(searchParams.get(DECKS_KEY_SEARCH_PARAMS.page)) || 1
   const pageItem = Number(searchParams.get(DECKS_KEY_SEARCH_PARAMS.pageItem)) || 10
@@ -76,9 +78,7 @@ export const Decks = () => {
   }) //из query возвращается обьект из mutation картэш(массив с заранее определенными элементами)
 
   if (isError) {
-    console.error(error)
-
-    return <div>Error: {JSON.stringify(error)}</div>
+    manageFeedback({ data: error, dispatch, type: 'error' })
   }
 
   return (
