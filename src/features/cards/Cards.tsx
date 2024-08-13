@@ -47,7 +47,7 @@ export const Cards = () => {
 
   const { id: idCard } = useParams<{ id: string }>()
 
-  const { searchParams, updateSearchParam } = useSearchUpdateParams()
+  const { clearParams, searchParams, updateSearchParam } = useSearchUpdateParams()
   const dispatch = useAppDispatch()
 
   const page = Number(searchParams.get(CARDS_KEY_SEARCH_PARAMS.page)) || 1
@@ -57,7 +57,6 @@ export const Cards = () => {
   const setCurrentPage = (page: number) => {
     updateSearchParam({ key: CARDS_KEY_SEARCH_PARAMS.page, replace: true, value: page })
   }
-
   const setSearch = (searchName: string) => {
     updateSearchParam({
       key: CARDS_KEY_SEARCH_PARAMS.searchName,
@@ -122,6 +121,7 @@ export const Cards = () => {
       >
         <CreateUpdateCard
           buttonName={'add new card'}
+          callBack={clearParams}
           cardId={idCard}
           error={errorCreateCard}
           isError={isErrorCreatedCard}
