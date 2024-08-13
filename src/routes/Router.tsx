@@ -74,6 +74,7 @@ export const router = createBrowserRouter([
       },
     ],
     element: <AppRoutes />,
+    path: HOME_ROUTE,
   },
 ])
 export const Router = () => <RouterProvider router={router} />
