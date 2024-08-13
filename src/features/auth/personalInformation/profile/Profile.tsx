@@ -1,10 +1,12 @@
 import { KeyboardEvent, useEffect, useRef, useState } from 'react'
 
+import { useAppDispatch } from '@/app/lib/hooksStore'
 import { AvatarDefault } from '@/assets/image/avaDefault/AvatarDefault'
 import { EditIcon } from '@/assets/image/edit/EditIcon'
 import { FileDownload } from '@/commn/components/ui/fileDonwold/FileDownload'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
+import { manageFeedback } from '@/commn/utils/manageFeedback'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authService'
 import { useAuthMutation } from '@/services/lib/auth/useAuthMutation'
 
@@ -18,7 +20,7 @@ export const Profile = ({ isEditingPersonalInfo, setIsEditingPersonalInfo }: Pro
   const [isActiveAvatar, setIsActiveAvatar] = useState(false)
   const { data, error, isError, isLoading } = useGetCurrentUserDataQuery()
   const { errorUpdUser, isErrorUpdUser, isLoadingUpdUser, updateUserData } = useAuthMutation()
-
+  const dispatch = useAppDispatch()
   const clickTimeoutRef = useRef<null | number>(null) // Таймер для обработки кликов
 
   const onDoubleClickHandle = () => {
@@ -48,17 +50,14 @@ export const Profile = ({ isEditingPersonalInfo, setIsEditingPersonalInfo }: Pro
     }
   }
 
+  useEffect(() => {
+    if (isError || isErrorUpdUser) {
+      manageFeedback({ data: error || errorUpdUser, dispatch, type: 'error' })
+    }
+  }, [isError, isErrorUpdUser])
+
   if (isLoading) {
     return <Loading />
-  }
-
-  if (isError || isErrorUpdUser) {
-    if (error) {
-      return <div>Error: {JSON.stringify(error)}</div>
-    }
-    if (errorUpdUser) {
-      return <div>Error: {JSON.stringify(errorUpdUser)}</div>
-    }
   }
 
   return (

@@ -1,5 +1,7 @@
+import { useEffect } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
+import { useAppDispatch } from '@/app/lib/hooksStore'
 import { EditIcon } from '@/assets/image/edit/EditIcon'
 import { ImageIcon } from '@/assets/image/image/ImageIcon'
 import { ButtonVariantType } from '@/commn/components/ui/button'
@@ -10,6 +12,8 @@ import { ControlledTextField } from '@/commn/components/ui/input/ControlledTextF
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { DialogModal } from '@/commn/components/ui/modals/dialog/DialogModal'
 import { useCreateEntityForm } from '@/commn/hooks/useCreateEntityForm'
+import { manageFeedback } from '@/commn/utils/manageFeedback'
+import { tryCatch } from '@/commn/utils/tryCatch'
 import { useCreateDeckMutation, useUpdateDeckMutation } from '@/services/decks/decksService'
 import { SerializedError } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
@@ -81,29 +85,31 @@ export const CreateUpdateDeck = ({
     },
     schema: createDeckSchema,
   })
+  const dispatch = useAppDispatch()
 
   const onSubmit: SubmitHandler<FormTypeCreateUpdateDeck> = async data => {
-    try {
+    return tryCatch(dispatch, async () => {
       await mutationFunction({
         cover: data.cover,
         id: idCard ?? '',
         isPrivate: data.isPrivate,
         name: data.name,
-      })
+      }).unwrap()
+
       if (idCard) {
         handleCloseModal()
       } else {
         handleFormReset()
         callback?.()
       }
-    } catch (e) {
-      console.error('Error creating deck: ', e)
-    }
+    })
   }
 
-  if (isError) {
-    return <div>Error: {JSON.stringify(error)}</div>
-  }
+  useEffect(() => {
+    if (isError) {
+      manageFeedback({ data: error, dispatch, type: 'error' })
+    }
+  }, [isError])
 
   return (
     <label

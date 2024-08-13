@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { useAppDispatch } from '@/app/lib/hooksStore'
 import { BackTo } from '@/commn/components/ui/backTo/BackTo'
 import { CardRemover } from '@/commn/components/ui/cardRemover/CardRemover'
 import { Loading } from '@/commn/components/ui/loading/Loading'
@@ -10,6 +11,7 @@ import { Search } from '@/commn/components/ui/search/Search'
 import { Table } from '@/commn/components/ui/tables/Table'
 import { Title } from '@/commn/components/ui/title/Title'
 import { DECKS_KEY_SEARCH_PARAMS, useSearchUpdateParams } from '@/commn/hooks/useSearchUpdateParams'
+import { manageFeedback } from '@/commn/utils/manageFeedback'
 import { CreateUpdateCard } from '@/features/cards/createUpdateCard/CreateUpdateCard'
 import { EditCard } from '@/features/cards/editCard/EditCard'
 import { GradeCard } from '@/features/cards/gradeCard/GradeCard'
@@ -46,6 +48,7 @@ export const Cards = () => {
   const { id: idCard } = useParams<{ id: string }>()
 
   const { searchParams, updateSearchParam } = useSearchUpdateParams()
+  const dispatch = useAppDispatch()
 
   const page = Number(searchParams.get(CARDS_KEY_SEARCH_PARAMS.page)) || 1
   const searchName = searchParams.get(CARDS_KEY_SEARCH_PARAMS.searchName) || ''
@@ -94,12 +97,14 @@ export const Cards = () => {
     { error: errDeleteCard, isError: isErrDeleteCard, isLoading: isLoadDeleteCard },
   ] = useDeleteCardMutation()
 
+  useEffect(() => {
+    if (isErrorRetrieveDeck) {
+      manageFeedback({ data: errorRetrieveDeck, dispatch, type: 'error' })
+    }
+  }, [isErrorRetrieveDeck])
+
   if (isLoadingRetrieveDeck) {
     return <Loading />
-  }
-
-  if (isErrorRetrieveDeck) {
-    return <div>Error: {JSON.stringify(errorRetrieveDeck)}</div>
   }
 
   return (

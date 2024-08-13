@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { useAppDispatch } from '@/app/lib/hooksStore'
 import { BackTo } from '@/commn/components/ui/backTo/BackTo'
 import { Button } from '@/commn/components/ui/button'
 import { Card } from '@/commn/components/ui/card/Card'
@@ -9,6 +10,7 @@ import { HoverIconImage } from '@/commn/components/ui/hoverIconImage/HoverIconIm
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { Page } from '@/commn/components/ui/pages/Page'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
+import { manageFeedback } from '@/commn/utils/manageFeedback'
 import { AnswerLearn } from '@/features/learn/answerLearn/AnswerLearn'
 import { useRetrieveDeckByIdQuery, useRetrieveRandomCardQuery } from '@/services/decks/decksService'
 
@@ -24,15 +26,19 @@ export const Learn = () => {
     isError: isErrorRandomCard,
     isLoading: isLoadingRandomCard,
   } = useRetrieveRandomCardQuery({ id: idCard ?? '' })
+
   const { data: dataDeckById } = useRetrieveDeckByIdQuery({ id: idCard ?? '' })
 
+  const dispatch = useAppDispatch()
   const handleImageFullscreenClick = () => setPreview(true)
   const handleShowAnswerClick = () => setIsShowAnswer(true)
   const handleClosePreview = () => setPreview(false)
 
-  if (isErrorRandomCard) {
-    return <div>Error: {JSON.stringify(errorRandomCard)}</div>
-  }
+  useEffect(() => {
+    if (isErrorRandomCard) {
+      manageFeedback({ data: errorRandomCard, dispatch, type: 'error' })
+    }
+  }, [isErrorRandomCard])
 
   return (
     <Page>

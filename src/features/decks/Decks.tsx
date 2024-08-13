@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { useAppDispatch } from '@/app/lib/hooksStore'
 import { CardRemover } from '@/commn/components/ui/cardRemover/CardRemover'
 import { Loading } from '@/commn/components/ui/loading/Loading'
@@ -75,11 +77,13 @@ export const Decks = () => {
     minCardsCount: minCards,
     name: name || undefined,
     orderBy: orderBy || undefined,
-  }) //из query возвращается обьект из mutation картэш(массив с заранее определенными элементами)
+  })
 
-  if (isError) {
-    manageFeedback({ data: error, dispatch, type: 'error' })
-  }
+  useEffect(() => {
+    if (isError) {
+      manageFeedback({ data: error, dispatch, type: 'error' })
+    }
+  }, [isError])
 
   return (
     <Page>

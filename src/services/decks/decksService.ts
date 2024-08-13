@@ -19,7 +19,6 @@ export const decksService = flashcardsApi.injectEndpoints({
     addFavorite: builder.mutation<void, { id: string }>({
       invalidatesTags: ['Decks'],
       async onQueryStarted({ id }, { dispatch, getState, queryFulfilled }) {
-        // 1
         const cachedFavorite = decksService.util.selectCachedArgsForQuery(getState(), 'getDecks')
         const patchResults: any[] = []
 
@@ -39,11 +38,9 @@ export const decksService = flashcardsApi.injectEndpoints({
         })
 
         try {
-          //2 - запускает query
           await queryFulfilled
         } catch (e) {
           patchResults.forEach(patchResult => {
-            // в случае ошибки вернет предыдущее значение
             patchResult.undo()
           })
         }
@@ -251,11 +248,9 @@ export const decksService = flashcardsApi.injectEndpoints({
         })
 
         try {
-          //2 - запускает query
           await queryFulfilled
         } catch (e) {
           patchResults.forEach(patchResult => {
-            // в случае ошибки вернет предыдущее значение
             patchResult.undo()
           })
         }

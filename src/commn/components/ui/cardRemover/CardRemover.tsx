@@ -1,12 +1,15 @@
+import { useEffect } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { NavigateFunction } from 'react-router-dom'
 
+import { useAppDispatch } from '@/app/lib/hooksStore'
 import { DeleteIcon } from '@/assets/image/delete/DeleteIcon'
 import { extractTextParts } from '@/commn/components/ui/cardRemover/lib/extractTextParts'
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { DialogModal } from '@/commn/components/ui/modals/dialog/DialogModal'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { useCreateEntityForm } from '@/commn/hooks/useCreateEntityForm'
+import { manageFeedback } from '@/commn/utils/manageFeedback'
 import { useDeleteCardMutation } from '@/services/cards/cardsService'
 import { useDeleteDeckMutation } from '@/services/decks/decksService'
 import { SerializedError } from '@reduxjs/toolkit'
@@ -59,7 +62,7 @@ export const CardRemover = ({
     },
     schema: cardRemoverSchema,
   })
-
+  const dispatch = useAppDispatch()
   const onSubmit: SubmitHandler<FormType> = async data => {
     try {
       if (data.id) {
@@ -74,9 +77,11 @@ export const CardRemover = ({
 
   const { firstText, lastText, name } = extractTextParts(text ?? '')
 
-  if (isError) {
-    return <div>Error: {JSON.stringify(error)}</div>
-  }
+  useEffect(() => {
+    if (isError) {
+      manageFeedback({ data: error, dispatch, type: 'error' })
+    }
+  }, [isError])
 
   return (
     <label className={`${s.containerCardRemover} ${className}`} onClick={e => e.stopPropagation()}>
@@ -94,7 +99,7 @@ export const CardRemover = ({
           <TextFormat key={'text-1'} style={{ display: '' }} variant={'body1'}>
             <span style={{ display: 'flex' }}>
               {firstText}
-              <TextFormat className={s.name}>{`${name}`}</TextFormat>
+              <span className={s.name}>{`${name}`}</span>
             </span>
             {lastText}
           </TextFormat>,
