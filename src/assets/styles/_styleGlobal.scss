@@ -191,6 +191,7 @@
 
 @keyframes delete-not-hover {
   0% {
+    fill: var(--color-danger-700);
     transform: translateY(-1px);
   }
   100% {
