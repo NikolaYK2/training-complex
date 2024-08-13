@@ -10,6 +10,7 @@ import s from './DialogModal.module.scss'
 
 type DialogModalProps = {
   buttonName?: string
+  callBack?: () => void
   children?: ReactElement[]
   className?: string
   isOpenModal?: boolean
@@ -45,6 +46,7 @@ type DialogModalProps = {
  */
 export const DialogModal = ({
   buttonName,
+  callBack,
   children,
   className = '',
   isOpenModal, //указываем условия при котором закрываетя модалка
@@ -56,6 +58,10 @@ export const DialogModal = ({
   triggerIcon,
   triggerVariant = 'primary',
 }: DialogModalProps) => {
+  const handlerCallBack = () => {
+    callBack && callBack?.()
+  }
+
   return (
     <Dialog.Root onOpenChange={setIsOpenModal} open={isOpenModal}>
       <Dialog.Trigger asChild className={className}>
@@ -93,7 +99,7 @@ export const DialogModal = ({
                 </fieldset>
               )) ||
                 (!titleContent && !textDescription && <div className={s.background} />)}
-              {onSubmit && (
+              {(onSubmit || callBack) && (
                 <div className={s.buttonsBlock}>
                   <Dialog.Close asChild>
                     <Button variant={'secondary'}>
@@ -101,7 +107,7 @@ export const DialogModal = ({
                     </Button>
                   </Dialog.Close>
 
-                  <Button>
+                  <Button onClick={handlerCallBack}>
                     <TextFormat variant={'subtitle2'}>{buttonName}</TextFormat>
                   </Button>
                 </div>
