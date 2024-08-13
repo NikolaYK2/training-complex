@@ -6,13 +6,13 @@ import { IconSvg } from '@/commn/components/ui/iconSvg/IconSvg'
 import s from './BackToTop.module.scss'
 
 export const BackToTop = () => {
-  const [isVisible, setIsVisible] = useState(false)
+  const [style, setStyle] = useState('')
   // Показываем кнопку, когда прокручиваем вниз 300px от верха
   const toggleVisibility = () => {
     if (window.scrollY > 300) {
-      setIsVisible(true)
-    } else {
-      setIsVisible(false)
+      setStyle(s.animationOn)
+    } else if (window.scrollY === 0) {
+      setStyle(s.animationOff)
     }
   }
 
@@ -25,11 +25,7 @@ export const BackToTop = () => {
   }, [])
 
   return (
-    <Link
-      className={`${s.containerBackToTop} ${isVisible ? s.animationOn : s.animationOff}`}
-      smooth
-      to={'app'}
-    >
+    <Link className={`${s.containerBackToTop} ${style}`} smooth to={'app'}>
       <div className={s.icon}>
         <IconSvg name={'arrow'} />
       </div>

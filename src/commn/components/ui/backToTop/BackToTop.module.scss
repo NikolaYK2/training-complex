@@ -5,6 +5,7 @@
   z-index: 10;
   right: 0;
   bottom: 0;
+  transform: translateX(150%) rotate(360deg);
 
   display: flex;
   align-items: center;
@@ -46,6 +47,9 @@
       height: 100%;
     }
   }
+}
+
+.defaultAnimation {
 }
 
 .animationOn {
