@@ -12,6 +12,7 @@ import { ControlledTextField } from '@/commn/components/ui/input/ControlledTextF
 import { Loading } from '@/commn/components/ui/loading/Loading'
 import { DialogModal } from '@/commn/components/ui/modals/dialog/DialogModal'
 import { useCreateEntityForm } from '@/commn/hooks/useCreateEntityForm'
+import { deepNotEqual } from '@/commn/utils/deepNotEqual'
 import { manageFeedback } from '@/commn/utils/manageFeedback'
 import { tryCatch } from '@/commn/utils/tryCatch'
 import { useCreateDeckMutation, useUpdateDeckMutation } from '@/services/decks/decksService'
@@ -87,23 +88,44 @@ export const CreateUpdateDeck = ({
   })
   const dispatch = useAppDispatch()
 
+  const params = {
+    cover: coverDeckBy,
+    isPrivate: isPrivateCard,
+    name: nameDeckBy,
+  }
   const onSubmit: SubmitHandler<FormTypeCreateUpdateDeck> = async data => {
-    return tryCatch(dispatch, async () => {
-      await mutationFunction({
-        cover: data.cover,
-        id: idCard ?? '',
-        isPrivate: data.isPrivate,
-        name: data.name,
-      }).unwrap()
+    const dataParam = {
+      cover: data.cover,
+      isPrivate: data.isPrivate,
+      name: data.name,
+    }
 
-      if (idCard) {
-        handleCloseModal()
+    return tryCatch(dispatch, async () => {
+      if (deepNotEqual(params, dataParam)) {
+        await mutationFunction({
+          cover: data.cover,
+          id: idCard ?? '',
+          isPrivate: data.isPrivate,
+          name: data.name,
+        }).unwrap()
+
+        if (idCard) {
+          handleCloseModal()
+        } else {
+          handleFormReset()
+          callback?.()
+        }
       } else {
-        handleFormReset()
-        callback?.()
+        handleCloseModal()
       }
     })
   }
+
+  useEffect(() => {
+    if (coverDeckBy) {
+      setFilePreview(prev => ({ ...prev, fileImage: coverDeckBy }))
+    }
+  }, [coverDeckBy, setFilePreview])
 
   useEffect(() => {
     if (isError) {
