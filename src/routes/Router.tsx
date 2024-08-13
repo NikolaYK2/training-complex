@@ -31,7 +31,7 @@ export const CREATE_NEW_PASSWORD_ROUTE = '/create-password'
 export const CHECK_EMAIL_ROUTE = '/check-email'
 export const CONFIRM_EMAIL_ROUTE = '/confirm-email'
 
-const publicRoutes: RouteObject[] = [
+export const publicRoutes: RouteObject[] = [
   { element: <SignIn />, path: LOGIN_ROUTE },
   { element: <SignUp />, path: REGISTER_ROUTE },
   { element: <ForgotPassword />, path: FORGOT_PASSWORD_ROUTE },

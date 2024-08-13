@@ -1,4 +1,7 @@
+import { matchPath } from 'react-router-dom'
+
 import { localStorageUtil } from '@/commn/utils/localStorageUtil'
+import { LOGIN_ROUTE, publicRoutes, router } from '@/routes/Router'
 import { LoginResponse } from '@/services/auth/AuthTypes'
 import {
   BaseQueryFn,
@@ -61,7 +64,13 @@ export const baseQueryWithReauth: BaseQueryFn<
 
           result = await baseQuery(args, api, extraOptions)
         } else {
-          // router.navigate(LOGIN_ROUTE)
+          const isPublicRoute = publicRoutes.find(route =>
+            matchPath(route.path ?? '', window.location.pathname)
+          )
+
+          if (!isPublicRoute) {
+            void router.navigate(LOGIN_ROUTE)
+          }
         }
       } finally {
         release()
