@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
+import { useAppDispatch } from '@/app/lib/hooksStore'
 import { ImageIcon } from '@/assets/image/image/ImageIcon'
 import { ButtonVariantType } from '@/commn/components/ui/button'
 import { ControlledFileDownload } from '@/commn/components/ui/fileDonwold/ControlledFileDownload'
@@ -11,6 +12,8 @@ import { DialogModal } from '@/commn/components/ui/modals/dialog/DialogModal'
 import { TextFormat } from '@/commn/components/ui/typography/TextFormat'
 import { useCreateEntityForm } from '@/commn/hooks/useCreateEntityForm'
 import { deepNotEqual } from '@/commn/utils/deepNotEqual'
+import { manageFeedback } from '@/commn/utils/manageFeedback'
+import { tryCatch } from '@/commn/utils/tryCatch'
 import { useUpdateCardMutation } from '@/services/cards/cardsService'
 import { useCreateCardInDeckMutation } from '@/services/decks/decksService'
 import { SerializedError } from '@reduxjs/toolkit'
@@ -50,6 +53,7 @@ type Props = {
   answer?: string
   answerImg?: string
   buttonName?: 'add new card' | 'save change'
+  callBack?: () => void
   cardId: string | undefined
   className?: string
   error: FetchBaseQueryError | SerializedError | undefined
@@ -66,6 +70,7 @@ export const CreateUpdateCard = ({
   answer,
   answerImg,
   buttonName,
+  callBack,
   cardId,
   className,
   error,
@@ -104,7 +109,7 @@ export const CreateUpdateCard = ({
   })
 
   const param = { answer, answerImg, id: cardId, question, questionImg }
-
+  const dispatch = useAppDispatch()
   const onSubmit: SubmitHandler<FormTypeCreateUpdateCard> = async data => {
     const dataParam = {
       answer: data.answer,
@@ -114,17 +119,16 @@ export const CreateUpdateCard = ({
       questionImg: data.questionImg,
     }
 
-    if (deepNotEqual(param, dataParam)) {
-      try {
+    return tryCatch(dispatch, async () => {
+      if (deepNotEqual(param, dataParam)) {
         await mutationFunction(dataParam)
         handleCloseModal()
         buttonName === 'add new card' && handleFormReset()
-      } catch (e) {
-        console.error('Error creating deck: ', e)
+        callBack && callBack?.()
+      } else {
+        handleCloseModal()
       }
-    } else {
-      handleCloseModal()
-    }
+    })
   }
 
   useEffect(() => {
@@ -142,11 +146,11 @@ export const CreateUpdateCard = ({
     }
   }, [answerImg, setFilePreview, questionImg, answer, question, setValue])
 
-  if (isError) {
-    if (error) {
-      return <div>Error: {JSON.stringify(error)}</div>
+  useEffect(() => {
+    if (isError) {
+      manageFeedback({ data: error, dispatch, type: 'error' })
     }
-  }
+  }, [isError])
 
   return (
     <DialogModal
