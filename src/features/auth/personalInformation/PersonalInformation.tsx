@@ -45,18 +45,17 @@ export const PersonalInformation = () => {
       name: data.text,
     }
 
-    if (deepNotEqual(param, dataParam)) {
-      return tryCatch(dispatch, async () => {
-        if (isEditingPersonalInfo) {
-          await updateUserData({ name: data.text }).unwrap()
-          setIsEditingPersonalInfo(false)
-        } else {
-          await logOut()
-        }
-      })
-    } else {
-      setIsEditingPersonalInfo(false)
-    }
+    return tryCatch(dispatch, async () => {
+      if (deepNotEqual(param, dataParam)) {
+        await updateUserData({ name: data.text }).unwrap()
+        setIsEditingPersonalInfo(false)
+      } else {
+        setIsEditingPersonalInfo(false)
+      }
+      if (!isEditingPersonalInfo) {
+        await logOut()
+      }
+    })
   }
 
   useEffect(() => {
