@@ -52,8 +52,33 @@ export const decksService = flashcardsApi.injectEndpoints({
         }
       },
     }),
-    createCardInDeck: builder.mutation<CardType, CardArgs | void>({
+    createCardInDeck: builder.mutation<CardType, CardArgs>({
       invalidatesTags: ['Decks'],
+      async onQueryStarted(args, { dispatch, getState, queryFulfilled }) {
+        const cachedCardInDeck = decksService.util.selectCachedArgsForQuery(
+          getState(),
+          'retrieveCardsInDeck'
+        )
+        const pathResult: any[] = []
+
+        cachedCardInDeck.forEach(originalArgs => {
+          pathResult.push(
+            dispatch(
+              decksService.util.updateQueryData('retrieveCardsInDeck', originalArgs, draft => {
+                const itemIndex = draft.items.findIndex(deck => deck.id === args.id)
+
+                // draft.items.unshift({ ...args } as Required<CardsResponse>)
+                Object.assign(draft.items[itemIndex], args)
+              })
+            )
+          )
+        })
+        try {
+          await queryFulfilled
+        } catch (e) {
+          pathResult.forEach(res => res.undo())
+        }
+      },
       query: ({ answer, answerImg, id, question, questionImg }: CardArgs) => {
         const formData = prepareFormData({
           answer,
@@ -186,7 +211,7 @@ export const decksService = flashcardsApi.injectEndpoints({
       },
     }),
     retrieveCardsInDeck: builder.query<DecksResponse<CardsResponse[]>, CardsArgs | void>({
-      providesTags: ['Decks'],
+      providesTags: ['Decks', 'Cards'],
       query: ({ id, ...params }: CardsArgs) => {
         return {
           params: params,
@@ -225,7 +250,6 @@ export const decksService = flashcardsApi.injectEndpoints({
     updateDeck: builder.mutation<DeckType, UdpDeckArgs>({
       invalidatesTags: ['Decks'],
       async onQueryStarted({ cover, id, ...args }, { dispatch, getState, queryFulfilled }) {
-        // 1
         const cachedArgsForQuery = decksService.util.selectCachedArgsForQuery(
           getState(),
           'getDecks'
