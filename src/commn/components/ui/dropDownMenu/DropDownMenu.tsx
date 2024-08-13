@@ -99,8 +99,10 @@ export const DropDownMenu = ({ classNameMenuArrow, menuConfig }: Props) => {
                 to={el.route ?? ''}
               >
                 <label className={`${el.email ? s.avatar : s.iconSlot}`}>
-                  {el.email && el.icon ? (
-                    <img alt={'avatar'} src={el.icon} />
+                  {el.email ? (
+                    (el.icon === 'avatar' && <IconSvg name={'avatar'} />) || (
+                      <img alt={'avatar'} src={el.icon} />
+                    )
                   ) : (
                     <IconSvg name={el.email ? 'avatar' : (el.icon as IconNameType)} />
                   )}
