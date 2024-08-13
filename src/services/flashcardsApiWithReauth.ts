@@ -11,7 +11,7 @@ import { Mutex } from 'async-mutex'
 type RefreshResultType = { data?: LoginResponse; error?: FetchBaseQueryError }
 const mutex = new Mutex()
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://api.flashcards.andrii.es',
+  baseUrl: import.meta.env.VITE_BASE_URL_SERVER,
   prepareHeaders: headers => {
     const token = localStorageUtil.getItem('accessToken')
 
