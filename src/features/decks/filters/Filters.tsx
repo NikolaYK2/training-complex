@@ -38,6 +38,7 @@ export const Filters = ({
   const setAuthorDecks = (authorId: string) => {
     updateSearchParam({
       key: DECKS_KEY_SEARCH_PARAMS.authorId,
+      removeKeys: [DECKS_KEY_SEARCH_PARAMS.page],
       value: authorId,
     })
   }

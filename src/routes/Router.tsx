@@ -66,6 +66,7 @@ export const router = createBrowserRouter([
       {
         children: publicRoutes,
         element: <PublicRoutes />,
+        errorElement: <ErrorRoute />,
       },
       {
         children: privateRoutes,
