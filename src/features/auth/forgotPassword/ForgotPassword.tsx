@@ -34,7 +34,7 @@ export const ForgotPassword = () => {
   })
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [forgotPassword, { error, isError, isLoading }] = usePasswordRecoveryMutation()
+  const [forgotPassword, { isLoading }] = usePasswordRecoveryMutation()
   const onSubmit: SubmitHandler<ForgotPasswordType> = async data => {
     return tryCatch(dispatch, async () => {
       await forgotPassword({ email: data.email, html: templatesEmail.recoverPassword }).unwrap()
@@ -48,10 +48,6 @@ export const ForgotPassword = () => {
       })
       reset()
     })
-  }
-
-  if (isError) {
-    return <div>{JSON.stringify(error)}</div>
   }
 
   return (
